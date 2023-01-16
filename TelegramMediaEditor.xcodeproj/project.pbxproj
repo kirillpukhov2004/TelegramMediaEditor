@@ -1,0 +1,533 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		D65554742973E469004E3823 /* CGSizeExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D65554732973E469004E3823 /* CGSizeExtensions.swift */; };
+		D6995B902902CA9A000E2CA7 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = D6995B8F2902CA9A000E2CA7 /* Lottie */; };
+		D6ECEA5D29704BA000DD9502 /* StrokeSample.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6ECEA5C29704BA000DD9502 /* StrokeSample.swift */; };
+		D6ECEA6029704C4900DD9502 /* UIColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6ECEA5F29704C4900DD9502 /* UIColorExtensions.swift */; };
+		D6F64B3529702B2400F47531 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D6F64B1629702B2400F47531 /* LaunchScreen.storyboard */; };
+		D6F64B3629702B2400F47531 /* CGColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F64B1829702B2400F47531 /* CGColorExtensions.swift */; };
+		D6F64B3729702B2400F47531 /* StrokeGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F64B1929702B2400F47531 /* StrokeGestureRecognizer.swift */; };
+		D6F64B3829702B2400F47531 /* ImagePickerAccessRequestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F64B1B29702B2400F47531 /* ImagePickerAccessRequestViewController.swift */; };
+		D6F64B3929702B2400F47531 /* ImagePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F64B1C29702B2400F47531 /* ImagePickerViewController.swift */; };
+		D6F64B3A29702B2400F47531 /* ImagePickerCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F64B1D29702B2400F47531 /* ImagePickerCollectionViewCell.swift */; };
+		D6F64B3B29702B2400F47531 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D6F64B1E29702B2400F47531 /* Assets.xcassets */; };
+		D6F64B3C29702B2400F47531 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D6F64B1F29702B2400F47531 /* Main.storyboard */; };
+		D6F64B3D29702B2400F47531 /* ToolBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F64B2129702B2400F47531 /* ToolBarView.swift */; };
+		D6F64B3E29702B2400F47531 /* CanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F64B2229702B2400F47531 /* CanvasView.swift */; };
+		D6F64B3F29702B2400F47531 /* ColorPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F64B2329702B2400F47531 /* ColorPicker.swift */; };
+		D6F64B4029702B2400F47531 /* TopBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F64B2429702B2400F47531 /* TopBar.swift */; };
+		D6F64B4129702B2400F47531 /* ToolType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F64B2629702B2400F47531 /* ToolType.swift */; };
+		D6F64B4229702B2400F47531 /* ToolView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F64B2729702B2400F47531 /* ToolView.swift */; };
+		D6F64B4329702B2400F47531 /* Tool.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F64B2829702B2400F47531 /* Tool.swift */; };
+		D6F64B4429702B2400F47531 /* CanvasViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F64B2929702B2400F47531 /* CanvasViewController.swift */; };
+		D6F64B4529702B2400F47531 /* Slider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F64B2C29702B2400F47531 /* Slider.swift */; };
+		D6F64B4629702B2400F47531 /* SegmentedControlSegment.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F64B2E29702B2400F47531 /* SegmentedControlSegment.swift */; };
+		D6F64B4729702B2400F47531 /* SegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F64B2F29702B2400F47531 /* SegmentedControl.swift */; };
+		D6F64B4829702B2400F47531 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F64B3029702B2400F47531 /* AppDelegate.swift */; };
+		D6F64B4929702B2400F47531 /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F64B3129702B2400F47531 /* NavigationController.swift */; };
+		D6F64B4B29702B2400F47531 /* Stroke.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F64B3329702B2400F47531 /* Stroke.swift */; };
+		D6F64B4C29702B2400F47531 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F64B3429702B2400F47531 /* SceneDelegate.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		D6453F4D28F7EE2C001F6101 /* TelegramMediaEditor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TelegramMediaEditor.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D65554732973E469004E3823 /* CGSizeExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGSizeExtensions.swift; sourceTree = "<group>"; };
+		D6ECEA5C29704BA000DD9502 /* StrokeSample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StrokeSample.swift; sourceTree = "<group>"; };
+		D6ECEA5F29704C4900DD9502 /* UIColorExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtensions.swift; sourceTree = "<group>"; };
+		D6F64B1629702B2400F47531 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		D6F64B1829702B2400F47531 /* CGColorExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CGColorExtensions.swift; sourceTree = "<group>"; };
+		D6F64B1929702B2400F47531 /* StrokeGestureRecognizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StrokeGestureRecognizer.swift; sourceTree = "<group>"; };
+		D6F64B1B29702B2400F47531 /* ImagePickerAccessRequestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagePickerAccessRequestViewController.swift; sourceTree = "<group>"; };
+		D6F64B1C29702B2400F47531 /* ImagePickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagePickerViewController.swift; sourceTree = "<group>"; };
+		D6F64B1D29702B2400F47531 /* ImagePickerCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagePickerCollectionViewCell.swift; sourceTree = "<group>"; };
+		D6F64B1E29702B2400F47531 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		D6F64B1F29702B2400F47531 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		D6F64B2129702B2400F47531 /* ToolBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToolBarView.swift; sourceTree = "<group>"; };
+		D6F64B2229702B2400F47531 /* CanvasView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CanvasView.swift; sourceTree = "<group>"; };
+		D6F64B2329702B2400F47531 /* ColorPicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorPicker.swift; sourceTree = "<group>"; };
+		D6F64B2429702B2400F47531 /* TopBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopBar.swift; sourceTree = "<group>"; };
+		D6F64B2629702B2400F47531 /* ToolType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToolType.swift; sourceTree = "<group>"; };
+		D6F64B2729702B2400F47531 /* ToolView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToolView.swift; sourceTree = "<group>"; };
+		D6F64B2829702B2400F47531 /* Tool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tool.swift; sourceTree = "<group>"; };
+		D6F64B2929702B2400F47531 /* CanvasViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CanvasViewController.swift; sourceTree = "<group>"; };
+		D6F64B2C29702B2400F47531 /* Slider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Slider.swift; sourceTree = "<group>"; };
+		D6F64B2E29702B2400F47531 /* SegmentedControlSegment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegmentedControlSegment.swift; sourceTree = "<group>"; };
+		D6F64B2F29702B2400F47531 /* SegmentedControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegmentedControl.swift; sourceTree = "<group>"; };
+		D6F64B3029702B2400F47531 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		D6F64B3129702B2400F47531 /* NavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationController.swift; sourceTree = "<group>"; };
+		D6F64B3229702B2400F47531 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D6F64B3329702B2400F47531 /* Stroke.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stroke.swift; sourceTree = "<group>"; };
+		D6F64B3429702B2400F47531 /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		D6453F4A28F7EE2C001F6101 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D6995B902902CA9A000E2CA7 /* Lottie in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		D6453F4428F7EE2C001F6101 = {
+			isa = PBXGroup;
+			children = (
+				D6F64B1529702B2400F47531 /* TelegramMediaEditor */,
+				D6453F4E28F7EE2C001F6101 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		D6453F4E28F7EE2C001F6101 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D6453F4D28F7EE2C001F6101 /* TelegramMediaEditor.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D65554722973DF25004E3823 /* Stroke */ = {
+			isa = PBXGroup;
+			children = (
+				D6F64B1929702B2400F47531 /* StrokeGestureRecognizer.swift */,
+				D6F64B3329702B2400F47531 /* Stroke.swift */,
+				D6ECEA5C29704BA000DD9502 /* StrokeSample.swift */,
+			);
+			path = Stroke;
+			sourceTree = "<group>";
+		};
+		D6ECEA6129704C8800DD9502 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				D6ECEA5F29704C4900DD9502 /* UIColorExtensions.swift */,
+				D6F64B1829702B2400F47531 /* CGColorExtensions.swift */,
+				D65554732973E469004E3823 /* CGSizeExtensions.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		D6F64B1529702B2400F47531 /* TelegramMediaEditor */ = {
+			isa = PBXGroup;
+			children = (
+				D6F64B3029702B2400F47531 /* AppDelegate.swift */,
+				D6F64B3429702B2400F47531 /* SceneDelegate.swift */,
+				D6F64B3129702B2400F47531 /* NavigationController.swift */,
+				D6F64B1A29702B2400F47531 /* ImagePicker */,
+				D6F64B2029702B2400F47531 /* Canvas */,
+				D6F64B2A29702B2400F47531 /* Controls */,
+				D6F64B2529702B2400F47531 /* Tool */,
+				D65554722973DF25004E3823 /* Stroke */,
+				D6ECEA6129704C8800DD9502 /* Extensions */,
+				D6F64B1E29702B2400F47531 /* Assets.xcassets */,
+				D6F64B1F29702B2400F47531 /* Main.storyboard */,
+				D6F64B1629702B2400F47531 /* LaunchScreen.storyboard */,
+				D6F64B3229702B2400F47531 /* Info.plist */,
+			);
+			path = TelegramMediaEditor;
+			sourceTree = "<group>";
+		};
+		D6F64B1A29702B2400F47531 /* ImagePicker */ = {
+			isa = PBXGroup;
+			children = (
+				D6F64B1C29702B2400F47531 /* ImagePickerViewController.swift */,
+				D6F64B1D29702B2400F47531 /* ImagePickerCollectionViewCell.swift */,
+				D6F64B1B29702B2400F47531 /* ImagePickerAccessRequestViewController.swift */,
+			);
+			path = ImagePicker;
+			sourceTree = "<group>";
+		};
+		D6F64B2029702B2400F47531 /* Canvas */ = {
+			isa = PBXGroup;
+			children = (
+				D6F64B2929702B2400F47531 /* CanvasViewController.swift */,
+				D6F64B2229702B2400F47531 /* CanvasView.swift */,
+				D6F64B2129702B2400F47531 /* ToolBarView.swift */,
+				D6F64B2329702B2400F47531 /* ColorPicker.swift */,
+				D6F64B2429702B2400F47531 /* TopBar.swift */,
+			);
+			path = Canvas;
+			sourceTree = "<group>";
+		};
+		D6F64B2529702B2400F47531 /* Tool */ = {
+			isa = PBXGroup;
+			children = (
+				D6F64B2629702B2400F47531 /* ToolType.swift */,
+				D6F64B2729702B2400F47531 /* ToolView.swift */,
+				D6F64B2829702B2400F47531 /* Tool.swift */,
+			);
+			path = Tool;
+			sourceTree = "<group>";
+		};
+		D6F64B2A29702B2400F47531 /* Controls */ = {
+			isa = PBXGroup;
+			children = (
+				D6F64B2B29702B2400F47531 /* Slider */,
+				D6F64B2D29702B2400F47531 /* SegmentedControl */,
+			);
+			path = Controls;
+			sourceTree = "<group>";
+		};
+		D6F64B2B29702B2400F47531 /* Slider */ = {
+			isa = PBXGroup;
+			children = (
+				D6F64B2C29702B2400F47531 /* Slider.swift */,
+			);
+			path = Slider;
+			sourceTree = "<group>";
+		};
+		D6F64B2D29702B2400F47531 /* SegmentedControl */ = {
+			isa = PBXGroup;
+			children = (
+				D6F64B2F29702B2400F47531 /* SegmentedControl.swift */,
+				D6F64B2E29702B2400F47531 /* SegmentedControlSegment.swift */,
+			);
+			path = SegmentedControl;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		D6453F4C28F7EE2C001F6101 /* TelegramMediaEditor */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D6453F6128F7EE2D001F6101 /* Build configuration list for PBXNativeTarget "TelegramMediaEditor" */;
+			buildPhases = (
+				D6453F4928F7EE2C001F6101 /* Sources */,
+				D6453F4A28F7EE2C001F6101 /* Frameworks */,
+				D6453F4B28F7EE2C001F6101 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TelegramMediaEditor;
+			packageProductDependencies = (
+				D6995B8F2902CA9A000E2CA7 /* Lottie */,
+			);
+			productName = "Telegram Drawing";
+			productReference = D6453F4D28F7EE2C001F6101 /* TelegramMediaEditor.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D6453F4528F7EE2C001F6101 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1400;
+				LastUpgradeCheck = 1400;
+				TargetAttributes = {
+					D6453F4C28F7EE2C001F6101 = {
+						CreatedOnToolsVersion = 14.0.1;
+					};
+				};
+			};
+			buildConfigurationList = D6453F4828F7EE2C001F6101 /* Build configuration list for PBXProject "TelegramMediaEditor" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = D6453F4428F7EE2C001F6101;
+			packageReferences = (
+				D6995B8E2902CA9A000E2CA7 /* XCRemoteSwiftPackageReference "lottie-ios" */,
+			);
+			productRefGroup = D6453F4E28F7EE2C001F6101 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				D6453F4C28F7EE2C001F6101 /* TelegramMediaEditor */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		D6453F4B28F7EE2C001F6101 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D6F64B3C29702B2400F47531 /* Main.storyboard in Resources */,
+				D6F64B3529702B2400F47531 /* LaunchScreen.storyboard in Resources */,
+				D6F64B3B29702B2400F47531 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		D6453F4928F7EE2C001F6101 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D6F64B3829702B2400F47531 /* ImagePickerAccessRequestViewController.swift in Sources */,
+				D6F64B4029702B2400F47531 /* TopBar.swift in Sources */,
+				D6F64B4629702B2400F47531 /* SegmentedControlSegment.swift in Sources */,
+				D6F64B3F29702B2400F47531 /* ColorPicker.swift in Sources */,
+				D6F64B4329702B2400F47531 /* Tool.swift in Sources */,
+				D6F64B4429702B2400F47531 /* CanvasViewController.swift in Sources */,
+				D6F64B3E29702B2400F47531 /* CanvasView.swift in Sources */,
+				D6F64B4529702B2400F47531 /* Slider.swift in Sources */,
+				D6F64B3A29702B2400F47531 /* ImagePickerCollectionViewCell.swift in Sources */,
+				D65554742973E469004E3823 /* CGSizeExtensions.swift in Sources */,
+				D6F64B3629702B2400F47531 /* CGColorExtensions.swift in Sources */,
+				D6F64B4B29702B2400F47531 /* Stroke.swift in Sources */,
+				D6ECEA5D29704BA000DD9502 /* StrokeSample.swift in Sources */,
+				D6F64B3D29702B2400F47531 /* ToolBarView.swift in Sources */,
+				D6F64B4129702B2400F47531 /* ToolType.swift in Sources */,
+				D6F64B3929702B2400F47531 /* ImagePickerViewController.swift in Sources */,
+				D6F64B4929702B2400F47531 /* NavigationController.swift in Sources */,
+				D6F64B4C29702B2400F47531 /* SceneDelegate.swift in Sources */,
+				D6F64B3729702B2400F47531 /* StrokeGestureRecognizer.swift in Sources */,
+				D6F64B4729702B2400F47531 /* SegmentedControl.swift in Sources */,
+				D6F64B4829702B2400F47531 /* AppDelegate.swift in Sources */,
+				D6ECEA6029704C4900DD9502 /* UIColorExtensions.swift in Sources */,
+				D6F64B4229702B2400F47531 /* ToolView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		D6453F5F28F7EE2D001F6101 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		D6453F6028F7EE2D001F6101 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		D6453F6228F7EE2D001F6101 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = Q7D4Y3BKW2;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = TelegramMediaEditor/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Telegram Media Editor";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.graphics-design";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Access Your Photos and Videos";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
+				INFOPLIST_KEY_UIRequiresFullScreen = NO;
+				INFOPLIST_KEY_UIStatusBarStyle = "";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kirillpukhov.TelegramMediaEditor;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		D6453F6328F7EE2D001F6101 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = Q7D4Y3BKW2;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = TelegramMediaEditor/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Telegram Media Editor";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.graphics-design";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Access Your Photos and Videos";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
+				INFOPLIST_KEY_UIRequiresFullScreen = NO;
+				INFOPLIST_KEY_UIStatusBarStyle = "";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kirillpukhov.TelegramMediaEditor;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		D6453F4828F7EE2C001F6101 /* Build configuration list for PBXProject "TelegramMediaEditor" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D6453F5F28F7EE2D001F6101 /* Debug */,
+				D6453F6028F7EE2D001F6101 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D6453F6128F7EE2D001F6101 /* Build configuration list for PBXNativeTarget "TelegramMediaEditor" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D6453F6228F7EE2D001F6101 /* Debug */,
+				D6453F6328F7EE2D001F6101 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		D6995B8E2902CA9A000E2CA7 /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/airbnb/lottie-ios";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		D6995B8F2902CA9A000E2CA7 /* Lottie */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D6995B8E2902CA9A000E2CA7 /* XCRemoteSwiftPackageReference "lottie-ios" */;
+			productName = Lottie;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = D6453F4528F7EE2C001F6101 /* Project object */;
+}
