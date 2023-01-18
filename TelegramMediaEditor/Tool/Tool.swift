@@ -1,8 +1,14 @@
 import UIKit
 
-struct Tool: Equatable {
-    var type: ToolType
+class Tool {
+    public var type: ToolType
     
-    var width: CGFloat
-    var color: CGColor
+    public var width: CGFloat
+    public var color: CGColor
+    
+    public init(type: ToolType, width: CGFloat, color: CGColor) {
+        self.type = type
+        self.width = width
+        self.color = color
+    }
 }

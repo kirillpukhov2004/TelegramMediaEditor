@@ -45,4 +45,19 @@ enum ToolType: Int {
             return nil
         }
     }
+    
+    var haveWidth: Bool {
+        switch self {
+        case .pen:
+            return true
+        case .brush:
+            return true
+        case .neon:
+            return true
+        case .pencil:
+            return true
+        default:
+            return false
+        }
+    }
 }

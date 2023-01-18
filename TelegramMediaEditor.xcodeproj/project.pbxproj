@@ -7,8 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D651D58429772FAD002325EC /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D651D58329772FAD002325EC /* Tests.swift */; };
 		D65554742973E469004E3823 /* CGSizeExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D65554732973E469004E3823 /* CGSizeExtensions.swift */; };
 		D6995B902902CA9A000E2CA7 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = D6995B8F2902CA9A000E2CA7 /* Lottie */; };
+		D6AA0A492978865300F6A8D0 /* ViewConstraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6AA0A482978865300F6A8D0 /* ViewConstraints.swift */; };
 		D6ECEA5D29704BA000DD9502 /* StrokeSample.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6ECEA5C29704BA000DD9502 /* StrokeSample.swift */; };
 		D6ECEA6029704C4900DD9502 /* UIColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6ECEA5F29704C4900DD9502 /* UIColorExtensions.swift */; };
 		D6F64B3529702B2400F47531 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D6F64B1629702B2400F47531 /* LaunchScreen.storyboard */; };
@@ -38,7 +40,9 @@
 
 /* Begin PBXFileReference section */
 		D6453F4D28F7EE2C001F6101 /* TelegramMediaEditor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TelegramMediaEditor.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D651D58329772FAD002325EC /* Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
 		D65554732973E469004E3823 /* CGSizeExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGSizeExtensions.swift; sourceTree = "<group>"; };
+		D6AA0A482978865300F6A8D0 /* ViewConstraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewConstraints.swift; sourceTree = "<group>"; };
 		D6ECEA5C29704BA000DD9502 /* StrokeSample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StrokeSample.swift; sourceTree = "<group>"; };
 		D6ECEA5F29704C4900DD9502 /* UIColorExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtensions.swift; sourceTree = "<group>"; };
 		D6F64B1629702B2400F47531 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -82,6 +86,7 @@
 		D6453F4428F7EE2C001F6101 = {
 			isa = PBXGroup;
 			children = (
+				D651D58329772FAD002325EC /* Tests.swift */,
 				D6F64B1529702B2400F47531 /* TelegramMediaEditor */,
 				D6453F4E28F7EE2C001F6101 /* Products */,
 			);
@@ -151,6 +156,7 @@
 				D6F64B2929702B2400F47531 /* CanvasViewController.swift */,
 				D6F64B2229702B2400F47531 /* CanvasView.swift */,
 				D6F64B2129702B2400F47531 /* ToolBarView.swift */,
+				D6AA0A482978865300F6A8D0 /* ViewConstraints.swift */,
 				D6F64B2329702B2400F47531 /* ColorPicker.swift */,
 				D6F64B2429702B2400F47531 /* TopBar.swift */,
 			);
@@ -271,6 +277,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D6F64B3829702B2400F47531 /* ImagePickerAccessRequestViewController.swift in Sources */,
+				D651D58429772FAD002325EC /* Tests.swift in Sources */,
 				D6F64B4029702B2400F47531 /* TopBar.swift in Sources */,
 				D6F64B4629702B2400F47531 /* SegmentedControlSegment.swift in Sources */,
 				D6F64B3F29702B2400F47531 /* ColorPicker.swift in Sources */,
@@ -287,6 +294,7 @@
 				D6F64B4129702B2400F47531 /* ToolType.swift in Sources */,
 				D6F64B3929702B2400F47531 /* ImagePickerViewController.swift in Sources */,
 				D6F64B4929702B2400F47531 /* NavigationController.swift in Sources */,
+				D6AA0A492978865300F6A8D0 /* ViewConstraints.swift in Sources */,
 				D6F64B4C29702B2400F47531 /* SceneDelegate.swift in Sources */,
 				D6F64B3729702B2400F47531 /* StrokeGestureRecognizer.swift in Sources */,
 				D6F64B4729702B2400F47531 /* SegmentedControl.swift in Sources */,

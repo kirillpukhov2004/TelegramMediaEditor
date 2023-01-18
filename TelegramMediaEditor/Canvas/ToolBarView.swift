@@ -4,24 +4,13 @@ fileprivate enum Constants {
     static let toolViewsHeight: CGFloat = 88
     static let toolViewsWidth: CGFloat = 240
     
-    static let regularToolViewHeight: CGFloat = 72
+    static let regularToolViewHeight: CGFloat = 88
     static let regularToolViewWidth: CGFloat = 20
     
-    static let activeToolViewHeight: CGFloat = 88
+    static let regularToolViewBottomOffset: CGFloat = 16
     
     static let bigToolViewHeight: CGFloat = 120
     static let bigToolViewWidth: CGFloat = 40
-}
-
-fileprivate struct ToolViewConstraints {
-    var top: NSLayoutConstraint?
-    var right: NSLayoutConstraint?
-    var bottom: NSLayoutConstraint?
-    var left: NSLayoutConstraint?
-    var y: NSLayoutConstraint?
-    var x: NSLayoutConstraint?
-    var height: NSLayoutConstraint?
-    var width: NSLayoutConstraint?
 }
 
 class ToolBarView: UIView {
@@ -33,7 +22,7 @@ class ToolBarView: UIView {
             let tool = Tool(type: toolType, width: 1, color: .white)
             let toolView = ToolView(for: tool)
             
-            let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(toolTapped(_:)))
+            let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(toolSelected(_:)))
             toolView.addGestureRecognizer(tapGestureRecognizer)
             toolView.translatesAutoresizingMaskIntoConstraints = false
             return toolView
@@ -79,12 +68,34 @@ class ToolBarView: UIView {
         let slider = Slider()
         slider.step = 1
         slider.isHidden = true
+        slider.minimumValue = 1
+        slider.maximumValue = 34
+        slider.sliderValueChanged = { [weak self] value in
+            guard let strongSelf = self else { return }
+            self?.toolViews[strongSelf.activeToolViewIndex].setToolWidth(to: CGFloat(value))
+        }
         slider.translatesAutoresizingMaskIntoConstraints = false
         return slider
     }()
     
     private lazy var toolViewsWrapper: UIView = {
         let view = UIView()
+        
+        let maskGradientLayer = CAGradientLayer()
+        maskGradientLayer.colors = [
+            CGColor(red: 0, green: 0, blue: 0, alpha: 1),
+            CGColor(red: 0, green: 0, blue: 0, alpha: 0),
+        ]
+        maskGradientLayer.locations = [0.84]
+        view.layer.mask = maskGradientLayer
+//        let gradientLayer = CAGradientLayer()
+//        gradientLayer.colors = [
+//            CGColor(red: 0, green: 0, blue: 0, alpha: 0),
+//            CGColor(red: 0, green: 0, blue: 0, alpha: 1),
+//        ]
+//        gradientLayer.locations = [0, 1]
+//        view.layer.addSublayer(gradientLayer)
+
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -114,8 +125,24 @@ class ToolBarView: UIView {
         return stackView
     }()
     
+    private lazy var backgroundBlurView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.5)
+        
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.colors = [
+            CGColor(red: 0, green: 0, blue: 0, alpha: 0),
+            CGColor(red: 0, green: 0, blue: 0, alpha: 1),
+        ]
+        gradientLayer.locations = [0, 0.51]
+        view.layer.mask = gradientLayer
+        
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     private var activeToolViewIndex: Int!
-    private var toolsViewsConstaints: [ToolViewConstraints] = []
+    private var toolsViewsConstaints: [ViewConstraints] = []
     public var doneButtonPressedAction: (() -> Void)?
     public var cancelButtonPressedAction: (() -> Void)?
     
@@ -135,11 +162,42 @@ class ToolBarView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        subviews.forEach { subview in
+            subview.layer.mask?.frame = subview.bounds
+        }
+        
+        if let gradientLayer = toolViewsWrapper.layer.sublayers?.first {
+            gradientLayer.frame = CGRect(x: 0,
+                                         y: toolViewsWrapper.bounds.height - CGFloat(16),
+                                         width: toolViewsWrapper.bounds.width,
+                                         height: 16)
+        }
+    }
+    
+    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+        let toolViewsWrapperPoint = toolViewsWrapper.convert(point, from: self)
+        if toolViewsWrapper.point(inside: toolViewsWrapperPoint, with: event) {
+            for toolView in toolViews {
+                let toolViewPoint = toolView.convert(point, from: self)
+                if toolView.point(inside: toolViewPoint, with: event) {
+                    return toolView
+                }
+            }
+        }
+        
+        return super.hitTest(point, with: event)
+    }
+    
     private func buildViewHierarchy() {
         toolViews.forEach { toolView in
             toolViewsWrapper.addSubview(toolView)
         }
         addSubview(toolViewsWrapper)
+
+        addSubview(backgroundBlurView)
         
         verticalStackView.addArrangedSubview(topHorizontalStackView)
         verticalStackView.addArrangedSubview(bottomHorizontalStackView)
@@ -159,7 +217,7 @@ class ToolBarView: UIView {
         
         let toolHorizontalPadding: CGFloat = (Constants.toolViewsWidth / CGFloat(toolViews.count) - Constants.regularToolViewWidth) / 2
         toolViews.enumerated().forEach { index, toolView in
-            var toolViewConstraints = ToolViewConstraints()
+            var toolViewConstraints = ViewConstraints()
             
             let totalPadding =  CGFloat(2 * index + 1) * toolHorizontalPadding
             let leftOffset =  totalPadding + CGFloat(index) * Constants.regularToolViewWidth
@@ -168,11 +226,12 @@ class ToolBarView: UIView {
                 constant: leftOffset
             )
             toolViewConstraints.bottom = toolView.bottomAnchor.constraint(equalTo: toolViewsWrapper.bottomAnchor)
+            toolViewConstraints.height = toolView.heightAnchor.constraint(equalToConstant: Constants.regularToolViewHeight)
             
             if index == activeToolViewIndex {
-                toolViewConstraints.height = toolView.heightAnchor.constraint(equalToConstant: Constants.activeToolViewHeight)
+                toolViewConstraints.bottom?.constant = 0
             } else {
-                toolViewConstraints.height = toolView.heightAnchor.constraint(equalToConstant: Constants.regularToolViewHeight)
+                toolViewConstraints.bottom?.constant = Constants.regularToolViewBottomOffset
             }
             toolViewConstraints.width = toolView.widthAnchor.constraint(equalToConstant: 20)
             
@@ -189,8 +248,15 @@ class ToolBarView: UIView {
         NSLayoutConstraint.activate([
             toolViewsWrapper.bottomAnchor.constraint(equalTo: bottomHorizontalStackView.topAnchor),
             toolViewsWrapper.centerXAnchor.constraint(equalTo: centerXAnchor),
-            toolViewsWrapper.heightAnchor.constraint(equalToConstant: Constants.toolViewsHeight),
+            toolViewsWrapper.heightAnchor.constraint(equalToConstant: Constants.bigToolViewHeight),
             toolViewsWrapper.widthAnchor.constraint(equalToConstant: Constants.toolViewsWidth),
+        ])
+        
+        NSLayoutConstraint.activate([
+            backgroundBlurView.rightAnchor.constraint(equalTo: rightAnchor),
+            backgroundBlurView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            backgroundBlurView.leftAnchor.constraint(equalTo: leftAnchor),
+            backgroundBlurView.heightAnchor.constraint(equalToConstant: 146)
         ])
         
         NSLayoutConstraint.activate([
@@ -224,9 +290,9 @@ class ToolBarView: UIView {
         ])
         
         NSLayoutConstraint.activate([
-            verticalStackView.rightAnchor.constraint(equalTo: rightAnchor),
-            verticalStackView.bottomAnchor.constraint(equalTo: bottomAnchor),
-            verticalStackView.leftAnchor.constraint(equalTo: leftAnchor),
+            verticalStackView.rightAnchor.constraint(equalTo: layoutMarginsGuide.rightAnchor),
+            verticalStackView.bottomAnchor.constraint(equalTo: layoutMarginsGuide.bottomAnchor),
+            verticalStackView.leftAnchor.constraint(equalTo: layoutMarginsGuide.leftAnchor),
         ])
     }
     
@@ -241,36 +307,54 @@ class ToolBarView: UIView {
         cancelButtonPressedAction?()
     }
     
-    @objc private func toolTapped(_ sender: UITapGestureRecognizer) {
+    @objc private func toolSelected(_ sender: UITapGestureRecognizer) {
         let toolView = sender.view as! ToolView
-        guard let tappedToolViewIndex = toolViews.firstIndex(of: toolView) else {
-            fatalError("\(#function): Selected tool isn't in the view stack")
-        }
-        tapToolAction(index: tappedToolViewIndex)
-    }
-    
-    private func tapToolAction(index newActiveToolViewIndex: Int) {
+        let newActiveToolViewIndex = toolViews.firstIndex(of: toolView)!
+        
         if activeToolViewIndex == newActiveToolViewIndex {
-            if !isEditing {
-                centerActiveTool()
-            } else {
-                uncenterActiveTool()
+            if toolView.tool.type.haveWidth {
+                toggleEditingState()
             }
         } else {
-            let activeToolViewHeightConstraint = toolsViewsConstaints[activeToolViewIndex].height!
-            let newActiveToolViewHeightConstraint = toolsViewsConstaints[newActiveToolViewIndex].height!
-            UIView.animate(
-                withDuration: 0.15,
-                delay: 0,
-                options: .curveEaseIn
-            ) { [weak self] in
-                activeToolViewHeightConstraint.constant = Constants.regularToolViewHeight
-                newActiveToolViewHeightConstraint.constant = Constants.activeToolViewHeight
-                self?.layoutIfNeeded()
-            }
-            
-            self.activeToolViewIndex = newActiveToolViewIndex
+            changeActiveTool(newActiveToolViewIndex: newActiveToolViewIndex)
         }
+    }
+    
+    private func toggleEditingState() {
+        if !isEditing {
+            centerActiveTool()
+            
+            slider.setValue(to: activeTool.width)
+            
+            segmentedControl.isHidden = true
+            slider.isHidden = false
+            
+            isEditing = true
+        } else {
+            uncenterActiveTool()
+            
+            segmentedControl.isHidden = false
+            slider.isHidden = true
+            
+            isEditing = false
+        }
+    }
+    
+    private func changeActiveTool(newActiveToolViewIndex: Int) {
+        let activeToolViewHeightConstraint = toolsViewsConstaints[activeToolViewIndex].bottom!
+        let newActiveToolViewHeightConstraint = toolsViewsConstaints[newActiveToolViewIndex].bottom!
+        
+        UIView.animate(
+            withDuration: 0.25,
+            delay: 0,
+            options: .curveEaseIn
+        ) { [weak self] in
+            activeToolViewHeightConstraint.constant = Constants.regularToolViewBottomOffset
+            newActiveToolViewHeightConstraint.constant = 0
+            self?.toolViewsWrapper.layoutIfNeeded()
+        }
+        
+        self.activeToolViewIndex = newActiveToolViewIndex
     }
     
     private var isActiveToolCenteralTool: Bool {
@@ -316,14 +400,12 @@ class ToolBarView: UIView {
             ) { [weak self] in
                 self?.toolViewsWrapper.layoutIfNeeded()
             }
-            
-            isEditing = true
         }
     }
     
     private func uncenterActiveTool() {
         let animationDuration: CGFloat = 1
-        
+    
         if isActiveToolCenteralTool {
             
         } else {
@@ -338,10 +420,10 @@ class ToolBarView: UIView {
                 toolViewConstraints.left!.constant = leftOffset
                 
                 if index == activeToolViewIndex {
-                    toolViewConstraints.height!.constant = Constants.activeToolViewHeight
+                    toolViewConstraints.height!.constant = Constants.regularToolViewHeight
                     toolViewConstraints.width!.constant = Constants.regularToolViewWidth
                 } else {
-                    toolViewConstraints.bottom!.constant -= Constants.regularToolViewHeight
+                    toolViewConstraints.bottom!.constant = Constants.regularToolViewBottomOffset
                 }
             }
             
@@ -351,22 +433,6 @@ class ToolBarView: UIView {
             ) { [weak self] in
                 self?.toolViewsWrapper.layoutIfNeeded()
             }
-            
-            isEditing = false
         }
-    }
-    
-    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
-        let toolViewsWrapperPoint = toolViewsWrapper.convert(point, from: self)
-        if toolViewsWrapper.point(inside: toolViewsWrapperPoint, with: event) {
-            for toolView in toolViews {
-                let toolViewPoint = toolView.convert(point, from: self)
-                if toolView.point(inside: toolViewPoint, with: event) {
-                    return toolView
-                }
-            }
-        }
-        
-        return super.hitTest(point, with: event)
     }
 }

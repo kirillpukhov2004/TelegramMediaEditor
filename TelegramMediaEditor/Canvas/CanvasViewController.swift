@@ -55,12 +55,9 @@ class CanvasViewController: UIViewController {
         ])
         
         NSLayoutConstraint.activate([
-            toolBarView.rightAnchor.constraint(equalTo: view.layoutMarginsGuide.rightAnchor),
-            toolBarView.bottomAnchor.constraint(
-                equalTo: view.layoutMarginsGuide.bottomAnchor,
-                constant: -8
-            ),
-            toolBarView.leftAnchor.constraint(equalTo: view.layoutMarginsGuide.leftAnchor),
+            toolBarView.rightAnchor.constraint(equalTo: view.rightAnchor),
+            toolBarView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            toolBarView.leftAnchor.constraint(equalTo: view.leftAnchor),
             toolBarView.heightAnchor.constraint(equalToConstant: 82),
         ])
     }
