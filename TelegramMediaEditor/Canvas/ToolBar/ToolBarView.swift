@@ -1,5 +1,7 @@
 import UIKit
 
+// MARK: - Constants
+
 fileprivate enum Constants {
     static let toolViewsHeight: CGFloat = 88
     static let toolViewsWidth: CGFloat = 240
@@ -13,13 +15,15 @@ fileprivate enum Constants {
     static let bigToolViewWidth: CGFloat = 40
 }
 
+// MARK: - ToolBarView
+
 class ToolBarView: UIView {
     private lazy var toolViews: [ToolView] = {
         let toolsTypesList: [ToolType] = [.pen, .brush, .neon, .pencil, .eraser, .lasso]
         
         var toolsViews = [ToolView]()
         toolsViews = toolsTypesList.map { toolType in
-            let tool = Tool(type: toolType, width: 1, color: .white)
+            let tool = Tool(type: toolType, width: 1, color: .black)
             let toolView = ToolView(for: tool)
             
             let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(toolSelected(_:)))
@@ -30,7 +34,8 @@ class ToolBarView: UIView {
         return toolsViews
     }()
     private lazy var colorPicker: ColorPicker = {
-        let colorPicker = ColorPicker()
+        let colorPicker = ColorPicker(activeTool.color)
+        colorPicker.delegate = self
         colorPicker.translatesAutoresizingMaskIntoConstraints = false
         return colorPicker
     }()
@@ -70,10 +75,7 @@ class ToolBarView: UIView {
         slider.isHidden = true
         slider.minimumValue = 1
         slider.maximumValue = 34
-        slider.sliderValueChanged = { [weak self] value in
-            guard let strongSelf = self else { return }
-            self?.toolViews[strongSelf.activeToolViewIndex].setToolWidth(to: CGFloat(value))
-        }
+        slider.delegate = self
         slider.translatesAutoresizingMaskIntoConstraints = false
         return slider
     }()
@@ -141,54 +143,47 @@ class ToolBarView: UIView {
         return view
     }()
     
-    private var activeToolViewIndex: Int!
     private var toolsViewsConstaints: [ViewConstraints] = []
-    public var doneButtonPressedAction: (() -> Void)?
-    public var cancelButtonPressedAction: (() -> Void)?
-    
+    private var activeToolViewIndex: Int!
+    private var activeToolView: ToolView {
+        return toolViews[activeToolViewIndex]
+    }
     public var activeTool: Tool {
         return toolViews[activeToolViewIndex].tool
     }
+    private var isActiveToolCenteralTool: Bool {
+        let toolViewsCount = toolViews.count
+        
+        if toolViewsCount % 2 == 0 {
+            return false
+        } else if toolViews[Int(ceil(Float(toolViewsCount) / Float(2)))] === toolViews[activeToolViewIndex] {
+            return true
+        } else {
+            return false
+        }
+    }
+    
+    public var delegate: ToolBarViewDelegate?
+    
+    public var doneButtonPressedAction: (() -> Void)?
+    public var cancelButtonPressedAction: (() -> Void)?
+    
     private var isEditing: Bool = false
+    
+    // MARK: Initialization
     
     public init() {
         super.init(frame: .zero)
 
+        activeToolViewIndex = 0
+        
         buildViewHierarchy()
         setupConstraints()
+        configureViews()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        
-        subviews.forEach { subview in
-            subview.layer.mask?.frame = subview.bounds
-        }
-        
-        if let gradientLayer = toolViewsWrapper.layer.sublayers?.first {
-            gradientLayer.frame = CGRect(x: 0,
-                                         y: toolViewsWrapper.bounds.height - CGFloat(16),
-                                         width: toolViewsWrapper.bounds.width,
-                                         height: 16)
-        }
-    }
-    
-    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
-        let toolViewsWrapperPoint = toolViewsWrapper.convert(point, from: self)
-        if toolViewsWrapper.point(inside: toolViewsWrapperPoint, with: event) {
-            for toolView in toolViews {
-                let toolViewPoint = toolView.convert(point, from: self)
-                if toolView.point(inside: toolViewPoint, with: event) {
-                    return toolView
-                }
-            }
-        }
-        
-        return super.hitTest(point, with: event)
     }
     
     private func buildViewHierarchy() {
@@ -213,8 +208,6 @@ class ToolBarView: UIView {
     }
     
     private func setupConstraints() {
-        activeToolViewIndex = 0
-        
         let toolHorizontalPadding: CGFloat = (Constants.toolViewsWidth / CGFloat(toolViews.count) - Constants.regularToolViewWidth) / 2
         toolViews.enumerated().forEach { index, toolView in
             var toolViewConstraints = ViewConstraints()
@@ -296,6 +289,48 @@ class ToolBarView: UIView {
         ])
     }
     
+    private func configureViews() {
+        
+    }
+    
+    // MARK: View Methods
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        subviews.forEach { subview in
+            subview.layer.mask?.frame = subview.bounds
+        }
+        
+        if let gradientLayer = toolViewsWrapper.layer.sublayers?.first {
+            gradientLayer.frame = CGRect(x: 0,
+                                         y: toolViewsWrapper.bounds.height - CGFloat(16),
+                                         width: toolViewsWrapper.bounds.width,
+                                         height: 16)
+        }
+    }
+    
+    override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
+        let toolViewsWrapperPoint = toolViewsWrapper.convert(point, from: self)
+        if toolViewsWrapper.point(inside: toolViewsWrapperPoint, with: event) {
+            for toolView in toolViews {
+                let toolViewPoint = toolView.convert(point, from: self)
+                if toolView.point(inside: toolViewPoint, with: event) {
+                    return toolView
+                }
+            }
+        }
+        
+        let colorPickerPoint = colorPicker.convert(point, from: self)
+        if colorPicker.point(inside: colorPickerPoint, with: event) {
+            return colorPicker
+        }
+        
+        return super.hitTest(point, with: event)
+    }
+    
+    // MARK: Actions
+    
     @objc private func addButtonPressed() {
     }
     
@@ -316,9 +351,11 @@ class ToolBarView: UIView {
                 toggleEditingState()
             }
         } else {
-            changeActiveTool(newActiveToolViewIndex: newActiveToolViewIndex)
+            changeActiveTool(to: newActiveToolViewIndex)
         }
     }
+    
+    // MARK: Private Methods
     
     private func toggleEditingState() {
         if !isEditing {
@@ -340,9 +377,9 @@ class ToolBarView: UIView {
         }
     }
     
-    private func changeActiveTool(newActiveToolViewIndex: Int) {
+    private func changeActiveTool(to index: Int) {
         let activeToolViewHeightConstraint = toolsViewsConstaints[activeToolViewIndex].bottom!
-        let newActiveToolViewHeightConstraint = toolsViewsConstaints[newActiveToolViewIndex].bottom!
+        let newActiveToolViewHeightConstraint = toolsViewsConstaints[index].bottom!
         
         UIView.animate(
             withDuration: 0.25,
@@ -354,19 +391,8 @@ class ToolBarView: UIView {
             self?.toolViewsWrapper.layoutIfNeeded()
         }
         
-        self.activeToolViewIndex = newActiveToolViewIndex
-    }
-    
-    private var isActiveToolCenteralTool: Bool {
-        let toolViewsCount = toolViews.count
-        
-        if toolViewsCount % 2 == 0 {
-            return false
-        } else if toolViews[Int(ceil(Float(toolViewsCount) / Float(2)))] === toolViews[activeToolViewIndex] {
-            return true
-        } else {
-            return false
-        }
+        self.activeToolViewIndex = index
+        delegate?.activeToolUpdated(activeTool)
     }
     
     private func centerActiveTool() {
@@ -434,5 +460,33 @@ class ToolBarView: UIView {
                 self?.toolViewsWrapper.layoutIfNeeded()
             }
         }
+    }
+    
+    private func changeActiveToolColor(to color: CGColor) {
+        toolViews[activeToolViewIndex].setColor(to: color)
+        delegate?.activeToolUpdated(activeTool)
+    }
+    
+    private func changeActiveToolWidth(to width: CGFloat) {
+        toolViews[activeToolViewIndex].setWidth(to: width)
+        delegate?.activeToolUpdated(activeTool)
+    }
+}
+
+// MARK: - : ColorPickerDelegate
+
+extension ToolBarView: ColorPickerDelegate {
+    func colorChanged(_ colorPicker: ColorPicker) {
+        let color = colorPicker.selectedColor
+        changeActiveToolColor(to: color)
+    }
+}
+
+// MARK: - : SliderDelegate
+
+extension ToolBarView: SliderDelegate {
+    func valueChanged(_ slider: Slider) {
+        let value = slider.value
+        changeActiveToolWidth(to: value)
     }
 }

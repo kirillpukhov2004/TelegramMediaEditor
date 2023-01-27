@@ -1,8 +1,5 @@
 import UIKit
 
-enum SliderTrack {
-}
-
 class Slider: UIControl {
     private lazy var trackLayer: CAShapeLayer = {
         let shapeLayer = CAShapeLayer()
@@ -62,7 +59,7 @@ class Slider: UIControl {
         return imageView
     }()
     
-    public var sliderValueChanged: ((Double) -> Void)?
+    public var delegate: SliderDelegate?
     
     public var minimumValue: Double = 0
     public var maximumValue: Double = 100
@@ -146,7 +143,7 @@ class Slider: UIControl {
         
         CATransaction.commit()
 
-        sliderValueChanged?(value)
+        delegate?.valueChanged(self)
         return true
     }
     

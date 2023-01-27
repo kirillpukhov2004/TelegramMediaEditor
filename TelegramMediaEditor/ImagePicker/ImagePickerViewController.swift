@@ -163,11 +163,11 @@ extension ImagePickerViewController: UICollectionViewDelegateFlowLayout {
         _ = PHImageManager.default().requestImageDataAndOrientation(
             for: photoAsset,
             options: imageReqeustOptions
-        ) { (imageData, _, _, _) in
-            guard let imageData = imageData else {
-                print("🔴 \(#function): Image data is nil"); return
-            }
-            
+        ) { imageData, _, _, _ in
+//            guard let imageData = imageData else {
+//                print("🔴 \(#function): Image data is nil"); return
+//            }
+//
 //            canvasViewController.image = UIImage(data: imageData)
 //            canvasViewController.asset = photoAsset
         }

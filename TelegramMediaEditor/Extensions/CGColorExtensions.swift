@@ -1,4 +1,4 @@
-import UIKit
+import CoreGraphics
 
 extension CGColor {
     static let white = CGColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 1.0)

@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		D651D58429772FAD002325EC /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D651D58329772FAD002325EC /* Tests.swift */; };
 		D65554742973E469004E3823 /* CGSizeExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D65554732973E469004E3823 /* CGSizeExtensions.swift */; };
 		D6995B902902CA9A000E2CA7 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = D6995B8F2902CA9A000E2CA7 /* Lottie */; };
 		D6AA0A492978865300F6A8D0 /* ViewConstraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6AA0A482978865300F6A8D0 /* ViewConstraints.swift */; };
@@ -24,7 +23,6 @@
 		D6F64B3D29702B2400F47531 /* ToolBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F64B2129702B2400F47531 /* ToolBarView.swift */; };
 		D6F64B3E29702B2400F47531 /* CanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F64B2229702B2400F47531 /* CanvasView.swift */; };
 		D6F64B3F29702B2400F47531 /* ColorPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F64B2329702B2400F47531 /* ColorPicker.swift */; };
-		D6F64B4029702B2400F47531 /* TopBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F64B2429702B2400F47531 /* TopBar.swift */; };
 		D6F64B4129702B2400F47531 /* ToolType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F64B2629702B2400F47531 /* ToolType.swift */; };
 		D6F64B4229702B2400F47531 /* ToolView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F64B2729702B2400F47531 /* ToolView.swift */; };
 		D6F64B4329702B2400F47531 /* Tool.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F64B2829702B2400F47531 /* Tool.swift */; };
@@ -36,11 +34,18 @@
 		D6F64B4929702B2400F47531 /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F64B3129702B2400F47531 /* NavigationController.swift */; };
 		D6F64B4B29702B2400F47531 /* Stroke.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F64B3329702B2400F47531 /* Stroke.swift */; };
 		D6F64B4C29702B2400F47531 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F64B3429702B2400F47531 /* SceneDelegate.swift */; };
+		D6FB1649297FCAF000594793 /* TopBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6FB1648297FCAF000594793 /* TopBarView.swift */; };
+		D6FFDD3F2983F0060091CE14 /* ColorPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6FFDD3E2983F0060091CE14 /* ColorPickerViewController.swift */; };
+		D6FFDD7C298424790091CE14 /* CGFloatExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6FFDD7B298424790091CE14 /* CGFloatExtensions.swift */; };
+		D6FFDD7E298434D80091CE14 /* ColorPickerViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6FFDD7D298434D80091CE14 /* ColorPickerViewControllerDelegate.swift */; };
+		D6FFDD80298438280091CE14 /* ColorPickerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6FFDD7F298438280091CE14 /* ColorPickerDelegate.swift */; };
+		D6FFDD8229844E6A0091CE14 /* ToolBarViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6FFDD8129844E6A0091CE14 /* ToolBarViewDelegate.swift */; };
+		D6FFDD84298450900091CE14 /* SliderDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6FFDD83298450900091CE14 /* SliderDelegate.swift */; };
+		D6FFDD86298454F40091CE14 /* TopBarViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6FFDD85298454F40091CE14 /* TopBarViewDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		D6453F4D28F7EE2C001F6101 /* TelegramMediaEditor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TelegramMediaEditor.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		D651D58329772FAD002325EC /* Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
 		D65554732973E469004E3823 /* CGSizeExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGSizeExtensions.swift; sourceTree = "<group>"; };
 		D6AA0A482978865300F6A8D0 /* ViewConstraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewConstraints.swift; sourceTree = "<group>"; };
 		D6ECEA5C29704BA000DD9502 /* StrokeSample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StrokeSample.swift; sourceTree = "<group>"; };
@@ -56,7 +61,6 @@
 		D6F64B2129702B2400F47531 /* ToolBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToolBarView.swift; sourceTree = "<group>"; };
 		D6F64B2229702B2400F47531 /* CanvasView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CanvasView.swift; sourceTree = "<group>"; };
 		D6F64B2329702B2400F47531 /* ColorPicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorPicker.swift; sourceTree = "<group>"; };
-		D6F64B2429702B2400F47531 /* TopBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopBar.swift; sourceTree = "<group>"; };
 		D6F64B2629702B2400F47531 /* ToolType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToolType.swift; sourceTree = "<group>"; };
 		D6F64B2729702B2400F47531 /* ToolView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToolView.swift; sourceTree = "<group>"; };
 		D6F64B2829702B2400F47531 /* Tool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tool.swift; sourceTree = "<group>"; };
@@ -69,6 +73,14 @@
 		D6F64B3229702B2400F47531 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D6F64B3329702B2400F47531 /* Stroke.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stroke.swift; sourceTree = "<group>"; };
 		D6F64B3429702B2400F47531 /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		D6FB1648297FCAF000594793 /* TopBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopBarView.swift; sourceTree = "<group>"; };
+		D6FFDD3E2983F0060091CE14 /* ColorPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPickerViewController.swift; sourceTree = "<group>"; };
+		D6FFDD7B298424790091CE14 /* CGFloatExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGFloatExtensions.swift; sourceTree = "<group>"; };
+		D6FFDD7D298434D80091CE14 /* ColorPickerViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPickerViewControllerDelegate.swift; sourceTree = "<group>"; };
+		D6FFDD7F298438280091CE14 /* ColorPickerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPickerDelegate.swift; sourceTree = "<group>"; };
+		D6FFDD8129844E6A0091CE14 /* ToolBarViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolBarViewDelegate.swift; sourceTree = "<group>"; };
+		D6FFDD83298450900091CE14 /* SliderDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SliderDelegate.swift; sourceTree = "<group>"; };
+		D6FFDD85298454F40091CE14 /* TopBarViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopBarViewDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,7 +98,6 @@
 		D6453F4428F7EE2C001F6101 = {
 			isa = PBXGroup;
 			children = (
-				D651D58329772FAD002325EC /* Tests.swift */,
 				D6F64B1529702B2400F47531 /* TelegramMediaEditor */,
 				D6453F4E28F7EE2C001F6101 /* Products */,
 			);
@@ -116,6 +127,7 @@
 				D6ECEA5F29704C4900DD9502 /* UIColorExtensions.swift */,
 				D6F64B1829702B2400F47531 /* CGColorExtensions.swift */,
 				D65554732973E469004E3823 /* CGSizeExtensions.swift */,
+				D6FFDD7B298424790091CE14 /* CGFloatExtensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -131,6 +143,7 @@
 				D6F64B2A29702B2400F47531 /* Controls */,
 				D6F64B2529702B2400F47531 /* Tool */,
 				D65554722973DF25004E3823 /* Stroke */,
+				D6FFDD89298457610091CE14 /* Utilities */,
 				D6ECEA6129704C8800DD9502 /* Extensions */,
 				D6F64B1E29702B2400F47531 /* Assets.xcassets */,
 				D6F64B1F29702B2400F47531 /* Main.storyboard */,
@@ -155,10 +168,9 @@
 			children = (
 				D6F64B2929702B2400F47531 /* CanvasViewController.swift */,
 				D6F64B2229702B2400F47531 /* CanvasView.swift */,
-				D6F64B2129702B2400F47531 /* ToolBarView.swift */,
-				D6AA0A482978865300F6A8D0 /* ViewConstraints.swift */,
-				D6F64B2329702B2400F47531 /* ColorPicker.swift */,
-				D6F64B2429702B2400F47531 /* TopBar.swift */,
+				D6FFDD88298457300091CE14 /* TopBar */,
+				D6FFDD87298457130091CE14 /* ToolBar */,
+				D6FFDD3D2983EF300091CE14 /* ColorPicker */,
 			);
 			path = Canvas;
 			sourceTree = "<group>";
@@ -186,6 +198,7 @@
 			isa = PBXGroup;
 			children = (
 				D6F64B2C29702B2400F47531 /* Slider.swift */,
+				D6FFDD83298450900091CE14 /* SliderDelegate.swift */,
 			);
 			path = Slider;
 			sourceTree = "<group>";
@@ -197,6 +210,43 @@
 				D6F64B2E29702B2400F47531 /* SegmentedControlSegment.swift */,
 			);
 			path = SegmentedControl;
+			sourceTree = "<group>";
+		};
+		D6FFDD3D2983EF300091CE14 /* ColorPicker */ = {
+			isa = PBXGroup;
+			children = (
+				D6FFDD3E2983F0060091CE14 /* ColorPickerViewController.swift */,
+				D6FFDD7D298434D80091CE14 /* ColorPickerViewControllerDelegate.swift */,
+				D6F64B2329702B2400F47531 /* ColorPicker.swift */,
+				D6FFDD7F298438280091CE14 /* ColorPickerDelegate.swift */,
+			);
+			path = ColorPicker;
+			sourceTree = "<group>";
+		};
+		D6FFDD87298457130091CE14 /* ToolBar */ = {
+			isa = PBXGroup;
+			children = (
+				D6F64B2129702B2400F47531 /* ToolBarView.swift */,
+				D6FFDD8129844E6A0091CE14 /* ToolBarViewDelegate.swift */,
+			);
+			path = ToolBar;
+			sourceTree = "<group>";
+		};
+		D6FFDD88298457300091CE14 /* TopBar */ = {
+			isa = PBXGroup;
+			children = (
+				D6FB1648297FCAF000594793 /* TopBarView.swift */,
+				D6FFDD85298454F40091CE14 /* TopBarViewDelegate.swift */,
+			);
+			path = TopBar;
+			sourceTree = "<group>";
+		};
+		D6FFDD89298457610091CE14 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				D6AA0A482978865300F6A8D0 /* ViewConstraints.swift */,
+			);
+			path = Utilities;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -276,13 +326,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D6FFDD3F2983F0060091CE14 /* ColorPickerViewController.swift in Sources */,
+				D6FB1649297FCAF000594793 /* TopBarView.swift in Sources */,
+				D6FFDD7E298434D80091CE14 /* ColorPickerViewControllerDelegate.swift in Sources */,
 				D6F64B3829702B2400F47531 /* ImagePickerAccessRequestViewController.swift in Sources */,
-				D651D58429772FAD002325EC /* Tests.swift in Sources */,
-				D6F64B4029702B2400F47531 /* TopBar.swift in Sources */,
 				D6F64B4629702B2400F47531 /* SegmentedControlSegment.swift in Sources */,
 				D6F64B3F29702B2400F47531 /* ColorPicker.swift in Sources */,
 				D6F64B4329702B2400F47531 /* Tool.swift in Sources */,
 				D6F64B4429702B2400F47531 /* CanvasViewController.swift in Sources */,
+				D6FFDD80298438280091CE14 /* ColorPickerDelegate.swift in Sources */,
 				D6F64B3E29702B2400F47531 /* CanvasView.swift in Sources */,
 				D6F64B4529702B2400F47531 /* Slider.swift in Sources */,
 				D6F64B3A29702B2400F47531 /* ImagePickerCollectionViewCell.swift in Sources */,
@@ -293,10 +345,14 @@
 				D6F64B3D29702B2400F47531 /* ToolBarView.swift in Sources */,
 				D6F64B4129702B2400F47531 /* ToolType.swift in Sources */,
 				D6F64B3929702B2400F47531 /* ImagePickerViewController.swift in Sources */,
+				D6FFDD86298454F40091CE14 /* TopBarViewDelegate.swift in Sources */,
 				D6F64B4929702B2400F47531 /* NavigationController.swift in Sources */,
 				D6AA0A492978865300F6A8D0 /* ViewConstraints.swift in Sources */,
 				D6F64B4C29702B2400F47531 /* SceneDelegate.swift in Sources */,
+				D6FFDD7C298424790091CE14 /* CGFloatExtensions.swift in Sources */,
+				D6FFDD84298450900091CE14 /* SliderDelegate.swift in Sources */,
 				D6F64B3729702B2400F47531 /* StrokeGestureRecognizer.swift in Sources */,
+				D6FFDD8229844E6A0091CE14 /* ToolBarViewDelegate.swift in Sources */,
 				D6F64B4729702B2400F47531 /* SegmentedControl.swift in Sources */,
 				D6F64B4829702B2400F47531 /* AppDelegate.swift in Sources */,
 				D6ECEA6029704C4900DD9502 /* UIColorExtensions.swift in Sources */,

@@ -1,7 +1,9 @@
 import UIKit
 
+// MARK: - CanvasView
+
 class CanvasView: UIView {
-    private(set) var tool: Tool
+    public var tool: Tool
     private(set) var strokes: [Stroke] = []
     
     private lazy var strokeGestureRecognizer: StrokeGestureRecognizer = {
@@ -9,6 +11,8 @@ class CanvasView: UIView {
         gestureRecognizer.strokeDelegate = self
         return gestureRecognizer
     }()
+    
+    // MARK: Initialization
     
     public init(_ tool: Tool) {
         self.tool = tool
@@ -28,9 +32,11 @@ class CanvasView: UIView {
     }
     
     private func configureViews() {
-        backgroundColor = .clear
+        backgroundColor = .white
         addGestureRecognizer(strokeGestureRecognizer)
     }
+    
+    // MARK: View Methods
     
     override func draw(_ rect: CGRect) {
         guard let context = UIGraphicsGetCurrentContext() else { return }
@@ -39,11 +45,13 @@ class CanvasView: UIView {
             context.setLineWidth(stroke.width)
             context.setStrokeColor(stroke.color)
             context.setLineCap(.round)
-            drawStroke(stroke, in: context)
+            drawBeziérStroke(stroke, in: context)
         }
     }
     
-    private func drawStroke(_ stroke: Stroke, in context: CGContext) {
+    // MARK: Private Methods
+    
+    private func drawBeziérStroke(_ stroke: Stroke, in context: CGContext) {
         let samples = stroke.samples
         let samplesCount = stroke.samples.count
         
@@ -92,15 +100,32 @@ class CanvasView: UIView {
             reamingSamples -= 1
             lastUsedStrokeSampleIndex += 1
         }
-
+        
         context.addPath(bezierPath.cgPath)
+        context.strokePath()
+    }
+    
+    private func drawRegularStroke(_ stroke: Stroke, in context: CGContext) {
+        context.move(to: stroke.samples[0].location)
+        for strokeSample in stroke.samples[1...] {
+            context.addLine(to: strokeSample.location)
+        }
         context.strokePath()
     }
     
     private func refreshCanvas() {
         setNeedsDisplay()
     }
+    
+    // MARK: Public Methods
+    
+    public func clearCanvas() {
+        strokes = []
+        refreshCanvas()
+    }
 }
+
+// MARK: - : StrokeGestureRecognizerDelegate
 
 extension CanvasView: StrokeGestureRecognizerDelegate {
     func touchPossible() {
