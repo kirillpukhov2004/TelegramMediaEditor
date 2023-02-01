@@ -93,7 +93,7 @@ class ToolView: UIView {
         widthIndicatorViewWidthAnchor.constant = -18 / baseImageView.contentScaleFactor * widthScaleFactor * (baseImageView.frame.width == 40 ? 3 : 1)
     }
     
-    // MARK: Public Methods
+    // MARK: Public Functions
     
     public func setWidth(to width: CGFloat) {
         tool.width = width

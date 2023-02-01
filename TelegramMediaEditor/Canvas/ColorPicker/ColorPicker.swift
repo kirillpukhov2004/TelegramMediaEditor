@@ -33,10 +33,8 @@ class ColorPicker: UIView {
     }()
     
     public var selectedColor: CGColor {
-        willSet {
-            UIView.animate(withDuration: 0.15, delay: 0) { [weak self] in
-                self?.colorCircleLayer.backgroundColor = newValue
-            }
+        willSet(newColor) {
+            colorCircleLayer.backgroundColor = newColor
         }
     }
     
@@ -104,16 +102,18 @@ class ColorPicker: UIView {
         rootVC.present(colorPickerViewController, animated: true)
     }
     
-    // MARK: Public Methods
+    // MARK: Public Functions
     
 }
 
 // MARK: - : ColorPickerViewControllerDelegate
 
 extension ColorPicker: ColorPickerViewControllerDelegate {
-    func colorChanged(_ colorPickerViewController: ColorPickerViewController) {
-        let newColor = colorPickerViewController.selectedColor
-        selectedColor = newColor
+    func colorPickerViewControllerColorChanged(_ colorPickerViewController: ColorPickerViewController) {
+        CATransaction.begin()
+        CATransaction.setDisableActions(true)
+        selectedColor = colorPickerViewController.color
+        CATransaction.commit()
         delegate?.colorChanged(self)
     }
 }

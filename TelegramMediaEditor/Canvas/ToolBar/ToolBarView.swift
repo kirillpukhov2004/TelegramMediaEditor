@@ -13,6 +13,9 @@ fileprivate enum Constants {
     
     static let bigToolViewHeight: CGFloat = 120
     static let bigToolViewWidth: CGFloat = 40
+    
+    static let toolSelectionAnimationDuration: CGFloat = 0.15
+    static let toolCenteringAnimationDuration: CGFloat = 0.9
 }
 
 // MARK: - ToolBarView
@@ -74,8 +77,8 @@ class ToolBarView: UIView {
         slider.step = 1
         slider.isHidden = true
         slider.minimumValue = 1
-        slider.maximumValue = 34
-        slider.delegate = self
+        slider.maximumValue = 25
+        slider.addTarget(self, action: #selector(sliderValueChanged(_:)), for: .valueChanged)
         slider.translatesAutoresizingMaskIntoConstraints = false
         return slider
     }()
@@ -293,7 +296,7 @@ class ToolBarView: UIView {
         
     }
     
-    // MARK: View Methods
+    // MARK: View Functions
     
     override func layoutSubviews() {
         super.layoutSubviews()
@@ -355,13 +358,17 @@ class ToolBarView: UIView {
         }
     }
     
-    // MARK: Private Methods
+    @objc private func sliderValueChanged(_ sender: Slider) {
+        changeActiveToolWidth(to: slider.value)
+    }
+    
+    // MARK: Private Functions
     
     private func toggleEditingState() {
         if !isEditing {
             centerActiveTool()
             
-            slider.setValue(to: activeTool.width)
+            slider.value = activeTool.width
             
             segmentedControl.isHidden = true
             slider.isHidden = false
@@ -382,9 +389,9 @@ class ToolBarView: UIView {
         let newActiveToolViewHeightConstraint = toolsViewsConstaints[index].bottom!
         
         UIView.animate(
-            withDuration: 0.25,
+            withDuration: Constants.toolSelectionAnimationDuration,
             delay: 0,
-            options: .curveEaseIn
+            options: .curveEaseInOut
         ) { [weak self] in
             activeToolViewHeightConstraint.constant = Constants.regularToolViewBottomOffset
             newActiveToolViewHeightConstraint.constant = 0
@@ -397,7 +404,6 @@ class ToolBarView: UIView {
     
     private func centerActiveTool() {
         let toolViewsCount = toolViews.count
-        let animationDuration: CGFloat = 1
         
         if isActiveToolCenteralTool {
             
@@ -421,7 +427,7 @@ class ToolBarView: UIView {
             }
             
             UIView.animate(
-                withDuration: animationDuration,
+                withDuration: Constants.toolCenteringAnimationDuration,
                 delay: 0
             ) { [weak self] in
                 self?.toolViewsWrapper.layoutIfNeeded()
@@ -430,8 +436,6 @@ class ToolBarView: UIView {
     }
     
     private func uncenterActiveTool() {
-        let animationDuration: CGFloat = 1
-    
         if isActiveToolCenteralTool {
             
         } else {
@@ -454,7 +458,7 @@ class ToolBarView: UIView {
             }
             
             UIView.animate(
-                withDuration: animationDuration,
+                withDuration: Constants.toolCenteringAnimationDuration,
                 delay: 0
             ) { [weak self] in
                 self?.toolViewsWrapper.layoutIfNeeded()
@@ -479,14 +483,5 @@ extension ToolBarView: ColorPickerDelegate {
     func colorChanged(_ colorPicker: ColorPicker) {
         let color = colorPicker.selectedColor
         changeActiveToolColor(to: color)
-    }
-}
-
-// MARK: - : SliderDelegate
-
-extension ToolBarView: SliderDelegate {
-    func valueChanged(_ slider: Slider) {
-        let value = slider.value
-        changeActiveToolWidth(to: value)
     }
 }

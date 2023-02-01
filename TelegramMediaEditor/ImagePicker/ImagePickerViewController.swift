@@ -128,6 +128,40 @@ extension ImagePickerViewController: UICollectionViewDataSource {
 extension ImagePickerViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(
         _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        minimumInteritemSpacingForSectionAt section: Int
+    ) -> CGFloat {
+        return imagePadding
+    }
+    
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        minimumLineSpacingForSectionAt section: Int
+    ) -> CGFloat {
+        return imagePadding
+    }
+        
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        insetForSectionAt section: Int
+    ) -> UIEdgeInsets {
+        return UIEdgeInsets(top: 0  , left: 0, bottom: 0, right: 0)
+    }
+    
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        sizeForItemAt indexPath: IndexPath
+    ) -> CGSize {
+        let totalPadding: CGFloat = (imagesPerRow - 1) * imagePadding
+        let size = (collectionView.bounds.width - totalPadding) / imagesPerRow
+        return CGSize(width: size, height: size)
+    }
+    
+    func collectionView(
+        _ collectionView: UICollectionView,
         didSelectItemAt indexPath: IndexPath
     ) {
         guard let cell = collectionView.cellForItem(at: indexPath) as? ImagePickerCollectionViewCell else {
@@ -171,39 +205,5 @@ extension ImagePickerViewController: UICollectionViewDelegateFlowLayout {
 //            canvasViewController.image = UIImage(data: imageData)
 //            canvasViewController.asset = photoAsset
         }
-    }
-    
-    func collectionView(
-        _ collectionView: UICollectionView,
-        layout collectionViewLayout: UICollectionViewLayout,
-        sizeForItemAt indexPath: IndexPath
-    ) -> CGSize {
-        let totalPadding: CGFloat = CGFloat(imagesPerRow - 1) * imagePadding
-        let size = (collectionView.bounds.width - totalPadding) / CGFloat(imagesPerRow)
-        return CGSize(width: size, height: size)
-    }
-    
-    func collectionView(
-        _ collectionView: UICollectionView,
-        layout collectionViewLayout: UICollectionViewLayout,
-        insetForSectionAt section: Int
-    ) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 0  , left: 0, bottom: 0, right: 0)
-    }
-    
-    func collectionView(
-        _ collectionView: UICollectionView,
-        layout collectionViewLayout: UICollectionViewLayout,
-        minimumInteritemSpacingForSectionAt section: Int
-    ) -> CGFloat {
-        return imagePadding
-    }
-    
-    func collectionView(
-        _ collectionView: UICollectionView,
-        layout collectionViewLayout: UICollectionViewLayout,
-        minimumLineSpacingForSectionAt section: Int
-    ) -> CGFloat {
-        return imagePadding
     }
 }

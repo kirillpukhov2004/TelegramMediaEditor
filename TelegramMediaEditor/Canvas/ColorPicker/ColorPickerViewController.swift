@@ -3,40 +3,27 @@ import UIKit
 // MARK: - Constants
 
 fileprivate struct Constants {
-    static let colorGridHexValues: [[Int]] = [[
-        0xFEFFFE, 0xEBEBEB, 0xD6D6D6, 0xC2C2C2, 0xADADAD, 0x999999, 0x858585, 0x707070, 0x5C5C5C, 0x474747, 0x333333, 0x000000,
-    ], [
-        0x00374A, 0x011D57, 0x11053B, 0x2E063D, 0x3C071B, 0x5C0701, 0x5A1C00, 0x583300, 0x563D00, 0x666100, 0x4F5504, 0x263E0F,
-    ], [
-        0x004D65, 0x012F7B, 0x1A0A52, 0x450D59, 0x551029, 0x831100, 0x7B2900, 0x7A4A00, 0x785800, 0x8D8602, 0x6F760A, 0x38571A,
-    ], [
-        0x016E8F, 0x0042A9, 0x2C0977, 0x61187C, 0x791A3D, 0xB51A00, 0xAD3E00, 0xA96800, 0xA67B01, 0xC4BC00, 0x9BA50E, 0x4E7A27,
-    ], [
-        0x008CB4, 0x0056D6, 0x371A94, 0x7A219E, 0x99244F, 0xE22400, 0xDA5100, 0xD38301, 0xD19D01, 0xF5EC00, 0xC3D117, 0x669D34,
-    ], [
-        0x00A1D8, 0x0061FD, 0x4D22B2, 0x982ABC, 0xB92D5D, 0xFF4015, 0xFF6A00, 0xFFAB01, 0xFCC700, 0xFEFB41, 0xD9EC37, 0x76BB40,
-    ], [
-        0x01C7FC, 0x3A87FD, 0x5E30EB, 0xBE38F3, 0xE63B7A, 0xFE6250, 0xFE8648, 0xFEB43F, 0xFECB3E, 0xFFF76B, 0xE4EF65, 0x96D35F,
-    ], [
-        0x52D6FC, 0x74A7FF, 0x864FFD, 0xD357FE, 0xEE719E, 0xFF8C82, 0xFEA57D, 0xFEC777, 0xFED977, 0xFFF994, 0xEAF28F, 0xB1DD8B,
-    ], [
-        0x93E3FC, 0xA7C6FF, 0xB18CFE, 0xE292FE, 0xF4A4C0, 0xFFB5AF, 0xFFC5AB, 0xFED9A8, 0xFDE4A8, 0xFFFBB9, 0xF1F7B7, 0xCDE8B5,
-    ], [
-        0xCBF0FF, 0xD2E2FE, 0xD8C9FE, 0xEFCAFE, 0xF9D3E0, 0xFFDAD8, 0xFFE2D6, 0xFEECD4, 0xFEF1D5, 0xFDFBDD, 0xF6FADB, 0xDEEED4,
-    ]]
-    static let colorGridColors: [[UIColor]] = colorGridHexValues.map { $0.map { UIColor(hex: $0) } }
+    static let topBarHeight: CGFloat = 54
+    static let segmentedControlHeight: CGFloat = 28
     
-    static let colorsInCollumn: Int = colorGridHexValues.count
-    static let colorsInRow: Int = colorGridHexValues.first!.count
+    static let sliderWidth: CGFloat = 269
+    static let sliderHeight: CGFloat = 36
     
-    static let colorSquareSize: CGSize = CGSize(width: 30, height: 30)
-    
-    static let selectedColorIndicatorSize: CGSize = CGSize(width: 82, height: 82)
+    static let sliderThumbWidth: CGFloat = 29
+    static let sliderThumbHeight: CGFloat = 29
 }
 
 // MARK: - ColorPickerViewController
 
 class ColorPickerViewController: UIViewController {
+    private lazy var topBarStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.alignment = .center
+        stackView.distribution = .equalCentering
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }()
     private lazy var topBarLabel: UILabel = {
         let label = UILabel()
         label.text = "Colors"
@@ -44,14 +31,12 @@ class ColorPickerViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
     private lazy var eyeDropperButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setImage(UIImage(systemName: "eyedropper")!, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
-    
     private lazy var closeButton: UIButton = {
         let image = UIImage(systemName: "xmark")!.withTintColor(.label, renderingMode: .alwaysOriginal)
         let button = UIButton(type: .custom)
@@ -61,62 +46,61 @@ class ColorPickerViewController: UIViewController {
         return button
     }()
     
-    private lazy var segmentedControl: UISegmentedControl = {
+    private lazy var colorSelectionView: ColorSelectionView = {
+        let colorsSelectionView = GridColorSelectionView()
+        colorsSelectionView.delegate = self
+        colorsSelectionView.translatesAutoresizingMaskIntoConstraints = false
+        return colorsSelectionView
+    }()
+    
+    private lazy var segmentedControl: SegmentedControl = {
         let items = ["Grid", "Spectrum", "Sliders"]
-        let segmentedControl = UISegmentedControl(items: items)
-        segmentedControl.selectedSegmentIndex = 0
+        let segmentedControl = SegmentedControl()
+        segmentedControl.setSegments(items)
+        segmentedControl.addTarget(self, action: #selector(segmentedControlValueChanged(_:)), for: .valueChanged)
         segmentedControl.translatesAutoresizingMaskIntoConstraints = false
         return segmentedControl
     }()
-    
-    private lazy var colorGridCollectionView: UICollectionView = {
-        let collectionViewLayout = UICollectionViewFlowLayout()
-        collectionViewLayout.scrollDirection = .vertical
-        collectionViewLayout.minimumLineSpacing = 0
-        collectionViewLayout.minimumInteritemSpacing = 0
-        collectionViewLayout.itemSize = Constants.colorSquareSize
-        
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout)
-        collectionView.dataSource = self
-        collectionView.layer.cornerRadius = 8
-        collectionView.isPrefetchingEnabled = false
-        collectionView.showsVerticalScrollIndicator = false
-        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "Cell")
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        return collectionView
+    private lazy var opacitySlider: Slider = {
+        let slider = Slider()
+        slider.minimumValue = 0
+        slider.maximumValue = 1
+        slider.step = 0.01
+        slider.value = color.alpha * 100
+        slider.addTarget(self, action: #selector(sliderValueChanged(_:)), for: .valueChanged)
+
+        slider.setTrackLayer(to: opacitySliderTrackLayer(for: colorSelectionView.selectedColor ?? color.copy(alpha: 1)!))
+        slider.setThumbLayer(to: opacitySliderThumbLayer(for: color))
+        slider.layer.cornerRadius = Constants.sliderHeight / 2
+        slider.clipsToBounds = true
+        slider.translatesAutoresizingMaskIntoConstraints = false
+        return slider
     }()
     
-    private lazy var topBarStrackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.alignment = .center
-        stackView.distribution = .equalCentering
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        return stackView
-    }()
+    public var color: CGColor {
+        didSet {
+            updateViewColors()
+            delegate?.colorPickerViewControllerColorChanged(self)
+        }
+    }
     
     private lazy var selectedColorIndicatorView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor(cgColor: selectedColor)
+        view.backgroundColor = UIColor(cgColor: color)
         view.layer.cornerRadius = 10
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
-    private(set) var selectedColor: CGColor {
-        willSet {
-            UIView.animate(withDuration: 0.15, delay: 0) { [weak self] in
-                self?.selectedColorIndicatorView.backgroundColor = UIColor(cgColor: newValue)
-            }
-        }
-    }
+    private lazy var portraitConstraints: [NSLayoutConstraint] = calculatePortraitConstraints()
+    private lazy var landscapeConstraints: [NSLayoutConstraint] = calculateLandscapeConstraints()
     
     public var delegate: ColorPickerViewControllerDelegate?
     
     // MARK: Initializaiton
     
-    public init(_ initialColor: CGColor) {
-        self.selectedColor = initialColor
+    public init(_ color: CGColor) {
+        self.color = color
         
         super.init(nibName: nil, bundle: nil)
     }
@@ -130,6 +114,7 @@ class ColorPickerViewController: UIViewController {
     override func loadView() {
         view = UIView()
         view.backgroundColor = .systemBackground
+        overrideUserInterfaceStyle = .dark
         
         buildViewHierarchy()
         setupConstraints()
@@ -137,55 +122,13 @@ class ColorPickerViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         configureViews()
     }
     
-    private func buildViewHierarchy() {
-        topBarStrackView.addArrangedSubview(eyeDropperButton)
-        topBarStrackView.addArrangedSubview(topBarLabel)
-        topBarStrackView.addArrangedSubview(closeButton)
-        view.addSubview(topBarStrackView)
-        
-        view.addSubview(segmentedControl)
-        
-        view.addSubview(colorGridCollectionView)
-        
-        view.addSubview(selectedColorIndicatorView)
-    }
-    
-    private func setupConstraints() {
-        NSLayoutConstraint.activate([
-            topBarStrackView.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor),
-            topBarStrackView.rightAnchor.constraint(equalTo: view.layoutMarginsGuide.rightAnchor),
-            topBarStrackView.leftAnchor.constraint(equalTo: view.layoutMarginsGuide.leftAnchor),
-            topBarStrackView.heightAnchor.constraint(equalToConstant: 54),
-        ])
-        
-        NSLayoutConstraint.activate([
-            segmentedControl.topAnchor.constraint(equalTo: topBarStrackView.layoutMarginsGuide.bottomAnchor),
-            segmentedControl.rightAnchor.constraint(equalTo: view.layoutMarginsGuide.rightAnchor),
-            segmentedControl.leftAnchor.constraint(equalTo: view.layoutMarginsGuide.leftAnchor),
-            segmentedControl.heightAnchor.constraint(equalToConstant: 28),
-        ])
-        
-        NSLayoutConstraint.activate([
-            colorGridCollectionView.topAnchor.constraint(equalTo: segmentedControl.bottomAnchor, constant: 20),
-            colorGridCollectionView.leftAnchor.constraint(equalTo: view.layoutMarginsGuide.leftAnchor),
-            colorGridCollectionView.heightAnchor.constraint(equalToConstant: Constants.colorsInCollumn * Constants.colorSquareSize.height),
-            colorGridCollectionView.widthAnchor.constraint(equalToConstant: Constants.colorsInRow * Constants.colorSquareSize.width),
-        ])
-        
-        NSLayoutConstraint.activate([
-            selectedColorIndicatorView.bottomAnchor.constraint(equalTo: colorGridCollectionView.bottomAnchor),
-            selectedColorIndicatorView.leftAnchor.constraint(equalTo: colorGridCollectionView.rightAnchor, constant: 20),
-            selectedColorIndicatorView.heightAnchor.constraint(equalToConstant: Constants.selectedColorIndicatorSize.height),
-            selectedColorIndicatorView.widthAnchor.constraint(equalToConstant: Constants.selectedColorIndicatorSize.width),
-        ])
-    }
-    
-    private func configureViews() {
-        
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        coordinator.animate(alongsideTransition: { [weak self] _ in
+            self?.updateConstraints()
+        })
     }
     
     // MARK: Actions
@@ -194,38 +137,182 @@ class ColorPickerViewController: UIViewController {
         dismiss(animated: true)
     }
     
-    @objc func colorSelected(_ sender: UIGestureRecognizer) {
-        guard let selectedView = sender.view else { return }
-        guard let backgroundColor = selectedView.backgroundColor?.cgColor else { return }
-        selectedColor = backgroundColor
-        delegate?.colorChanged(self)
+    @objc func colorSelected(_ gestureRecognizer: UIGestureRecognizer) {
+
+    }
+    
+    @objc func segmentedControlValueChanged(_ segmentedControl: SegmentedControl) {
+        let newColorSelectionView: ColorSelectionView
+        
+        guard let selectedSegmentIndex = segmentedControl.selectedSegmentIndex else { return }
+        switch selectedSegmentIndex {
+        case 0:
+            newColorSelectionView = GridColorSelectionView()
+        case 1:
+            newColorSelectionView = SpectrumColorSelectionView()
+        case 2:
+            newColorSelectionView = SlidersColorSelectionView()
+        default:
+            return
+        }
+        
+        newColorSelectionView.delegate = self
+        newColorSelectionView.translatesAutoresizingMaskIntoConstraints = false
+        
+        colorSelectionView.removeFromSuperview()
+        colorSelectionView = newColorSelectionView
+        view.addSubview(colorSelectionView)
+        recalculateConstraints()
+        updateConstraints()
+    }
+    
+    @objc func sliderValueChanged(_ slider: Slider) {
+        color = color.copy(alpha: slider.value)!
+    }
+    
+    // MARK: Private Functions
+    
+    private func buildViewHierarchy() {
+        view.addSubview(topBarStackView)
+        topBarStackView.addArrangedSubview(eyeDropperButton)
+        topBarStackView.addArrangedSubview(topBarLabel)
+        topBarStackView.addArrangedSubview(closeButton)
+        
+        view.addSubview(segmentedControl)
+        view.addSubview(opacitySlider)
+        
+        view.addSubview(colorSelectionView)
+        view.addSubview(selectedColorIndicatorView)
+        view.addSubview(colorSelectionView)
+    }
+    
+    private func setupConstraints() {
+        NSLayoutConstraint.activate([
+            topBarStackView.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor),
+            topBarStackView.rightAnchor.constraint(equalTo: view.layoutMarginsGuide.rightAnchor),
+            topBarStackView.leftAnchor.constraint(equalTo: view.layoutMarginsGuide.leftAnchor),
+            topBarStackView.heightAnchor.constraint(equalToConstant: Constants.topBarHeight),
+        ])
+        
+        NSLayoutConstraint.activate([
+            segmentedControl.topAnchor.constraint(equalTo: topBarStackView.layoutMarginsGuide.bottomAnchor),
+            segmentedControl.rightAnchor.constraint(equalTo: view.layoutMarginsGuide.rightAnchor),
+            segmentedControl.leftAnchor.constraint(equalTo: view.layoutMarginsGuide.leftAnchor),
+            segmentedControl.heightAnchor.constraint(equalToConstant: Constants.segmentedControlHeight),
+        ])
+        
+        updateConstraints()
+    }
+    
+    private func configureViews() {
+        
+    }
+    
+    private func updateConstraints() {
+        guard let orientation = UIApplication.shared.windows.first?.windowScene?.interfaceOrientation else { return }
+        
+        if orientation.isPortrait {
+            NSLayoutConstraint.deactivate(landscapeConstraints)
+            NSLayoutConstraint.activate(portraitConstraints)
+        } else {
+            NSLayoutConstraint.deactivate(portraitConstraints)
+            NSLayoutConstraint.activate(landscapeConstraints)
+        }
+    }
+    
+    private func recalculateConstraints() {
+        NSLayoutConstraint.deactivate(portraitConstraints + landscapeConstraints)
+        portraitConstraints = calculatePortraitConstraints()
+        landscapeConstraints = calculateLandscapeConstraints()
+    }
+
+    private func calculatePortraitConstraints() -> [NSLayoutConstraint] {
+        return [
+            colorSelectionView.topAnchor.constraint(equalTo: segmentedControl.bottomAnchor, constant: 20),
+            colorSelectionView.rightAnchor.constraint(equalTo: view.layoutMarginsGuide.rightAnchor),
+            colorSelectionView.leftAnchor.constraint(equalTo: view.layoutMarginsGuide.leftAnchor),
+            colorSelectionView.heightAnchor.constraint(equalTo: colorSelectionView.widthAnchor, multiplier: 10 / 12),
+            selectedColorIndicatorView.topAnchor.constraint(equalTo: colorSelectionView.bottomAnchor, constant: 20),
+            selectedColorIndicatorView.leftAnchor.constraint(equalTo: view.layoutMarginsGuide.leftAnchor),
+            selectedColorIndicatorView.heightAnchor.constraint(equalTo: colorSelectionView.heightAnchor, multiplier: 0.35),
+            selectedColorIndicatorView.widthAnchor.constraint(equalTo: selectedColorIndicatorView.heightAnchor, multiplier: 1),
+        ]
+    }
+    
+    private func calculateLandscapeConstraints() -> [NSLayoutConstraint] {
+        return [
+         colorSelectionView.topAnchor.constraint(equalTo: segmentedControl.bottomAnchor, constant: 20),
+         colorSelectionView.leftAnchor.constraint(equalTo: view.layoutMarginsGuide.leftAnchor),
+         colorSelectionView.widthAnchor.constraint(equalTo: view.layoutMarginsGuide.widthAnchor, multiplier: 1/2),
+         colorSelectionView.heightAnchor.constraint(equalTo: colorSelectionView.widthAnchor, multiplier: 10/12),
+         opacitySlider.topAnchor.constraint(equalTo: colorSelectionView.topAnchor),
+         opacitySlider.leftAnchor.constraint(equalTo: colorSelectionView.rightAnchor, constant: 20),
+         opacitySlider.heightAnchor.constraint(equalToConstant: Constants.sliderHeight),
+         opacitySlider.widthAnchor.constraint(equalToConstant: Constants.sliderWidth),
+         selectedColorIndicatorView.leftAnchor.constraint(equalTo: colorSelectionView.rightAnchor, constant: 20),
+         selectedColorIndicatorView.topAnchor.constraint(equalTo: opacitySlider.bottomAnchor, constant: 20),
+         selectedColorIndicatorView.heightAnchor.constraint(equalTo: colorSelectionView.heightAnchor, multiplier: 0.3),
+         selectedColorIndicatorView.widthAnchor.constraint(equalTo: selectedColorIndicatorView.heightAnchor, multiplier: 1),
+        ]
+    }
+    
+    private func opacitySliderTrackLayer(for color: CGColor) -> CALayer {
+        let layer = CALayer()
+        layer.backgroundColor = UIColor.white.cgColor
+        layer.frame.size = CGSize(width: Constants.sliderWidth, height: Constants.sliderHeight)
+        
+        let backgroundGradientLayer = CAGradientLayer()
+        backgroundGradientLayer.colors = [UIColor.clear.cgColor, color]
+        backgroundGradientLayer.locations = [-1, 1]
+        backgroundGradientLayer.transform = CATransform3DMakeRotation(-(.pi / 2), 0, 0, 1)
+        backgroundGradientLayer.frame = layer.bounds
+        layer.addSublayer(backgroundGradientLayer)
+        
+        return layer
+    }
+    
+    private func opacitySliderThumbLayer(for color: CGColor) -> CALayer {
+        let horizontalPadding: CGFloat = (Constants.sliderHeight - Constants.sliderThumbHeight) / 2
+        let layer = CALayer()
+        layer.backgroundColor = UIColor.clear.cgColor
+        layer.frame.size = CGSize(width: Constants.sliderThumbWidth + horizontalPadding * 2, height: Constants.sliderThumbWidth)
+        
+        let firstShapeLayer = CAShapeLayer()
+        firstShapeLayer.fillColor = UIColor.label.cgColor
+        let firstBezierPath = UIBezierPath(arcCenter: CGPoint(x: Constants.sliderThumbWidth / 2 + horizontalPadding, y: Constants.sliderThumbHeight / 2),
+                                           radius: Constants.sliderThumbWidth / 2,
+                                           startAngle: 0, endAngle: 2 * .pi,
+                                           clockwise: true)
+        firstShapeLayer.path = firstBezierPath.cgPath
+        firstShapeLayer.frame = layer.bounds
+        
+        let secondShapeLayer = CAShapeLayer()
+        secondShapeLayer.fillColor = color
+        let secondBezierPath = UIBezierPath(arcCenter: CGPoint(x: Constants.sliderThumbWidth / 2 + horizontalPadding, y: Constants.sliderThumbHeight / 2),
+                                           radius: Constants.sliderThumbWidth / 2 - 3,
+                                           startAngle: 0, endAngle: 2 * .pi,
+                                           clockwise: true)
+        secondShapeLayer.path = secondBezierPath.cgPath
+        secondShapeLayer.frame = layer.bounds
+        
+        layer.addSublayer(firstShapeLayer)
+        layer.addSublayer(secondShapeLayer)
+        return layer
+    }
+    
+    private func updateViewColors() {
+        opacitySlider.setTrackLayer(to: opacitySliderTrackLayer(for: color.copy(alpha: 1)!))
+        opacitySlider.setThumbLayer(to: opacitySliderThumbLayer(for: color))
+        selectedColorIndicatorView.backgroundColor = UIColor(cgColor: color)
     }
 }
 
-// MARK: - : UICollectionViewDataSource
 
-extension ColorPickerViewController: UICollectionViewDataSource {
-    func collectionView(
-        _ collectionView: UICollectionView,
-        numberOfItemsInSection section: Int
-    ) -> Int {
-        return 12 * 10
-    }
-    
-    func collectionView(
-        _ collectionView: UICollectionView,
-        cellForItemAt indexPath: IndexPath
-    ) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath)
-        
-        let rowNumber = indexPath.row / 12
-        let collumnNumber = indexPath.row % 12
-        cell.backgroundColor = Constants.colorGridColors[rowNumber][collumnNumber]
-        
-        let tapGestureRecognizer = UITapGestureRecognizer()
-        tapGestureRecognizer.addTarget(self, action: #selector(colorSelected(_:)))
-        cell.addGestureRecognizer(tapGestureRecognizer)
-        
-        return cell
+// MARK: - : ColorSelectionViewDelgate
+
+extension ColorPickerViewController: ColorSelectionViewDelegate {
+    func colorSelectionViewColorDidChanged(_ colorSelectionView: ColorSelectionView) {
+        guard let newColor = colorSelectionView.selectedColor else { return }
+        color = newColor.copy(alpha: opacitySlider.value)!
     }
 }

@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D6073E4A298AA0FD00C2BFF2 /* GridColorSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6073E49298AA0FD00C2BFF2 /* GridColorSelectionView.swift */; };
+		D6073E4C298AA11000C2BFF2 /* SpectrumColorSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6073E4B298AA11000C2BFF2 /* SpectrumColorSelectionView.swift */; };
+		D6073E4E298AA12200C2BFF2 /* SlidersColorSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6073E4D298AA12200C2BFF2 /* SlidersColorSelectionView.swift */; };
+		D6073E50298AA16000C2BFF2 /* ColorSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6073E4F298AA16000C2BFF2 /* ColorSelectionView.swift */; };
+		D6073E53298AA89600C2BFF2 /* ColorSelectionViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6073E52298AA89600C2BFF2 /* ColorSelectionViewDelegate.swift */; };
+		D6073E55298AB69C00C2BFF2 /* UIBezierPathExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6073E54298AB69C00C2BFF2 /* UIBezierPathExtensions.swift */; };
 		D65554742973E469004E3823 /* CGSizeExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D65554732973E469004E3823 /* CGSizeExtensions.swift */; };
 		D6995B902902CA9A000E2CA7 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = D6995B8F2902CA9A000E2CA7 /* Lottie */; };
 		D6AA0A492978865300F6A8D0 /* ViewConstraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6AA0A482978865300F6A8D0 /* ViewConstraints.swift */; };
@@ -40,11 +46,16 @@
 		D6FFDD7E298434D80091CE14 /* ColorPickerViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6FFDD7D298434D80091CE14 /* ColorPickerViewControllerDelegate.swift */; };
 		D6FFDD80298438280091CE14 /* ColorPickerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6FFDD7F298438280091CE14 /* ColorPickerDelegate.swift */; };
 		D6FFDD8229844E6A0091CE14 /* ToolBarViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6FFDD8129844E6A0091CE14 /* ToolBarViewDelegate.swift */; };
-		D6FFDD84298450900091CE14 /* SliderDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6FFDD83298450900091CE14 /* SliderDelegate.swift */; };
 		D6FFDD86298454F40091CE14 /* TopBarViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6FFDD85298454F40091CE14 /* TopBarViewDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		D6073E49298AA0FD00C2BFF2 /* GridColorSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridColorSelectionView.swift; sourceTree = "<group>"; };
+		D6073E4B298AA11000C2BFF2 /* SpectrumColorSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpectrumColorSelectionView.swift; sourceTree = "<group>"; };
+		D6073E4D298AA12200C2BFF2 /* SlidersColorSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlidersColorSelectionView.swift; sourceTree = "<group>"; };
+		D6073E4F298AA16000C2BFF2 /* ColorSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSelectionView.swift; sourceTree = "<group>"; };
+		D6073E52298AA89600C2BFF2 /* ColorSelectionViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSelectionViewDelegate.swift; sourceTree = "<group>"; };
+		D6073E54298AB69C00C2BFF2 /* UIBezierPathExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIBezierPathExtensions.swift; sourceTree = "<group>"; };
 		D6453F4D28F7EE2C001F6101 /* TelegramMediaEditor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TelegramMediaEditor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D65554732973E469004E3823 /* CGSizeExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGSizeExtensions.swift; sourceTree = "<group>"; };
 		D6AA0A482978865300F6A8D0 /* ViewConstraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewConstraints.swift; sourceTree = "<group>"; };
@@ -79,7 +90,6 @@
 		D6FFDD7D298434D80091CE14 /* ColorPickerViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPickerViewControllerDelegate.swift; sourceTree = "<group>"; };
 		D6FFDD7F298438280091CE14 /* ColorPickerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPickerDelegate.swift; sourceTree = "<group>"; };
 		D6FFDD8129844E6A0091CE14 /* ToolBarViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolBarViewDelegate.swift; sourceTree = "<group>"; };
-		D6FFDD83298450900091CE14 /* SliderDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SliderDelegate.swift; sourceTree = "<group>"; };
 		D6FFDD85298454F40091CE14 /* TopBarViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopBarViewDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -95,6 +105,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D6073E51298AA1E800C2BFF2 /* ColorSelectionViews */ = {
+			isa = PBXGroup;
+			children = (
+				D6073E4F298AA16000C2BFF2 /* ColorSelectionView.swift */,
+				D6073E52298AA89600C2BFF2 /* ColorSelectionViewDelegate.swift */,
+				D6073E49298AA0FD00C2BFF2 /* GridColorSelectionView.swift */,
+				D6073E4B298AA11000C2BFF2 /* SpectrumColorSelectionView.swift */,
+				D6073E4D298AA12200C2BFF2 /* SlidersColorSelectionView.swift */,
+			);
+			path = ColorSelectionViews;
+			sourceTree = "<group>";
+		};
 		D6453F4428F7EE2C001F6101 = {
 			isa = PBXGroup;
 			children = (
@@ -128,6 +150,7 @@
 				D6F64B1829702B2400F47531 /* CGColorExtensions.swift */,
 				D65554732973E469004E3823 /* CGSizeExtensions.swift */,
 				D6FFDD7B298424790091CE14 /* CGFloatExtensions.swift */,
+				D6073E54298AB69C00C2BFF2 /* UIBezierPathExtensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -188,19 +211,10 @@
 		D6F64B2A29702B2400F47531 /* Controls */ = {
 			isa = PBXGroup;
 			children = (
-				D6F64B2B29702B2400F47531 /* Slider */,
+				D6F64B2C29702B2400F47531 /* Slider.swift */,
 				D6F64B2D29702B2400F47531 /* SegmentedControl */,
 			);
 			path = Controls;
-			sourceTree = "<group>";
-		};
-		D6F64B2B29702B2400F47531 /* Slider */ = {
-			isa = PBXGroup;
-			children = (
-				D6F64B2C29702B2400F47531 /* Slider.swift */,
-				D6FFDD83298450900091CE14 /* SliderDelegate.swift */,
-			);
-			path = Slider;
 			sourceTree = "<group>";
 		};
 		D6F64B2D29702B2400F47531 /* SegmentedControl */ = {
@@ -217,6 +231,7 @@
 			children = (
 				D6FFDD3E2983F0060091CE14 /* ColorPickerViewController.swift */,
 				D6FFDD7D298434D80091CE14 /* ColorPickerViewControllerDelegate.swift */,
+				D6073E51298AA1E800C2BFF2 /* ColorSelectionViews */,
 				D6F64B2329702B2400F47531 /* ColorPicker.swift */,
 				D6FFDD7F298438280091CE14 /* ColorPickerDelegate.swift */,
 			);
@@ -337,23 +352,28 @@
 				D6FFDD80298438280091CE14 /* ColorPickerDelegate.swift in Sources */,
 				D6F64B3E29702B2400F47531 /* CanvasView.swift in Sources */,
 				D6F64B4529702B2400F47531 /* Slider.swift in Sources */,
+				D6073E55298AB69C00C2BFF2 /* UIBezierPathExtensions.swift in Sources */,
 				D6F64B3A29702B2400F47531 /* ImagePickerCollectionViewCell.swift in Sources */,
 				D65554742973E469004E3823 /* CGSizeExtensions.swift in Sources */,
 				D6F64B3629702B2400F47531 /* CGColorExtensions.swift in Sources */,
 				D6F64B4B29702B2400F47531 /* Stroke.swift in Sources */,
+				D6073E53298AA89600C2BFF2 /* ColorSelectionViewDelegate.swift in Sources */,
 				D6ECEA5D29704BA000DD9502 /* StrokeSample.swift in Sources */,
+				D6073E4E298AA12200C2BFF2 /* SlidersColorSelectionView.swift in Sources */,
 				D6F64B3D29702B2400F47531 /* ToolBarView.swift in Sources */,
+				D6073E4A298AA0FD00C2BFF2 /* GridColorSelectionView.swift in Sources */,
 				D6F64B4129702B2400F47531 /* ToolType.swift in Sources */,
 				D6F64B3929702B2400F47531 /* ImagePickerViewController.swift in Sources */,
 				D6FFDD86298454F40091CE14 /* TopBarViewDelegate.swift in Sources */,
 				D6F64B4929702B2400F47531 /* NavigationController.swift in Sources */,
 				D6AA0A492978865300F6A8D0 /* ViewConstraints.swift in Sources */,
+				D6073E50298AA16000C2BFF2 /* ColorSelectionView.swift in Sources */,
 				D6F64B4C29702B2400F47531 /* SceneDelegate.swift in Sources */,
 				D6FFDD7C298424790091CE14 /* CGFloatExtensions.swift in Sources */,
-				D6FFDD84298450900091CE14 /* SliderDelegate.swift in Sources */,
 				D6F64B3729702B2400F47531 /* StrokeGestureRecognizer.swift in Sources */,
 				D6FFDD8229844E6A0091CE14 /* ToolBarViewDelegate.swift in Sources */,
 				D6F64B4729702B2400F47531 /* SegmentedControl.swift in Sources */,
+				D6073E4C298AA11000C2BFF2 /* SpectrumColorSelectionView.swift in Sources */,
 				D6F64B4829702B2400F47531 /* AppDelegate.swift in Sources */,
 				D6ECEA6029704C4900DD9502 /* UIColorExtensions.swift in Sources */,
 				D6F64B4229702B2400F47531 /* ToolView.swift in Sources */,

@@ -1,29 +1,79 @@
 import UIKit
 
+// MARK: - SegmentedControl
+
 class SegmentedControl: UIControl {
-    private(set) var segments: [String]
+    private(set) var segments: [String] = []
     private(set) var selectedSegmentIndex: Int?
-    private var segmentLabels: [UILabel]
+    private var segmentLabels: [UILabel] = []
     
-    private var selectedSegmentIndicator: CALayer!
+    private lazy var selectedSegmentIndicator: CALayer = {
+        let layer = CALayer()
+        layer.backgroundColor = CGColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 0.3)
+        return layer
+    }()
     
-    init() {
-        segments = [String]()
-        segmentLabels = [UILabel]()
-        selectedSegmentIndicator = CALayer()
-        selectedSegmentIndicator.backgroundColor = CGColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 0.3)
-        selectedSegmentIndicator.masksToBounds = true
-        
+    // MARK: Initialization
+    
+    public init() {
         super.init(frame: .zero)
         
-        backgroundColor = UIColor(cgColor: CGColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 0.1))
-        layer.masksToBounds = true
-        layer.insertSublayer(selectedSegmentIndicator, at: 0)
+        buildViewHierarchy()
+        setupConstraints()
+        configureViews()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    // MARK: Lifecycle
+    
+    override func layoutSubviews() {
+        let labelWidth = (frame.width - 5.0) / CGFloat(segmentLabels.count)
+        segmentLabels.enumerated().forEach { (index, segmentLabel) in
+            segmentLabel.frame = CGRect(x: 2.5 + labelWidth * CGFloat(index),
+                                 y: 2.5,
+                                 width: (frame.width - 5.0) / CGFloat(segmentLabels.count),
+                                 height: frame.height - 5.0)
+            segmentLabel.layer.cornerRadius = segmentLabel.frame.height / 2.0
+        }
+        
+        layer.cornerRadius = frame.height / 2
+        if let selectedSegmentIndex = selectedSegmentIndex {
+            selectedSegmentIndicator.frame = segmentLabels[selectedSegmentIndex].frame
+            selectedSegmentIndicator.cornerRadius = selectedSegmentIndicator.frame.height / 2
+        }
+    }
+    
+    // MARK: Touches Handling
+    
+    override func beginTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
+        let touchLocation = touch.location(in: self)
+        
+        if let selectedSegment = segmentLabels.enumerated().first(where: { $0.element.frame.contains(touchLocation) }) {
+            selectSegment(selectedSegment.element)
+        }
+        
+        return false
+    }
+    
+    // MARK: Private Functions
+    
+    private func buildViewHierarchy() {
+        layer.addSublayer(selectedSegmentIndicator)
+    }
+    
+    private func setupConstraints() {
+        
+    }
+    
+    private func configureViews() {
+        backgroundColor = UIColor(cgColor: CGColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 0.1))
+        layer.masksToBounds = true
+    }
+    
+    // MARK: Public Functions
     
     public func setSegments(_ segments: [String]) {
         self.segments = segments
@@ -70,32 +120,6 @@ class SegmentedControl: UIControl {
             selectedSegmentIndicator.frame = segmentLabels[newSelectedSegmentIndex].frame
             self.selectedSegmentIndex = newSelectedSegmentIndex
         }
-    }
-    
-    override func beginTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
-        let touchLocation = touch.location(in: self)
-        
-        if let selectedSegment = segmentLabels.enumerated().first(where: { $0.element.frame.contains(touchLocation) }) {
-            selectSegment(selectedSegment.element)
-        }
-        
-        return false
-    }
-    
-    override func layoutSubviews() {
-        let labelWidth = (frame.width - 5.0) / CGFloat(segmentLabels.count)
-        segmentLabels.enumerated().forEach { (index, segmentLabel) in
-            segmentLabel.frame = CGRect(x: 2.5 + labelWidth * CGFloat(index),
-                                 y: 2.5,
-                                 width: (frame.width - 5.0) / CGFloat(segmentLabels.count),
-                                 height: frame.height - 5.0)
-            segmentLabel.layer.cornerRadius = segmentLabel.frame.height / 2.0
-        }
-        
-        layer.cornerRadius = frame.height / 2
-        if let selectedSegmentIndex = selectedSegmentIndex {
-            selectedSegmentIndicator.frame = segmentLabels[selectedSegmentIndex].frame
-            selectedSegmentIndicator.cornerRadius = selectedSegmentIndicator.frame.height / 2
-        }
+        sendActions(for: .valueChanged)
     }
 }

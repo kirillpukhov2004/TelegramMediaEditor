@@ -36,7 +36,7 @@ class CanvasView: UIView {
         addGestureRecognizer(strokeGestureRecognizer)
     }
     
-    // MARK: View Methods
+    // MARK: View Functions
     
     override func draw(_ rect: CGRect) {
         guard let context = UIGraphicsGetCurrentContext() else { return }
@@ -49,7 +49,7 @@ class CanvasView: UIView {
         }
     }
     
-    // MARK: Private Methods
+    // MARK: Private Functions
     
     private func drawBeziérStroke(_ stroke: Stroke, in context: CGContext) {
         let samples = stroke.samples
@@ -117,7 +117,7 @@ class CanvasView: UIView {
         setNeedsDisplay()
     }
     
-    // MARK: Public Methods
+    // MARK: Public Functions
     
     public func clearCanvas() {
         strokes = []

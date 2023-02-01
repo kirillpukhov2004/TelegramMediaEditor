@@ -1,5 +1,5 @@
 import UIKit
 
 protocol ColorPickerViewControllerDelegate {
-    func colorChanged(_ colorPickerViewController: ColorPickerViewController)
+    func colorPickerViewControllerColorChanged(_ colorPickerViewController: ColorPickerViewController)
 }
