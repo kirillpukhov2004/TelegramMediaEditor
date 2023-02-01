@@ -66,9 +66,8 @@ class ColorPickerViewController: UIViewController {
         slider.minimumValue = 0
         slider.maximumValue = 1
         slider.step = 0.01
-        slider.value = color.alpha * 100
+        slider.value = color.alpha
         slider.addTarget(self, action: #selector(sliderValueChanged(_:)), for: .valueChanged)
-
         slider.setTrackLayer(to: opacitySliderTrackLayer(for: colorSelectionView.selectedColor ?? color.copy(alpha: 1)!))
         slider.setThumbLayer(to: opacitySliderThumbLayer(for: color))
         slider.layer.cornerRadius = Constants.sliderHeight / 2
@@ -77,7 +76,7 @@ class ColorPickerViewController: UIViewController {
         return slider
     }()
     
-    public var color: CGColor {
+    private(set) var color: CGColor {
         didSet {
             updateViewColors()
             delegate?.colorPickerViewControllerColorChanged(self)
@@ -101,7 +100,6 @@ class ColorPickerViewController: UIViewController {
     
     public init(_ color: CGColor) {
         self.color = color
-        
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -133,15 +131,15 @@ class ColorPickerViewController: UIViewController {
     
     // MARK: Actions
     
-    @objc func closeButtonPressed() {
+    @objc private func closeButtonPressed() {
         dismiss(animated: true)
     }
     
-    @objc func colorSelected(_ gestureRecognizer: UIGestureRecognizer) {
+    @objc private func colorSelected(_ gestureRecognizer: UIGestureRecognizer) {
 
     }
     
-    @objc func segmentedControlValueChanged(_ segmentedControl: SegmentedControl) {
+    @objc private func segmentedControlValueChanged(_ segmentedControl: SegmentedControl) {
         let newColorSelectionView: ColorSelectionView
         
         guard let selectedSegmentIndex = segmentedControl.selectedSegmentIndex else { return }
@@ -166,7 +164,7 @@ class ColorPickerViewController: UIViewController {
         updateConstraints()
     }
     
-    @objc func sliderValueChanged(_ slider: Slider) {
+    @objc private func sliderValueChanged(_ slider: Slider) {
         color = color.copy(alpha: slider.value)!
     }
     
@@ -304,6 +302,12 @@ class ColorPickerViewController: UIViewController {
         opacitySlider.setTrackLayer(to: opacitySliderTrackLayer(for: color.copy(alpha: 1)!))
         opacitySlider.setThumbLayer(to: opacitySliderThumbLayer(for: color))
         selectedColorIndicatorView.backgroundColor = UIColor(cgColor: color)
+    }
+    
+    // MARK: Public Functions
+    
+    public func setColor(to color: CGColor) {
+        
     }
 }
 

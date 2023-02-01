@@ -1,5 +1,5 @@
 import UIKit
 
-protocol ToolBarViewDelegate {
+protocol CanvasToolBarViewDelegate {
     func activeToolUpdated(_ tool: Tool)
 }

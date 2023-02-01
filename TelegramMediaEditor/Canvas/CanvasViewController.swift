@@ -19,14 +19,14 @@ class CanvasViewController: UIViewController {
         canvasView.translatesAutoresizingMaskIntoConstraints = false
         return canvasView
     }()
-    lazy var topBarView: TopBarView = {
-        let topBarView = TopBarView()
+    lazy var topBarView: CanvasTopBarView = {
+        let topBarView = CanvasTopBarView()
         topBarView.delegate = self
         topBarView.translatesAutoresizingMaskIntoConstraints = false
         return topBarView
     }()
-    lazy var toolBarView: ToolBarView = {
-        let toolBarView = ToolBarView()
+    lazy var toolBarView: CanvasToolBarView = {
+        let toolBarView = CanvasToolBarView()
         toolBarView.delegate = self
         toolBarView.translatesAutoresizingMaskIntoConstraints = false
         return toolBarView
@@ -80,7 +80,7 @@ class CanvasViewController: UIViewController {
 
 // MARK: - : TopBarViewDelegate
 
-extension CanvasViewController: TopBarViewDelegate {
+extension CanvasViewController: CanvasTopBarViewDelegate {
     func resetZoomScaleButtonAction() {
         print(#function)
     }
@@ -96,7 +96,7 @@ extension CanvasViewController: TopBarViewDelegate {
 
 // MARK: - : ToolBarViewDelegate
 
-extension CanvasViewController: ToolBarViewDelegate {
+extension CanvasViewController: CanvasToolBarViewDelegate {
     func activeToolUpdated(_ tool: Tool) {
         canvasView.tool = tool
     }

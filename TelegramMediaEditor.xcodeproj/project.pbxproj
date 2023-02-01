@@ -19,16 +19,14 @@
 		D6ECEA5D29704BA000DD9502 /* StrokeSample.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6ECEA5C29704BA000DD9502 /* StrokeSample.swift */; };
 		D6ECEA6029704C4900DD9502 /* UIColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6ECEA5F29704C4900DD9502 /* UIColorExtensions.swift */; };
 		D6F64B3529702B2400F47531 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D6F64B1629702B2400F47531 /* LaunchScreen.storyboard */; };
-		D6F64B3629702B2400F47531 /* CGColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F64B1829702B2400F47531 /* CGColorExtensions.swift */; };
 		D6F64B3729702B2400F47531 /* StrokeGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F64B1929702B2400F47531 /* StrokeGestureRecognizer.swift */; };
 		D6F64B3829702B2400F47531 /* ImagePickerAccessRequestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F64B1B29702B2400F47531 /* ImagePickerAccessRequestViewController.swift */; };
 		D6F64B3929702B2400F47531 /* ImagePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F64B1C29702B2400F47531 /* ImagePickerViewController.swift */; };
 		D6F64B3A29702B2400F47531 /* ImagePickerCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F64B1D29702B2400F47531 /* ImagePickerCollectionViewCell.swift */; };
 		D6F64B3B29702B2400F47531 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D6F64B1E29702B2400F47531 /* Assets.xcassets */; };
-		D6F64B3C29702B2400F47531 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D6F64B1F29702B2400F47531 /* Main.storyboard */; };
-		D6F64B3D29702B2400F47531 /* ToolBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F64B2129702B2400F47531 /* ToolBarView.swift */; };
+		D6F64B3D29702B2400F47531 /* CanvasToolBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F64B2129702B2400F47531 /* CanvasToolBarView.swift */; };
 		D6F64B3E29702B2400F47531 /* CanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F64B2229702B2400F47531 /* CanvasView.swift */; };
-		D6F64B3F29702B2400F47531 /* ColorPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F64B2329702B2400F47531 /* ColorPicker.swift */; };
+		D6F64B3F29702B2400F47531 /* ColorPickerButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F64B2329702B2400F47531 /* ColorPickerButton.swift */; };
 		D6F64B4129702B2400F47531 /* ToolType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F64B2629702B2400F47531 /* ToolType.swift */; };
 		D6F64B4229702B2400F47531 /* ToolView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F64B2729702B2400F47531 /* ToolView.swift */; };
 		D6F64B4329702B2400F47531 /* Tool.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F64B2829702B2400F47531 /* Tool.swift */; };
@@ -40,13 +38,13 @@
 		D6F64B4929702B2400F47531 /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F64B3129702B2400F47531 /* NavigationController.swift */; };
 		D6F64B4B29702B2400F47531 /* Stroke.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F64B3329702B2400F47531 /* Stroke.swift */; };
 		D6F64B4C29702B2400F47531 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F64B3429702B2400F47531 /* SceneDelegate.swift */; };
-		D6FB1649297FCAF000594793 /* TopBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6FB1648297FCAF000594793 /* TopBarView.swift */; };
+		D6FB1649297FCAF000594793 /* CanvasTopBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6FB1648297FCAF000594793 /* CanvasTopBarView.swift */; };
 		D6FFDD3F2983F0060091CE14 /* ColorPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6FFDD3E2983F0060091CE14 /* ColorPickerViewController.swift */; };
 		D6FFDD7C298424790091CE14 /* CGFloatExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6FFDD7B298424790091CE14 /* CGFloatExtensions.swift */; };
 		D6FFDD7E298434D80091CE14 /* ColorPickerViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6FFDD7D298434D80091CE14 /* ColorPickerViewControllerDelegate.swift */; };
-		D6FFDD80298438280091CE14 /* ColorPickerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6FFDD7F298438280091CE14 /* ColorPickerDelegate.swift */; };
-		D6FFDD8229844E6A0091CE14 /* ToolBarViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6FFDD8129844E6A0091CE14 /* ToolBarViewDelegate.swift */; };
-		D6FFDD86298454F40091CE14 /* TopBarViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6FFDD85298454F40091CE14 /* TopBarViewDelegate.swift */; };
+		D6FFDD80298438280091CE14 /* ColorPickerButtonDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6FFDD7F298438280091CE14 /* ColorPickerButtonDelegate.swift */; };
+		D6FFDD8229844E6A0091CE14 /* CanvasToolBarViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6FFDD8129844E6A0091CE14 /* CanvasToolBarViewDelegate.swift */; };
+		D6FFDD86298454F40091CE14 /* CanvasTopBarViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6FFDD85298454F40091CE14 /* CanvasTopBarViewDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -62,16 +60,14 @@
 		D6ECEA5C29704BA000DD9502 /* StrokeSample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StrokeSample.swift; sourceTree = "<group>"; };
 		D6ECEA5F29704C4900DD9502 /* UIColorExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtensions.swift; sourceTree = "<group>"; };
 		D6F64B1629702B2400F47531 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
-		D6F64B1829702B2400F47531 /* CGColorExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CGColorExtensions.swift; sourceTree = "<group>"; };
 		D6F64B1929702B2400F47531 /* StrokeGestureRecognizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StrokeGestureRecognizer.swift; sourceTree = "<group>"; };
 		D6F64B1B29702B2400F47531 /* ImagePickerAccessRequestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagePickerAccessRequestViewController.swift; sourceTree = "<group>"; };
 		D6F64B1C29702B2400F47531 /* ImagePickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagePickerViewController.swift; sourceTree = "<group>"; };
 		D6F64B1D29702B2400F47531 /* ImagePickerCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagePickerCollectionViewCell.swift; sourceTree = "<group>"; };
 		D6F64B1E29702B2400F47531 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		D6F64B1F29702B2400F47531 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
-		D6F64B2129702B2400F47531 /* ToolBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToolBarView.swift; sourceTree = "<group>"; };
+		D6F64B2129702B2400F47531 /* CanvasToolBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CanvasToolBarView.swift; sourceTree = "<group>"; };
 		D6F64B2229702B2400F47531 /* CanvasView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CanvasView.swift; sourceTree = "<group>"; };
-		D6F64B2329702B2400F47531 /* ColorPicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorPicker.swift; sourceTree = "<group>"; };
+		D6F64B2329702B2400F47531 /* ColorPickerButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorPickerButton.swift; sourceTree = "<group>"; };
 		D6F64B2629702B2400F47531 /* ToolType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToolType.swift; sourceTree = "<group>"; };
 		D6F64B2729702B2400F47531 /* ToolView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToolView.swift; sourceTree = "<group>"; };
 		D6F64B2829702B2400F47531 /* Tool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tool.swift; sourceTree = "<group>"; };
@@ -84,13 +80,13 @@
 		D6F64B3229702B2400F47531 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D6F64B3329702B2400F47531 /* Stroke.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stroke.swift; sourceTree = "<group>"; };
 		D6F64B3429702B2400F47531 /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		D6FB1648297FCAF000594793 /* TopBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopBarView.swift; sourceTree = "<group>"; };
+		D6FB1648297FCAF000594793 /* CanvasTopBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasTopBarView.swift; sourceTree = "<group>"; };
 		D6FFDD3E2983F0060091CE14 /* ColorPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPickerViewController.swift; sourceTree = "<group>"; };
 		D6FFDD7B298424790091CE14 /* CGFloatExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGFloatExtensions.swift; sourceTree = "<group>"; };
 		D6FFDD7D298434D80091CE14 /* ColorPickerViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPickerViewControllerDelegate.swift; sourceTree = "<group>"; };
-		D6FFDD7F298438280091CE14 /* ColorPickerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPickerDelegate.swift; sourceTree = "<group>"; };
-		D6FFDD8129844E6A0091CE14 /* ToolBarViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolBarViewDelegate.swift; sourceTree = "<group>"; };
-		D6FFDD85298454F40091CE14 /* TopBarViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopBarViewDelegate.swift; sourceTree = "<group>"; };
+		D6FFDD7F298438280091CE14 /* ColorPickerButtonDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPickerButtonDelegate.swift; sourceTree = "<group>"; };
+		D6FFDD8129844E6A0091CE14 /* CanvasToolBarViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasToolBarViewDelegate.swift; sourceTree = "<group>"; };
+		D6FFDD85298454F40091CE14 /* CanvasTopBarViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasTopBarViewDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,11 +101,28 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		D6073E51298AA1E800C2BFF2 /* ColorSelectionViews */ = {
+		D6073E51298AA1E800C2BFF2 /* ColorSelectionView */ = {
 			isa = PBXGroup;
 			children = (
 				D6073E4F298AA16000C2BFF2 /* ColorSelectionView.swift */,
 				D6073E52298AA89600C2BFF2 /* ColorSelectionViewDelegate.swift */,
+				D629F417298ADF7E002F0418 /* ColorSelectionViews */,
+			);
+			path = ColorSelectionView;
+			sourceTree = "<group>";
+		};
+		D629F416298ADF50002F0418 /* ColorPickerButton */ = {
+			isa = PBXGroup;
+			children = (
+				D6F64B2329702B2400F47531 /* ColorPickerButton.swift */,
+				D6FFDD7F298438280091CE14 /* ColorPickerButtonDelegate.swift */,
+			);
+			path = ColorPickerButton;
+			sourceTree = "<group>";
+		};
+		D629F417298ADF7E002F0418 /* ColorSelectionViews */ = {
+			isa = PBXGroup;
+			children = (
 				D6073E49298AA0FD00C2BFF2 /* GridColorSelectionView.swift */,
 				D6073E4B298AA11000C2BFF2 /* SpectrumColorSelectionView.swift */,
 				D6073E4D298AA12200C2BFF2 /* SlidersColorSelectionView.swift */,
@@ -136,9 +149,9 @@
 		D65554722973DF25004E3823 /* Stroke */ = {
 			isa = PBXGroup;
 			children = (
-				D6F64B1929702B2400F47531 /* StrokeGestureRecognizer.swift */,
-				D6F64B3329702B2400F47531 /* Stroke.swift */,
 				D6ECEA5C29704BA000DD9502 /* StrokeSample.swift */,
+				D6F64B3329702B2400F47531 /* Stroke.swift */,
+				D6F64B1929702B2400F47531 /* StrokeGestureRecognizer.swift */,
 			);
 			path = Stroke;
 			sourceTree = "<group>";
@@ -147,7 +160,6 @@
 			isa = PBXGroup;
 			children = (
 				D6ECEA5F29704C4900DD9502 /* UIColorExtensions.swift */,
-				D6F64B1829702B2400F47531 /* CGColorExtensions.swift */,
 				D65554732973E469004E3823 /* CGSizeExtensions.swift */,
 				D6FFDD7B298424790091CE14 /* CGFloatExtensions.swift */,
 				D6073E54298AB69C00C2BFF2 /* UIBezierPathExtensions.swift */,
@@ -163,13 +175,12 @@
 				D6F64B3129702B2400F47531 /* NavigationController.swift */,
 				D6F64B1A29702B2400F47531 /* ImagePicker */,
 				D6F64B2029702B2400F47531 /* Canvas */,
+				D6FFDD3D2983EF300091CE14 /* ColorPicker */,
 				D6F64B2A29702B2400F47531 /* Controls */,
-				D6F64B2529702B2400F47531 /* Tool */,
 				D65554722973DF25004E3823 /* Stroke */,
 				D6FFDD89298457610091CE14 /* Utilities */,
 				D6ECEA6129704C8800DD9502 /* Extensions */,
 				D6F64B1E29702B2400F47531 /* Assets.xcassets */,
-				D6F64B1F29702B2400F47531 /* Main.storyboard */,
 				D6F64B1629702B2400F47531 /* LaunchScreen.storyboard */,
 				D6F64B3229702B2400F47531 /* Info.plist */,
 			);
@@ -191,9 +202,8 @@
 			children = (
 				D6F64B2929702B2400F47531 /* CanvasViewController.swift */,
 				D6F64B2229702B2400F47531 /* CanvasView.swift */,
-				D6FFDD88298457300091CE14 /* TopBar */,
-				D6FFDD87298457130091CE14 /* ToolBar */,
-				D6FFDD3D2983EF300091CE14 /* ColorPicker */,
+				D6FFDD88298457300091CE14 /* CanvasTopBar */,
+				D6FFDD87298457130091CE14 /* CanvasToolBar */,
 			);
 			path = Canvas;
 			sourceTree = "<group>";
@@ -231,29 +241,29 @@
 			children = (
 				D6FFDD3E2983F0060091CE14 /* ColorPickerViewController.swift */,
 				D6FFDD7D298434D80091CE14 /* ColorPickerViewControllerDelegate.swift */,
-				D6073E51298AA1E800C2BFF2 /* ColorSelectionViews */,
-				D6F64B2329702B2400F47531 /* ColorPicker.swift */,
-				D6FFDD7F298438280091CE14 /* ColorPickerDelegate.swift */,
+				D6073E51298AA1E800C2BFF2 /* ColorSelectionView */,
+				D629F416298ADF50002F0418 /* ColorPickerButton */,
 			);
 			path = ColorPicker;
 			sourceTree = "<group>";
 		};
-		D6FFDD87298457130091CE14 /* ToolBar */ = {
+		D6FFDD87298457130091CE14 /* CanvasToolBar */ = {
 			isa = PBXGroup;
 			children = (
-				D6F64B2129702B2400F47531 /* ToolBarView.swift */,
-				D6FFDD8129844E6A0091CE14 /* ToolBarViewDelegate.swift */,
+				D6F64B2529702B2400F47531 /* Tool */,
+				D6F64B2129702B2400F47531 /* CanvasToolBarView.swift */,
+				D6FFDD8129844E6A0091CE14 /* CanvasToolBarViewDelegate.swift */,
 			);
-			path = ToolBar;
+			path = CanvasToolBar;
 			sourceTree = "<group>";
 		};
-		D6FFDD88298457300091CE14 /* TopBar */ = {
+		D6FFDD88298457300091CE14 /* CanvasTopBar */ = {
 			isa = PBXGroup;
 			children = (
-				D6FB1648297FCAF000594793 /* TopBarView.swift */,
-				D6FFDD85298454F40091CE14 /* TopBarViewDelegate.swift */,
+				D6FB1648297FCAF000594793 /* CanvasTopBarView.swift */,
+				D6FFDD85298454F40091CE14 /* CanvasTopBarViewDelegate.swift */,
 			);
-			path = TopBar;
+			path = CanvasTopBar;
 			sourceTree = "<group>";
 		};
 		D6FFDD89298457610091CE14 /* Utilities */ = {
@@ -328,7 +338,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D6F64B3C29702B2400F47531 /* Main.storyboard in Resources */,
 				D6F64B3529702B2400F47531 /* LaunchScreen.storyboard in Resources */,
 				D6F64B3B29702B2400F47531 /* Assets.xcassets in Resources */,
 			);
@@ -342,36 +351,35 @@
 			buildActionMask = 2147483647;
 			files = (
 				D6FFDD3F2983F0060091CE14 /* ColorPickerViewController.swift in Sources */,
-				D6FB1649297FCAF000594793 /* TopBarView.swift in Sources */,
+				D6FB1649297FCAF000594793 /* CanvasTopBarView.swift in Sources */,
 				D6FFDD7E298434D80091CE14 /* ColorPickerViewControllerDelegate.swift in Sources */,
 				D6F64B3829702B2400F47531 /* ImagePickerAccessRequestViewController.swift in Sources */,
 				D6F64B4629702B2400F47531 /* SegmentedControlSegment.swift in Sources */,
-				D6F64B3F29702B2400F47531 /* ColorPicker.swift in Sources */,
+				D6F64B3F29702B2400F47531 /* ColorPickerButton.swift in Sources */,
 				D6F64B4329702B2400F47531 /* Tool.swift in Sources */,
 				D6F64B4429702B2400F47531 /* CanvasViewController.swift in Sources */,
-				D6FFDD80298438280091CE14 /* ColorPickerDelegate.swift in Sources */,
+				D6FFDD80298438280091CE14 /* ColorPickerButtonDelegate.swift in Sources */,
 				D6F64B3E29702B2400F47531 /* CanvasView.swift in Sources */,
 				D6F64B4529702B2400F47531 /* Slider.swift in Sources */,
 				D6073E55298AB69C00C2BFF2 /* UIBezierPathExtensions.swift in Sources */,
 				D6F64B3A29702B2400F47531 /* ImagePickerCollectionViewCell.swift in Sources */,
 				D65554742973E469004E3823 /* CGSizeExtensions.swift in Sources */,
-				D6F64B3629702B2400F47531 /* CGColorExtensions.swift in Sources */,
 				D6F64B4B29702B2400F47531 /* Stroke.swift in Sources */,
 				D6073E53298AA89600C2BFF2 /* ColorSelectionViewDelegate.swift in Sources */,
 				D6ECEA5D29704BA000DD9502 /* StrokeSample.swift in Sources */,
 				D6073E4E298AA12200C2BFF2 /* SlidersColorSelectionView.swift in Sources */,
-				D6F64B3D29702B2400F47531 /* ToolBarView.swift in Sources */,
+				D6F64B3D29702B2400F47531 /* CanvasToolBarView.swift in Sources */,
 				D6073E4A298AA0FD00C2BFF2 /* GridColorSelectionView.swift in Sources */,
 				D6F64B4129702B2400F47531 /* ToolType.swift in Sources */,
 				D6F64B3929702B2400F47531 /* ImagePickerViewController.swift in Sources */,
-				D6FFDD86298454F40091CE14 /* TopBarViewDelegate.swift in Sources */,
+				D6FFDD86298454F40091CE14 /* CanvasTopBarViewDelegate.swift in Sources */,
 				D6F64B4929702B2400F47531 /* NavigationController.swift in Sources */,
 				D6AA0A492978865300F6A8D0 /* ViewConstraints.swift in Sources */,
 				D6073E50298AA16000C2BFF2 /* ColorSelectionView.swift in Sources */,
 				D6F64B4C29702B2400F47531 /* SceneDelegate.swift in Sources */,
 				D6FFDD7C298424790091CE14 /* CGFloatExtensions.swift in Sources */,
 				D6F64B3729702B2400F47531 /* StrokeGestureRecognizer.swift in Sources */,
-				D6FFDD8229844E6A0091CE14 /* ToolBarViewDelegate.swift in Sources */,
+				D6FFDD8229844E6A0091CE14 /* CanvasToolBarViewDelegate.swift in Sources */,
 				D6F64B4729702B2400F47531 /* SegmentedControl.swift in Sources */,
 				D6073E4C298AA11000C2BFF2 /* SpectrumColorSelectionView.swift in Sources */,
 				D6F64B4829702B2400F47531 /* AppDelegate.swift in Sources */,

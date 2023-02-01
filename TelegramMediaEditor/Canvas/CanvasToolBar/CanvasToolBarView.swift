@@ -18,15 +18,15 @@ fileprivate enum Constants {
     static let toolCenteringAnimationDuration: CGFloat = 0.9
 }
 
-// MARK: - ToolBarView
+// MARK: - CanvasToolBarView
 
-class ToolBarView: UIView {
+class CanvasToolBarView: UIView {
     private lazy var toolViews: [ToolView] = {
         let toolsTypesList: [ToolType] = [.pen, .brush, .neon, .pencil, .eraser, .lasso]
         
         var toolsViews = [ToolView]()
         toolsViews = toolsTypesList.map { toolType in
-            let tool = Tool(type: toolType, width: 1, color: .black)
+            let tool = Tool(type: toolType, width: 1, color: UIColor.black.cgColor)
             let toolView = ToolView(for: tool)
             
             let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(toolSelected(_:)))
@@ -36,11 +36,11 @@ class ToolBarView: UIView {
         }
         return toolsViews
     }()
-    private lazy var colorPicker: ColorPicker = {
-        let colorPicker = ColorPicker(activeTool.color)
-        colorPicker.delegate = self
-        colorPicker.translatesAutoresizingMaskIntoConstraints = false
-        return colorPicker
+    private lazy var colorPickerButton: ColorPickerButton = {
+        let colorPickerButton = ColorPickerButton(activeTool.color)
+        colorPickerButton.delegate = self
+        colorPickerButton.translatesAutoresizingMaskIntoConstraints = false
+        return colorPickerButton
     }()
     private lazy var addButton: UIButton = {
         let button = UIButton()
@@ -166,7 +166,7 @@ class ToolBarView: UIView {
         }
     }
     
-    public var delegate: ToolBarViewDelegate?
+    public var delegate: CanvasToolBarViewDelegate?
     
     public var doneButtonPressedAction: (() -> Void)?
     public var cancelButtonPressedAction: (() -> Void)?
@@ -200,7 +200,7 @@ class ToolBarView: UIView {
         verticalStackView.addArrangedSubview(topHorizontalStackView)
         verticalStackView.addArrangedSubview(bottomHorizontalStackView)
         
-        topHorizontalStackView.addArrangedSubview(colorPicker)
+        topHorizontalStackView.addArrangedSubview(colorPickerButton)
         topHorizontalStackView.addArrangedSubview(addButton)
         
         bottomHorizontalStackView.addArrangedSubview(cancelButton)
@@ -256,8 +256,8 @@ class ToolBarView: UIView {
         ])
         
         NSLayoutConstraint.activate([
-            colorPicker.heightAnchor.constraint(equalToConstant: 33),
-            colorPicker.widthAnchor.constraint(equalTo: colorPicker.heightAnchor)
+            colorPickerButton.heightAnchor.constraint(equalToConstant: 33),
+            colorPickerButton.widthAnchor.constraint(equalTo: colorPickerButton.heightAnchor)
         ])
         
         NSLayoutConstraint.activate([
@@ -324,9 +324,9 @@ class ToolBarView: UIView {
             }
         }
         
-        let colorPickerPoint = colorPicker.convert(point, from: self)
-        if colorPicker.point(inside: colorPickerPoint, with: event) {
-            return colorPicker
+        let colorPickerPoint = colorPickerButton.convert(point, from: self)
+        if colorPickerButton.point(inside: colorPickerPoint, with: event) {
+            return colorPickerButton
         }
         
         return super.hitTest(point, with: event)
@@ -399,6 +399,7 @@ class ToolBarView: UIView {
         }
         
         self.activeToolViewIndex = index
+        colorPickerButton.selectedColor = activeTool.color
         delegate?.activeToolUpdated(activeTool)
     }
     
@@ -479,8 +480,8 @@ class ToolBarView: UIView {
 
 // MARK: - : ColorPickerDelegate
 
-extension ToolBarView: ColorPickerDelegate {
-    func colorChanged(_ colorPicker: ColorPicker) {
+extension CanvasToolBarView: ColorPickerButtonDelegate {
+    func colorChanged(_ colorPicker: ColorPickerButton) {
         let color = colorPicker.selectedColor
         changeActiveToolColor(to: color)
     }

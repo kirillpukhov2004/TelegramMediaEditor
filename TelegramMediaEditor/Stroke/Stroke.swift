@@ -1,4 +1,4 @@
-import CoreGraphics
+import UIKit
 
 class Stroke {
     var width: CGFloat
@@ -8,7 +8,7 @@ class Stroke {
     
     init(_ tool: Tool? = nil) {
         self.width = tool?.width ?? 1
-        self.color = tool?.color ?? .black
+        self.color = tool?.color ?? UIColor.black.cgColor
         
         self.samples = [StrokeSample]()
     }

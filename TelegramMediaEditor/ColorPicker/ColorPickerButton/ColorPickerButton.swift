@@ -1,8 +1,9 @@
 import UIKit
 
-// MARK: - ColorPicker
+// MARK: - ColorPickerButton
 
-class ColorPicker: UIView {
+#warning("Rebuild ColorPickerButton using UIButton superclass")
+class ColorPickerButton: UIView {
     private lazy var colorCircleLayer: CALayer = {
         let layer = CALayer()
         layer.backgroundColor = selectedColor
@@ -22,7 +23,7 @@ class ColorPicker: UIView {
     }()
     private lazy var blackCircleLayer: CALayer = {
         let layer = CALayer()
-        layer.backgroundColor = .black
+        layer.backgroundColor = UIColor.black.cgColor
         return layer
     }()
     
@@ -46,7 +47,7 @@ class ColorPicker: UIView {
                        y: bounds.height - layersHeight / 2.0)
     }
     
-    public var delegate: ColorPickerDelegate?
+    public var delegate: ColorPickerButtonDelegate?
     
     // MARK: Initialization
     
@@ -60,14 +61,6 @@ class ColorPicker: UIView {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    private func buildViewHierarchy() {
-        layer.addSublayer(colorCircleLayer)
-        layer.insertSublayer(blackCircleLayer, below: colorCircleLayer)
-        layer.insertSublayer(circlyGradientLayer, below: blackCircleLayer)
-        
-        addGestureRecognizer(tapGestureRecognizer)
     }
     
     // MARK: Lifecycle
@@ -95,20 +88,28 @@ class ColorPicker: UIView {
     
     // MARK: Actions
     
-    @objc func selfPressed() {
+    @objc private func selfPressed() {
         guard let rootVC = self.window?.rootViewController else { return }
         let colorPickerViewController = ColorPickerViewController(selectedColor)
         colorPickerViewController.delegate = self
         rootVC.present(colorPickerViewController, animated: true)
     }
     
-    // MARK: Public Functions
+    // MARK: Private Functions
+    
+    private func buildViewHierarchy() {
+        layer.addSublayer(colorCircleLayer)
+        layer.insertSublayer(blackCircleLayer, below: colorCircleLayer)
+        layer.insertSublayer(circlyGradientLayer, below: blackCircleLayer)
+        
+        addGestureRecognizer(tapGestureRecognizer)
+    }
     
 }
 
 // MARK: - : ColorPickerViewControllerDelegate
 
-extension ColorPicker: ColorPickerViewControllerDelegate {
+extension ColorPickerButton: ColorPickerViewControllerDelegate {
     func colorPickerViewControllerColorChanged(_ colorPickerViewController: ColorPickerViewController) {
         CATransaction.begin()
         CATransaction.setDisableActions(true)

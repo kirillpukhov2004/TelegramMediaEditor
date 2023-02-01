@@ -43,7 +43,7 @@ class Slider: UIControl {
         
         shapeLayer.path = bezierPath.cgPath
         shapeLayer.fillColor = CGColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 0.2)
-        shapeLayer.strokeColor = .clear
+        shapeLayer.strokeColor = UIColor.clear.cgColor
         
         shapeLayer.frame.size = CGSize(width: trackWidth, height: rightTrackArcRadius * 2)
         
@@ -64,7 +64,7 @@ class Slider: UIControl {
                           clockwise: true)
         
         shapeLayer.path = bezierPath.cgPath
-        shapeLayer.fillColor = .white
+        shapeLayer.fillColor = UIColor.white.cgColor
         
         shapeLayer.frame.size = CGSize(width: 28, height: 28)
         
@@ -76,6 +76,11 @@ class Slider: UIControl {
         panGestureRecognizer.addTarget(self, action: #selector(panGestureRecognizerAction(_:)))
         return panGestureRecognizer
     }()
+    private lazy var tapGestureRecognizer: UITapGestureRecognizer = {
+        let tapGestureRecognizer = UITapGestureRecognizer()
+        tapGestureRecognizer.addTarget(self, action: #selector(tapGestureRecognizerAction(_:)))
+        return tapGestureRecognizer
+    }()
     
     public var minimumValue: Double = 0
     public var maximumValue: Double = 100
@@ -83,9 +88,8 @@ class Slider: UIControl {
     public var value: Double {
         get {
             let trackWidth: CGFloat = trackLayer.frame.width - thumbLayer.frame.width
-            let thumbCenterXCoordinate: CGFloat = thumbLayer.frame.minX - trackLayer.frame.minX
+            let thumbCenterXCoordinate: CGFloat = currentTouchXCoordinate
             let thumbXNormalizedCoordinate: CGFloat = thumbCenterXCoordinate / trackWidth
-            
             return round(min(minimumValue + thumbXNormalizedCoordinate * (maximumValue - minimumValue), maximumValue) / step) * step
         }
         
@@ -106,13 +110,6 @@ class Slider: UIControl {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    private func buildViewHierarchy() {
-        layer.addSublayer(trackLayer)
-        layer.addSublayer(thumbLayer)
-        
-        addGestureRecognizer(panGestureRecognizer)
     }
     
     // MARK: Lifecycle
@@ -145,35 +142,66 @@ class Slider: UIControl {
     // MARK: Actions
     
     @objc func panGestureRecognizerAction(_ sender: UIPanGestureRecognizer) {
+        switch sender.state {
+        case .changed:
+            moveThumbHorizontaly(to: sender.location(in: self))
+        default:
+            return
+        }
+    }
+    
+    @objc func tapGestureRecognizerAction(_ sender: UITapGestureRecognizer) {
+        if sender.state == .ended {
+            moveThumbHorizontaly(to: sender.location(in: self))
+        }
+    }
+    
+    
+    // MARK: Private Functions
+    
+    private func buildViewHierarchy() {
+        layer.addSublayer(trackLayer)
+        layer.addSublayer(thumbLayer)
+        
+        addGestureRecognizer(panGestureRecognizer)
+        addGestureRecognizer(tapGestureRecognizer)
+    }
+    
+    private func updateThumbPosition(to value: Double) {
+        let newValue = min(max(minimumValue, value), maximumValue)
+        
+        let trackWidth: CGFloat = trackLayer.frame.width - thumbLayer.frame.width
+        currentTouchXCoordinate = (newValue - minimumValue) / (maximumValue - minimumValue) * trackWidth
+        
+        setNeedsLayout()
+        layoutIfNeeded()
+    }
+    
+    private func moveThumbHorizontaly(to point: CGPoint) {
         let thumbRadius = thumbLayer.frame.width / 2
         let trackLeftXCoordinateLimit: CGFloat = trackLayer.frame.minX + thumbRadius
         let trackRightXCoordinateLimit: CGFloat = trackLayer.frame.maxX - thumbRadius
         
-        switch sender.state {
-        case .changed:
-            let deltaX = sender.location(in: self).x - thumbLayer.frame.minX - thumbRadius
-    
-            let thumbLayerNewCenterXPosition = thumbLayer.frame.origin.x + thumbRadius + deltaX
-            if thumbLayerNewCenterXPosition <= trackLeftXCoordinateLimit {
-                currentTouchXCoordinate = trackLeftXCoordinateLimit - thumbRadius
-            } else if thumbLayerNewCenterXPosition >= trackRightXCoordinateLimit {
-                currentTouchXCoordinate = trackRightXCoordinateLimit - thumbRadius
-            } else {
-                currentTouchXCoordinate += deltaX
-            }
-    
-            CATransaction.begin()
-            CATransaction.setDisableActions(true)
-    
-            setNeedsLayout()
-            layoutIfNeeded()
-    
-            CATransaction.commit()
-    
-            sendActions(for: .valueChanged)
-        default:
-            return
+        let deltaX = point.x - thumbLayer.frame.minX - thumbRadius
+
+        let thumbLayerNewCenterXPosition = thumbLayer.frame.origin.x + thumbRadius + deltaX
+        if thumbLayerNewCenterXPosition <= trackLeftXCoordinateLimit {
+            currentTouchXCoordinate = trackLeftXCoordinateLimit - thumbRadius
+        } else if thumbLayerNewCenterXPosition >= trackRightXCoordinateLimit {
+            currentTouchXCoordinate = trackRightXCoordinateLimit - thumbRadius
+        } else {
+            currentTouchXCoordinate += deltaX
         }
+
+        CATransaction.begin()
+        CATransaction.setDisableActions(true)
+
+        setNeedsLayout()
+        layoutIfNeeded()
+
+        CATransaction.commit()
+
+        sendActions(for: .valueChanged)
     }
     
     // MARK: Public Functions
@@ -195,18 +223,6 @@ class Slider: UIControl {
         thumbLayer = newThumbLayer
         layer.insertSublayer(thumbLayer, above: trackLayer)
         updateThumbPosition(to: currentValue)
-        
-        setNeedsLayout()
-        layoutIfNeeded()
-    }
-    
-    // MARK: Private Functions
-    
-    private func updateThumbPosition(to value: Double) {
-        let newValue = min(max(minimumValue, value), maximumValue)
-        
-        let trackWidth: CGFloat = trackLayer.frame.width - thumbLayer.frame.width
-        currentTouchXCoordinate = (newValue - minimumValue) / (maximumValue - minimumValue) * trackWidth
         
         setNeedsLayout()
         layoutIfNeeded()

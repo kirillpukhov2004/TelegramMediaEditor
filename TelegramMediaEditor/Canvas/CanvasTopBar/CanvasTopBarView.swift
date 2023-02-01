@@ -1,8 +1,8 @@
 import UIKit
 
-// MARK: - TopBarView
+// MARK: - CanvasTopBarView
 
-class TopBarView: UIView {
+class CanvasTopBarView: UIView {
     public lazy var resetZoomScaleButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setTitle("Zoom Out", for: .normal)
@@ -41,7 +41,7 @@ class TopBarView: UIView {
         return stackView
     }()
     
-    public var delegate: TopBarViewDelegate?
+    public var delegate: CanvasTopBarViewDelegate?
     
     // MARK: Initialization
     
