@@ -95,9 +95,9 @@ class ToolView: UIView {
     
     // MARK: Public Functions
     
-    public func setWidth(to width: CGFloat) {
+    public func setWidth(to width: CGFloat, minWidth: CGFloat, maxWidth: CGFloat) {
         tool.width = width
-        widthIdicatorViewHeightAnchor.constant = width
+        widthIdicatorViewHeightAnchor.constant = 1 + ((width - minWidth) / (maxWidth - minWidth)) * (20 - 1)
     }
     
     public func setColor(to color: CGColor) {

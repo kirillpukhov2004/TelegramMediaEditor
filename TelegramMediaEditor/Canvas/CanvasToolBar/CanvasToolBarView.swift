@@ -473,7 +473,7 @@ class CanvasToolBarView: UIView {
     }
     
     private func changeActiveToolWidth(to width: CGFloat) {
-        toolViews[activeToolViewIndex].setWidth(to: width)
+        toolViews[activeToolViewIndex].setWidth(to: width, minWidth: slider.minimumValue, maxWidth: slider.maximumValue)
         delegate?.activeToolUpdated(activeTool)
     }
 }

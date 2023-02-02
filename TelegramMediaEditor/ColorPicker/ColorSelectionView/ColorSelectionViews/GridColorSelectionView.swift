@@ -56,6 +56,17 @@ class GridColorSelectionView: UIView, ColorSelectionView {
         return stackView
     }()
     
+    private lazy var tapGestureRecognizer: UITapGestureRecognizer = {
+        let tapGestureRecognizer = UITapGestureRecognizer()
+        tapGestureRecognizer.addTarget(self, action: #selector(colorSelected(_:)))
+        return tapGestureRecognizer
+    }()
+    private lazy var panGestureRecognizer: UIPanGestureRecognizer = {
+        let panGestureRecognizer = UIPanGestureRecognizer()
+        panGestureRecognizer.addTarget(self, action: #selector(colorSelected(_:)))
+        return panGestureRecognizer
+    }()
+    
     private lazy var selectedColorViewBorderShapeLayer: CAShapeLayer = {
         let shapeLayer = CAShapeLayer()
         shapeLayer.fillColor = UIColor.clear.cgColor
@@ -89,13 +100,25 @@ class GridColorSelectionView: UIView, ColorSelectionView {
     // MARK: Actions
     
     @objc private func colorSelected(_ sender: UIGestureRecognizer) {
-        guard let selectedView = sender.view else { return }
-        guard let selectedViewBackgroundColor = selectedView.backgroundColor?.cgColor else { return }
-
-        updateSelectedColorBorder(for: selectedView)
+        let touchLocation = sender.location(in: verticalStackView)
         
-        selectedColor = selectedViewBackgroundColor
-        delegate?.colorSelectionViewColorDidChanged(self)
+        switch sender.state {
+        case .began:
+            guard sender.view!.frame.contains(touchLocation) else {
+                sender.state = .failed
+                return
+            }
+        case .changed, .ended:
+            guard let selectedView = verticalStackView.hitTest(touchLocation, with: nil) else { return }
+            guard let selectedViewBackgroundColor = selectedView.backgroundColor?.cgColor else { return }
+
+            updateSelectedColorBorder(for: selectedView)
+            
+            selectedColor = selectedViewBackgroundColor
+            delegate?.colorSelectionViewColorDidChanged(self)
+        default:
+            break
+        }
     }
 
     // MARK: Private Functions
@@ -105,17 +128,15 @@ class GridColorSelectionView: UIView, ColorSelectionView {
             Constants.colorGridColors[index].forEach { color in
                 let colorSquareView = UIView()
                 colorSquareView.backgroundColor = color
-
-                let tapGestureRecognizer = UITapGestureRecognizer()
-                tapGestureRecognizer.addTarget(self, action: #selector(colorSelected(_:)))
-                colorSquareView.addGestureRecognizer(tapGestureRecognizer)
-
                 stackView.addArrangedSubview(colorSquareView)
             }
             verticalStackView.addArrangedSubview(stackView)
         }
         
         addSubview(verticalStackView)
+        
+        verticalStackView.addGestureRecognizer(tapGestureRecognizer)
+        verticalStackView.addGestureRecognizer(panGestureRecognizer)
     }
     
     private func setupConstraints() {
@@ -126,7 +147,6 @@ class GridColorSelectionView: UIView, ColorSelectionView {
     }
     
     private func configureViews() {
-        
     }
     
     private func updateSelectedColorBorder(for selectedColorView: UIView) {
