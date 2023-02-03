@@ -3,7 +3,7 @@ import UIKit
 // MARK: Constants
 
 fileprivate struct Constants {
-    static let colorGridHexValues: [[Int]] = [[
+    static let colorHexValues: [[Int]] = [[
         0xFEFFFE, 0xEBEBEB, 0xD6D6D6, 0xC2C2C2, 0xADADAD, 0x999999, 0x858585, 0x707070, 0x5C5C5C, 0x474747, 0x333333, 0x000000,
     ], [
         0x00374A, 0x011D57, 0x11053B, 0x2E063D, 0x3C071B, 0x5C0701, 0x5A1C00, 0x583300, 0x563D00, 0x666100, 0x4F5504, 0x263E0F,
@@ -24,36 +24,26 @@ fileprivate struct Constants {
     ], [
         0xCBF0FF, 0xD2E2FE, 0xD8C9FE, 0xEFCAFE, 0xF9D3E0, 0xFFDAD8, 0xFFE2D6, 0xFEECD4, 0xFEF1D5, 0xFDFBDD, 0xF6FADB, 0xDEEED4,
     ]]
-    static let colorGridColors: [[UIColor]] = colorGridHexValues.map { $0.map { UIColor(hex: $0) } }
-    static let colorsInCollumn: Int = 10
-    static let colorsInRow: Int = 12
-    static let colorGridCornerRadius: CGFloat = 8
+    static let colors: [[UIColor]] = colorHexValues.map { $0.map { UIColor(hex: $0) } }
+    static let colorsPerCollumn: Int = 10
+    static let colorsPerRow: Int = 12
+    static let collectionViewCornerRadius: CGFloat = 8
 }
 
 // MARK: GridColorSelectionView
 
 class GridColorSelectionView: UIView, ColorSelectionView {
-    private lazy var horizontalStackViews: [UIStackView] = {
-        var stackViews = [UIStackView]()
-        for _ in 0..<Constants.colorsInCollumn {
-            let stackView = UIStackView()
-            stackView.axis = .horizontal
-            stackView.alignment = .fill
-            stackView.distribution = .fillProportionally
-            stackView.translatesAutoresizingMaskIntoConstraints = false
-            stackViews.append(stackView)
-        }
-        return stackViews
-    }()
-    private lazy var verticalStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .vertical
-        stackView.alignment = .fill
-        stackView.distribution = .fillProportionally
-        stackView.layer.cornerRadius = Constants.colorGridCornerRadius
-        stackView.clipsToBounds = true
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        return stackView
+    private lazy var collectionView: UICollectionView = {
+        let collectionViewLayout = UICollectionViewFlowLayout()
+        collectionViewLayout.minimumLineSpacing = 0
+        collectionViewLayout.minimumInteritemSpacing = 0
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout)
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "Cell")
+        collectionView.layer.cornerRadius = Constants.collectionViewCornerRadius
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        return collectionView
     }()
     
     private lazy var tapGestureRecognizer: UITapGestureRecognizer = {
@@ -82,6 +72,7 @@ class GridColorSelectionView: UIView, ColorSelectionView {
             delegate?.colorSelectionViewColorDidChanged(self)
         }
     }
+    private var selectedColorView: UIView?
 
     // MARK: Initialization
 
@@ -97,10 +88,22 @@ class GridColorSelectionView: UIView, ColorSelectionView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: Lifecycle
+    
+    override var bounds: CGRect {
+        didSet {
+            collectionView.collectionViewLayout.invalidateLayout()
+            layoutIfNeeded()
+            if let selectedColorView = selectedColorView {
+                updateSelectedColorBorder(for: selectedColorView)
+            }
+        }
+    }
+    
     // MARK: Actions
     
     @objc private func colorSelected(_ sender: UIGestureRecognizer) {
-        let touchLocation = sender.location(in: verticalStackView)
+        let touchLocation = sender.location(in: collectionView)
         
         switch sender.state {
         case .began:
@@ -109,7 +112,7 @@ class GridColorSelectionView: UIView, ColorSelectionView {
                 return
             }
         case .changed, .ended:
-            guard let selectedView = verticalStackView.hitTest(touchLocation, with: nil) else { return }
+            guard let selectedView = collectionView.hitTest(touchLocation, with: nil) else { return }
             guard let selectedViewBackgroundColor = selectedView.backgroundColor?.cgColor else { return }
 
             updateSelectedColorBorder(for: selectedView)
@@ -124,25 +127,16 @@ class GridColorSelectionView: UIView, ColorSelectionView {
     // MARK: Private Functions
     
     private func buildViewHierarchy() {
-        horizontalStackViews.enumerated().forEach { index, stackView in
-            Constants.colorGridColors[index].forEach { color in
-                let colorSquareView = UIView()
-                colorSquareView.backgroundColor = color
-                stackView.addArrangedSubview(colorSquareView)
-            }
-            verticalStackView.addArrangedSubview(stackView)
-        }
+        addSubview(collectionView)
         
-        addSubview(verticalStackView)
-        
-        verticalStackView.addGestureRecognizer(tapGestureRecognizer)
-        verticalStackView.addGestureRecognizer(panGestureRecognizer)
+        collectionView.addGestureRecognizer(tapGestureRecognizer)
+        collectionView.addGestureRecognizer(panGestureRecognizer)
     }
     
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            verticalStackView.heightAnchor.constraint(equalTo: heightAnchor),
-            verticalStackView.widthAnchor.constraint(equalTo: widthAnchor),
+            collectionView.heightAnchor.constraint(equalTo: heightAnchor),
+            collectionView.widthAnchor.constraint(equalTo: widthAnchor),
         ])
     }
     
@@ -150,43 +144,44 @@ class GridColorSelectionView: UIView, ColorSelectionView {
     }
     
     private func updateSelectedColorBorder(for selectedColorView: UIView) {
-        let borderRect = selectedColorView.bounds.insetBy(dx: -1.5, dy: -1.5)
-        let borderOrigin: CGPoint = CGPoint(x: selectedColorView.frame.origin.x,
-                                            y: selectedColorView.superview!.frame.origin.y)
-        let cornerRadius1: CGFloat = Constants.colorGridCornerRadius + 3
-        let cornerRadius2: CGFloat = 1.5
+        let borderRect = selectedColorView.bounds.insetBy(dx: -1.25, dy: -1.25)
+        let borderOrigin: CGPoint = CGPoint(x: selectedColorView.frame.origin.x + selectedColorView.superview!.frame.origin.x,
+                                            y: selectedColorView.frame.origin.y + selectedColorView.superview!.frame.origin.y)
+        let cornerRadius1: CGFloat = 1.25
+        let cornerRadius2: CGFloat = Constants.collectionViewCornerRadius + 1.25
 
         var bezierPath: UIBezierPath
-        if selectedColorView === horizontalStackViews.first!.arrangedSubviews.first! {
-            bezierPath = UIBezierPath(roundedRect: borderRect,
-                                      topLeftRadius: cornerRadius1,
-                                      topRightRadius: cornerRadius2,
-                                      bottomRightRadius: cornerRadius2,
-                                      bottomLeftRadius: cornerRadius2)
-        } else if selectedColorView === horizontalStackViews.first!.arrangedSubviews.last! {
+        switch selectedColorView.backgroundColor {
+        case Constants.colors.first?.first:
             bezierPath = UIBezierPath(roundedRect: borderRect,
                                       topLeftRadius: cornerRadius2,
                                       topRightRadius: cornerRadius1,
-                                      bottomRightRadius: cornerRadius2,
-                                      bottomLeftRadius: cornerRadius2)
-        } else if selectedColorView === horizontalStackViews.last!.arrangedSubviews.first! {
-            bezierPath = UIBezierPath(roundedRect: borderRect,
-                                      topLeftRadius: cornerRadius2,
-                                      topRightRadius: cornerRadius2,
-                                      bottomRightRadius: cornerRadius2,
+                                      bottomRightRadius: cornerRadius1,
                                       bottomLeftRadius: cornerRadius1)
-        } else if selectedColorView === horizontalStackViews.last!.arrangedSubviews.last! {
+        case Constants.colors.first?.last:
             bezierPath = UIBezierPath(roundedRect: borderRect,
-                                      topLeftRadius: cornerRadius2,
+                                      topLeftRadius: cornerRadius1,
                                       topRightRadius: cornerRadius2,
                                       bottomRightRadius: cornerRadius1,
-                                      bottomLeftRadius: cornerRadius2)
-        } else {
+                                      bottomLeftRadius: cornerRadius1)
+        case Constants.colors.last?.first:
             bezierPath = UIBezierPath(roundedRect: borderRect,
-                                      topLeftRadius: cornerRadius2,
-                                      topRightRadius: cornerRadius2,
-                                      bottomRightRadius: cornerRadius2,
+                                      topLeftRadius: cornerRadius1,
+                                      topRightRadius: cornerRadius1,
+                                      bottomRightRadius: cornerRadius1,
                                       bottomLeftRadius: cornerRadius2)
+        case Constants.colors.last?.last:
+            bezierPath = UIBezierPath(roundedRect: borderRect,
+                                      topLeftRadius: cornerRadius1,
+                                      topRightRadius: cornerRadius1,
+                                      bottomRightRadius: cornerRadius2,
+                                      bottomLeftRadius: cornerRadius1)
+        default:
+            bezierPath = UIBezierPath(roundedRect: borderRect,
+                                      topLeftRadius: cornerRadius1,
+                                      topRightRadius: cornerRadius1,
+                                      bottomRightRadius: cornerRadius1,
+                                      bottomLeftRadius: cornerRadius1)
         }
         
         if selectedColorViewBorderShapeLayer.superlayer == nil {
@@ -200,12 +195,56 @@ class GridColorSelectionView: UIView, ColorSelectionView {
         selectedColorViewBorderShapeLayer.frame.origin = borderOrigin
         
         CATransaction.commit()
-
+        
+        self.selectedColorView = selectedColorView
     }
     
     // MARK: Public Functions
     
-    func setColor(to color: CGColor) {
+    public func colorChanged(to color: CGColor) {
+        for cell in collectionView.visibleCells {
+            if cell.backgroundColor == UIColor(cgColor: color) {
+                updateSelectedColorBorder(for: cell)
+                return
+            }
+        }
+        selectedColorViewBorderShapeLayer.removeFromSuperlayer()
+    }
+    
+    public func setColor(to color: CGColor) {
         selectedColor = color
+    }
+    
+}
+
+// MARK: - : UICollectionViewDataSource
+
+extension GridColorSelectionView: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return Constants.colorsPerCollumn * Constants.colorsPerRow
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath)
+        let cellColor = Constants.colors[indexPath.row / 12][indexPath.row % 12]
+        
+        cell.backgroundColor = cellColor
+        
+        return cell
+    }
+}
+
+// MARK: - : UICollectionViewFlowLayout
+
+extension GridColorSelectionView: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let availableWidth = collectionView.frame.width
+        let itemDimension = floor(availableWidth / Constants.colorsPerRow)
+        let newSize =  CGSize(width: itemDimension * Constants.colorsPerRow, height: itemDimension * Constants.colorsPerCollumn)
+        let newBounds = CGRect(origin: .zero, size: newSize)
+        if !collectionView.bounds.equalTo(newBounds) {
+            collectionView.bounds = newBounds
+        }
+        return CGSize(width: itemDimension, height: itemDimension)
     }
 }

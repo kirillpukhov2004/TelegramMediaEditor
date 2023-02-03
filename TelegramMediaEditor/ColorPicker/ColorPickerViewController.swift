@@ -90,6 +90,12 @@ class ColorPickerViewController: UIViewController {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
+    private lazy var savedColorsView: SavedColorsView = {
+        let savedColorsView = SavedColorsView()
+        savedColorsView.delegate = self
+        savedColorsView.translatesAutoresizingMaskIntoConstraints = false
+        return savedColorsView
+    }()
     
     private lazy var portraitConstraints: [NSLayoutConstraint] = calculatePortraitConstraints()
     private lazy var landscapeConstraints: [NSLayoutConstraint] = calculateLandscapeConstraints()
@@ -182,6 +188,7 @@ class ColorPickerViewController: UIViewController {
         view.addSubview(colorSelectionView)
         view.addSubview(selectedColorIndicatorView)
         view.addSubview(colorSelectionView)
+        view.addSubview(savedColorsView)
     }
     
     private func setupConstraints() {
@@ -255,6 +262,10 @@ class ColorPickerViewController: UIViewController {
          selectedColorIndicatorView.topAnchor.constraint(equalTo: opacitySlider.bottomAnchor, constant: 20),
          selectedColorIndicatorView.heightAnchor.constraint(equalTo: colorSelectionView.heightAnchor, multiplier: 0.3),
          selectedColorIndicatorView.widthAnchor.constraint(equalTo: selectedColorIndicatorView.heightAnchor, multiplier: 1),
+         savedColorsView.topAnchor.constraint(equalTo: selectedColorIndicatorView.topAnchor),
+         savedColorsView.rightAnchor.constraint(equalTo: view.layoutMarginsGuide.rightAnchor),
+         savedColorsView.leftAnchor.constraint(equalTo: selectedColorIndicatorView.rightAnchor, constant: 20),
+         savedColorsView.heightAnchor.constraint(equalTo: selectedColorIndicatorView.heightAnchor),
         ]
     }
     
@@ -322,5 +333,16 @@ extension ColorPickerViewController: ColorSelectionViewDelegate {
     func colorSelectionViewColorDidChanged(_ colorSelectionView: ColorSelectionView) {
         guard let newColor = colorSelectionView.selectedColor else { return }
         color = newColor.copy(alpha: opacitySlider.value)!
+    }
+}
+
+// MARK: - :
+
+extension ColorPickerViewController: SavedColorsViewDelegate {
+    func savedColorsViewColorSelected(_ savedColorsView: SavedColorsView) {
+        guard let selectedColor = savedColorsView.lastSelectedColor else { return }
+        opacitySlider.value = selectedColor.alpha
+        color = selectedColor
+        colorSelectionView.colorChanged(to: color)
     }
 }

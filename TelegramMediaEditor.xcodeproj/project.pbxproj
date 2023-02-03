@@ -17,6 +17,7 @@
 		D65554742973E469004E3823 /* CGSizeExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D65554732973E469004E3823 /* CGSizeExtensions.swift */; };
 		D6995B902902CA9A000E2CA7 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = D6995B8F2902CA9A000E2CA7 /* Lottie */; };
 		D6AA0A492978865300F6A8D0 /* ViewConstraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6AA0A482978865300F6A8D0 /* ViewConstraints.swift */; };
+		D6D40D02298D6E85000470E0 /* SavedColorsViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6D40D01298D6E85000470E0 /* SavedColorsViewDelegate.swift */; };
 		D6ECEA5D29704BA000DD9502 /* StrokeSample.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6ECEA5C29704BA000DD9502 /* StrokeSample.swift */; };
 		D6ECEA6029704C4900DD9502 /* UIColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6ECEA5F29704C4900DD9502 /* UIColorExtensions.swift */; };
 		D6F64B3529702B2400F47531 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D6F64B1629702B2400F47531 /* LaunchScreen.storyboard */; };
@@ -59,6 +60,7 @@
 		D6453F4D28F7EE2C001F6101 /* TelegramMediaEditor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TelegramMediaEditor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D65554732973E469004E3823 /* CGSizeExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGSizeExtensions.swift; sourceTree = "<group>"; };
 		D6AA0A482978865300F6A8D0 /* ViewConstraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewConstraints.swift; sourceTree = "<group>"; };
+		D6D40D01298D6E85000470E0 /* SavedColorsViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedColorsViewDelegate.swift; sourceTree = "<group>"; };
 		D6ECEA5C29704BA000DD9502 /* StrokeSample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StrokeSample.swift; sourceTree = "<group>"; };
 		D6ECEA5F29704C4900DD9502 /* UIColorExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtensions.swift; sourceTree = "<group>"; };
 		D6F64B1629702B2400F47531 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -244,6 +246,7 @@
 				D6FFDD3E2983F0060091CE14 /* ColorPickerViewController.swift */,
 				D6FFDD7D298434D80091CE14 /* ColorPickerViewControllerDelegate.swift */,
 				D629F418298AFA9B002F0418 /* SavedColorsView.swift */,
+				D6D40D01298D6E85000470E0 /* SavedColorsViewDelegate.swift */,
 				D6073E51298AA1E800C2BFF2 /* ColorSelectionView */,
 				D629F416298ADF50002F0418 /* ColorPickerButton */,
 			);
@@ -357,6 +360,7 @@
 				D6FB1649297FCAF000594793 /* CanvasTopBarView.swift in Sources */,
 				D6FFDD7E298434D80091CE14 /* ColorPickerViewControllerDelegate.swift in Sources */,
 				D6F64B3829702B2400F47531 /* ImagePickerAccessRequestViewController.swift in Sources */,
+				D6D40D02298D6E85000470E0 /* SavedColorsViewDelegate.swift in Sources */,
 				D6F64B4629702B2400F47531 /* SegmentedControlSegment.swift in Sources */,
 				D6F64B3F29702B2400F47531 /* ColorPickerButton.swift in Sources */,
 				D6F64B4329702B2400F47531 /* Tool.swift in Sources */,

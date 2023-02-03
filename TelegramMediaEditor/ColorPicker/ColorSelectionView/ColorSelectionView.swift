@@ -6,4 +6,10 @@ protocol ColorSelectionView: UIView {
     var selectedColor: CGColor? { get }
     
     func setColor(to color: CGColor)
+    
+    func colorChanged(to color: CGColor)
+}
+
+extension ColorSelectionView {
+    func colorChanged(to color: CGColor) {}
 }
