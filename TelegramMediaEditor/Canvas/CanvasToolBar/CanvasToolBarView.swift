@@ -93,13 +93,6 @@ class CanvasToolBarView: UIView {
         ]
         maskGradientLayer.locations = [0.84]
         view.layer.mask = maskGradientLayer
-//        let gradientLayer = CAGradientLayer()
-//        gradientLayer.colors = [
-//            CGColor(red: 0, green: 0, blue: 0, alpha: 0),
-//            CGColor(red: 0, green: 0, blue: 0, alpha: 1),
-//        ]
-//        gradientLayer.locations = [0, 1]
-//        view.layer.addSublayer(gradientLayer)
 
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
@@ -130,23 +123,7 @@ class CanvasToolBarView: UIView {
         return stackView
     }()
     
-    private lazy var backgroundBlurView: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.5)
-        
-        let gradientLayer = CAGradientLayer()
-        gradientLayer.colors = [
-            CGColor(red: 0, green: 0, blue: 0, alpha: 0),
-            CGColor(red: 0, green: 0, blue: 0, alpha: 1),
-        ]
-        gradientLayer.locations = [0, 0.51]
-        view.layer.mask = gradientLayer
-        
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-    
-    private var toolsViewsConstaints: [ViewConstraints] = []
+    private var toolsViewsConstraints: [ViewConstraints] = []
     private var activeToolViewIndex: Int!
     private var activeToolView: ToolView {
         return toolViews[activeToolViewIndex]
@@ -189,128 +166,12 @@ class CanvasToolBarView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func buildViewHierarchy() {
-        toolViews.forEach { toolView in
-            toolViewsWrapper.addSubview(toolView)
-        }
-        addSubview(toolViewsWrapper)
-
-        addSubview(backgroundBlurView)
-        
-        verticalStackView.addArrangedSubview(topHorizontalStackView)
-        verticalStackView.addArrangedSubview(bottomHorizontalStackView)
-        
-        topHorizontalStackView.addArrangedSubview(colorPickerButton)
-        topHorizontalStackView.addArrangedSubview(addButton)
-        
-        bottomHorizontalStackView.addArrangedSubview(cancelButton)
-        bottomHorizontalStackView.addArrangedSubview(segmentedControl)
-        bottomHorizontalStackView.addArrangedSubview(slider)
-        bottomHorizontalStackView.addArrangedSubview(doneButton)
-        addSubview(verticalStackView)
-    }
-    
-    private func setupConstraints() {
-        let toolHorizontalPadding: CGFloat = (Constants.toolViewsWidth / CGFloat(toolViews.count) - Constants.regularToolViewWidth) / 2
-        toolViews.enumerated().forEach { index, toolView in
-            var toolViewConstraints = ViewConstraints()
-            
-            let totalPadding =  CGFloat(2 * index + 1) * toolHorizontalPadding
-            let leftOffset =  totalPadding + CGFloat(index) * Constants.regularToolViewWidth
-            toolViewConstraints.left = toolView.leftAnchor.constraint(
-                equalTo: toolViewsWrapper.leftAnchor,
-                constant: leftOffset
-            )
-            toolViewConstraints.bottom = toolView.bottomAnchor.constraint(equalTo: toolViewsWrapper.bottomAnchor)
-            toolViewConstraints.height = toolView.heightAnchor.constraint(equalToConstant: Constants.regularToolViewHeight)
-            
-            if index == activeToolViewIndex {
-                toolViewConstraints.bottom?.constant = 0
-            } else {
-                toolViewConstraints.bottom?.constant = Constants.regularToolViewBottomOffset
-            }
-            toolViewConstraints.width = toolView.widthAnchor.constraint(equalToConstant: 20)
-            
-            NSLayoutConstraint.activate([
-                toolViewConstraints.bottom!,
-                toolViewConstraints.left!,
-                toolViewConstraints.height!,
-                toolViewConstraints.width!,
-            ])
-            
-            toolsViewsConstaints.append(toolViewConstraints)
-        }
-        
-        NSLayoutConstraint.activate([
-            toolViewsWrapper.bottomAnchor.constraint(equalTo: bottomHorizontalStackView.topAnchor),
-            toolViewsWrapper.centerXAnchor.constraint(equalTo: centerXAnchor),
-            toolViewsWrapper.heightAnchor.constraint(equalToConstant: Constants.bigToolViewHeight),
-            toolViewsWrapper.widthAnchor.constraint(equalToConstant: Constants.toolViewsWidth),
-        ])
-        
-        NSLayoutConstraint.activate([
-            backgroundBlurView.rightAnchor.constraint(equalTo: rightAnchor),
-            backgroundBlurView.bottomAnchor.constraint(equalTo: bottomAnchor),
-            backgroundBlurView.leftAnchor.constraint(equalTo: leftAnchor),
-            backgroundBlurView.heightAnchor.constraint(equalToConstant: 146)
-        ])
-        
-        NSLayoutConstraint.activate([
-            colorPickerButton.heightAnchor.constraint(equalToConstant: 33),
-            colorPickerButton.widthAnchor.constraint(equalTo: colorPickerButton.heightAnchor)
-        ])
-        
-        NSLayoutConstraint.activate([
-            addButton.heightAnchor.constraint(equalToConstant: 33),
-            addButton.widthAnchor.constraint(equalTo: addButton.heightAnchor),
-        ])
-        
-        NSLayoutConstraint.activate([
-            segmentedControl.heightAnchor.constraint(equalToConstant: 33),
-            segmentedControl.widthAnchor.constraint(equalToConstant: 276),
-        ])
-        
-        NSLayoutConstraint.activate([
-            slider.heightAnchor.constraint(equalToConstant: 28),
-            slider.widthAnchor.constraint(equalToConstant: 240),
-        ])
-        
-        NSLayoutConstraint.activate([
-            doneButton.heightAnchor.constraint(equalToConstant: 33),
-            doneButton.widthAnchor.constraint(equalTo: doneButton.heightAnchor)
-        ])
-        
-        NSLayoutConstraint.activate([
-            cancelButton.heightAnchor.constraint(equalToConstant: 33),
-            cancelButton.widthAnchor.constraint(equalTo: cancelButton.heightAnchor)
-        ])
-        
-        NSLayoutConstraint.activate([
-            verticalStackView.rightAnchor.constraint(equalTo: layoutMarginsGuide.rightAnchor),
-            verticalStackView.bottomAnchor.constraint(equalTo: layoutMarginsGuide.bottomAnchor),
-            verticalStackView.leftAnchor.constraint(equalTo: layoutMarginsGuide.leftAnchor),
-        ])
-    }
-    
-    private func configureViews() {
-        
-    }
-    
-    // MARK: View Functions
+    // MARK: Lifecycle
     
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        subviews.forEach { subview in
-            subview.layer.mask?.frame = subview.bounds
-        }
-        
-        if let gradientLayer = toolViewsWrapper.layer.sublayers?.first {
-            gradientLayer.frame = CGRect(x: 0,
-                                         y: toolViewsWrapper.bounds.height - CGFloat(16),
-                                         width: toolViewsWrapper.bounds.width,
-                                         height: 16)
-        }
+        toolViewsWrapper.layer.mask?.frame = toolViewsWrapper.bounds
     }
     
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
@@ -364,6 +225,93 @@ class CanvasToolBarView: UIView {
     
     // MARK: Private Functions
     
+    private func buildViewHierarchy() {
+        addSubview(toolViewsWrapper)
+        toolViews.forEach { toolViewsWrapper.addSubview($0) }
+        
+        addSubview(verticalStackView)
+        verticalStackView.addArrangedSubview(topHorizontalStackView)
+        verticalStackView.addArrangedSubview(bottomHorizontalStackView)
+        
+        topHorizontalStackView.addArrangedSubview(colorPickerButton)
+        topHorizontalStackView.addArrangedSubview(addButton)
+        
+        bottomHorizontalStackView.addArrangedSubview(cancelButton)
+        bottomHorizontalStackView.addArrangedSubview(segmentedControl)
+        bottomHorizontalStackView.addArrangedSubview(slider)
+        bottomHorizontalStackView.addArrangedSubview(doneButton)
+    }
+    
+    private func setupConstraints() {
+        let toolHorizontalPadding: CGFloat = (Constants.toolViewsWidth / CGFloat(toolViews.count) - Constants.regularToolViewWidth) / 2
+        toolViews.enumerated().forEach { index, toolView in
+            let totalPadding =  CGFloat(2 * index + 1) * toolHorizontalPadding
+            let leftOffset =  totalPadding + CGFloat(index) * Constants.regularToolViewWidth
+            let bottomOffset = (index == activeToolViewIndex) ? 0 : Constants.regularToolViewBottomOffset
+            
+            var toolViewConstraints = ViewConstraints()
+            toolViewConstraints.left = toolView.leftAnchor.constraint(equalTo: toolViewsWrapper.leftAnchor, constant: leftOffset)
+            toolViewConstraints.bottom = toolView.bottomAnchor.constraint(equalTo: toolViewsWrapper.bottomAnchor, constant: bottomOffset)
+            toolViewConstraints.height = toolView.heightAnchor.constraint(equalToConstant: Constants.regularToolViewHeight)
+            toolViewConstraints.width = toolView.widthAnchor.constraint(equalToConstant: 20)
+            
+            NSLayoutConstraint.activate([
+                toolViewConstraints.bottom!,
+                toolViewConstraints.left!,
+                toolViewConstraints.height!,
+                toolViewConstraints.width!,
+            ])
+            
+            toolsViewsConstraints.append(toolViewConstraints)
+        }
+        
+        NSLayoutConstraint.activate([
+            toolViewsWrapper.bottomAnchor.constraint(equalTo: bottomHorizontalStackView.topAnchor),
+            toolViewsWrapper.centerXAnchor.constraint(equalTo: centerXAnchor),
+            toolViewsWrapper.heightAnchor.constraint(equalToConstant: Constants.bigToolViewHeight),
+            toolViewsWrapper.widthAnchor.constraint(equalToConstant: Constants.toolViewsWidth),
+        ])
+        
+        NSLayoutConstraint.activate([
+            colorPickerButton.heightAnchor.constraint(equalToConstant: 33),
+            colorPickerButton.widthAnchor.constraint(equalTo: colorPickerButton.heightAnchor)
+        ])
+        
+        NSLayoutConstraint.activate([
+            addButton.heightAnchor.constraint(equalToConstant: 33),
+            addButton.widthAnchor.constraint(equalTo: addButton.heightAnchor),
+        ])
+        
+        NSLayoutConstraint.activate([
+            segmentedControl.heightAnchor.constraint(equalToConstant: 33),
+            segmentedControl.widthAnchor.constraint(equalToConstant: 276),
+        ])
+        
+        NSLayoutConstraint.activate([
+            slider.heightAnchor.constraint(equalToConstant: 28),
+            slider.widthAnchor.constraint(equalToConstant: 240),
+        ])
+        
+        NSLayoutConstraint.activate([
+            doneButton.heightAnchor.constraint(equalToConstant: 33),
+            doneButton.widthAnchor.constraint(equalTo: doneButton.heightAnchor)
+        ])
+        
+        NSLayoutConstraint.activate([
+            cancelButton.heightAnchor.constraint(equalToConstant: 33),
+            cancelButton.widthAnchor.constraint(equalTo: cancelButton.heightAnchor)
+        ])
+        
+        NSLayoutConstraint.activate([
+            verticalStackView.rightAnchor.constraint(equalTo: layoutMarginsGuide.rightAnchor),
+            verticalStackView.bottomAnchor.constraint(equalTo: layoutMarginsGuide.bottomAnchor),
+            verticalStackView.leftAnchor.constraint(equalTo: layoutMarginsGuide.leftAnchor),
+        ])
+    }
+    
+    private func configureViews() {
+    }
+    
     private func toggleEditingState() {
         if !isEditing {
             centerActiveTool()
@@ -385,22 +333,18 @@ class CanvasToolBarView: UIView {
     }
     
     private func changeActiveTool(to index: Int) {
-        let activeToolViewHeightConstraint = toolsViewsConstaints[activeToolViewIndex].bottom!
-        let newActiveToolViewHeightConstraint = toolsViewsConstaints[index].bottom!
+        let activeToolViewBottomConstraint = toolsViewsConstraints[activeToolViewIndex].bottom!
+        let newActiveToolViewBottomConstraint = toolsViewsConstraints[index].bottom!
         
-        UIView.animate(
-            withDuration: Constants.toolSelectionAnimationDuration,
-            delay: 0,
-            options: .curveEaseInOut
-        ) { [weak self] in
-            activeToolViewHeightConstraint.constant = Constants.regularToolViewBottomOffset
-            newActiveToolViewHeightConstraint.constant = 0
-            self?.toolViewsWrapper.layoutIfNeeded()
+        UIView.animate(withDuration: Constants.toolSelectionAnimationDuration, delay: 0, options: .curveEaseInOut) { [weak self] in
+            activeToolViewBottomConstraint.constant = Constants.regularToolViewBottomOffset
+            newActiveToolViewBottomConstraint.constant = 0
+            self?.layoutIfNeeded()
         }
         
-        self.activeToolViewIndex = index
+        activeToolViewIndex = index
         colorPickerButton.selectedColor = activeTool.color
-        delegate?.activeToolUpdated(activeTool)
+        delegate?.canvasToolBarViewActiveToolChanged(self)
     }
     
     private func centerActiveTool() {
@@ -409,7 +353,7 @@ class CanvasToolBarView: UIView {
         if isActiveToolCenteralTool {
             
         } else {
-            let activeToolViewConstraints = toolsViewsConstaints[activeToolViewIndex]
+            let activeToolViewConstraints = toolsViewsConstraints[activeToolViewIndex]
             let toolAreaWidth = Constants.toolViewsWidth / CGFloat(toolViewsCount)
             let currentLeftOffset = activeToolViewConstraints.left!.constant
             let additionalOffset = Constants.toolViewsWidth / 2 - currentLeftOffset - toolAreaWidth / 2
@@ -420,7 +364,7 @@ class CanvasToolBarView: UIView {
             toolViews.enumerated().forEach { index, toolView in
                 guard index != activeToolViewIndex else { return }
                 
-                let toolViewConstants = toolsViewsConstaints[index]
+                let toolViewConstants = toolsViewsConstraints[index]
                 
                 let currentToolLeftOffset = toolViewConstants.left!.constant
                 toolViewConstants.left!.constant = currentToolLeftOffset + additionalOffset
@@ -443,7 +387,7 @@ class CanvasToolBarView: UIView {
             let toolHorizontalPadding: CGFloat = (Constants.toolViewsWidth / CGFloat(toolViews.count) - Constants.regularToolViewWidth) / 2
             
             toolViews.enumerated().forEach { index, toolView in
-                let toolViewConstraints = toolsViewsConstaints[index]
+                let toolViewConstraints = toolsViewsConstraints[index]
                 
                 let totalPadding =  CGFloat(2 * index + 1) * toolHorizontalPadding
                 let leftOffset =  totalPadding + CGFloat(index) * Constants.regularToolViewWidth
@@ -469,12 +413,12 @@ class CanvasToolBarView: UIView {
     
     private func changeActiveToolColor(to color: CGColor) {
         toolViews[activeToolViewIndex].setColor(to: color)
-        delegate?.activeToolUpdated(activeTool)
+        delegate?.canvasToolBarViewActiveToolChanged(self)
     }
     
     private func changeActiveToolWidth(to width: CGFloat) {
         toolViews[activeToolViewIndex].setWidth(to: width, minWidth: slider.minimumValue, maxWidth: slider.maximumValue)
-        delegate?.activeToolUpdated(activeTool)
+        delegate?.canvasToolBarViewActiveToolChanged(self)
     }
 }
 
