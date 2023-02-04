@@ -75,6 +75,12 @@ class ColorPickerViewController: UIViewController {
         slider.translatesAutoresizingMaskIntoConstraints = false
         return slider
     }()
+    private lazy var savedColorsView: SavedColorsView = {
+        let savedColorsView = SavedColorsView()
+        savedColorsView.delegate = self
+        savedColorsView.translatesAutoresizingMaskIntoConstraints = false
+        return savedColorsView
+    }()
     
     private(set) var color: CGColor {
         didSet {
@@ -89,12 +95,6 @@ class ColorPickerViewController: UIViewController {
         view.layer.cornerRadius = 10
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
-    }()
-    private lazy var savedColorsView: SavedColorsView = {
-        let savedColorsView = SavedColorsView()
-        savedColorsView.delegate = self
-        savedColorsView.translatesAutoresizingMaskIntoConstraints = false
-        return savedColorsView
     }()
     
     private lazy var portraitConstraints: [NSLayoutConstraint] = calculatePortraitConstraints()
@@ -184,10 +184,8 @@ class ColorPickerViewController: UIViewController {
         
         view.addSubview(segmentedControl)
         view.addSubview(opacitySlider)
-        
         view.addSubview(colorSelectionView)
         view.addSubview(selectedColorIndicatorView)
-        view.addSubview(colorSelectionView)
         view.addSubview(savedColorsView)
     }
     
@@ -237,14 +235,14 @@ class ColorPickerViewController: UIViewController {
             colorSelectionView.rightAnchor.constraint(equalTo: view.layoutMarginsGuide.rightAnchor),
             colorSelectionView.leftAnchor.constraint(equalTo: view.layoutMarginsGuide.leftAnchor),
             colorSelectionView.heightAnchor.constraint(equalTo: colorSelectionView.widthAnchor, multiplier: 10 / 12),
-            opacitySlider.topAnchor.constraint(equalTo: colorSelectionView.bottomAnchor, constant: 20),
-            opacitySlider.leftAnchor.constraint(equalTo: view.layoutMarginsGuide.leftAnchor),
-            opacitySlider.heightAnchor.constraint(equalToConstant: Constants.sliderHeight),
-            opacitySlider.widthAnchor.constraint(equalToConstant: Constants.sliderWidth),
-            selectedColorIndicatorView.topAnchor.constraint(equalTo: opacitySlider.bottomAnchor, constant: 20),
+            selectedColorIndicatorView.topAnchor.constraint(equalTo: colorSelectionView.bottomAnchor, constant: 20),
             selectedColorIndicatorView.leftAnchor.constraint(equalTo: view.layoutMarginsGuide.leftAnchor),
             selectedColorIndicatorView.heightAnchor.constraint(equalTo: colorSelectionView.heightAnchor, multiplier: 0.35),
             selectedColorIndicatorView.widthAnchor.constraint(equalTo: selectedColorIndicatorView.heightAnchor, multiplier: 1),
+            savedColorsView.topAnchor.constraint(equalTo: colorSelectionView.bottomAnchor, constant: 20),
+            savedColorsView.rightAnchor.constraint(equalTo: view.layoutMarginsGuide.rightAnchor),
+            savedColorsView.leftAnchor.constraint(equalTo: selectedColorIndicatorView.rightAnchor, constant: 20),
+            savedColorsView.heightAnchor.constraint(equalTo: selectedColorIndicatorView.heightAnchor),
         ]
     }
     
@@ -262,7 +260,7 @@ class ColorPickerViewController: UIViewController {
          selectedColorIndicatorView.topAnchor.constraint(equalTo: opacitySlider.bottomAnchor, constant: 20),
          selectedColorIndicatorView.heightAnchor.constraint(equalTo: colorSelectionView.heightAnchor, multiplier: 0.3),
          selectedColorIndicatorView.widthAnchor.constraint(equalTo: selectedColorIndicatorView.heightAnchor, multiplier: 1),
-         savedColorsView.topAnchor.constraint(equalTo: selectedColorIndicatorView.topAnchor),
+         savedColorsView.topAnchor.constraint(equalTo: opacitySlider.bottomAnchor, constant: 20),
          savedColorsView.rightAnchor.constraint(equalTo: view.layoutMarginsGuide.rightAnchor),
          savedColorsView.leftAnchor.constraint(equalTo: selectedColorIndicatorView.rightAnchor, constant: 20),
          savedColorsView.heightAnchor.constraint(equalTo: selectedColorIndicatorView.heightAnchor),
@@ -320,10 +318,6 @@ class ColorPickerViewController: UIViewController {
     }
     
     // MARK: Public Functions
-    
-    public func setColor(to color: CGColor) {
-        
-    }
 }
 
 
@@ -336,13 +330,18 @@ extension ColorPickerViewController: ColorSelectionViewDelegate {
     }
 }
 
-// MARK: - :
+// MARK: - : SavedColorsViewDelegate
 
 extension ColorPickerViewController: SavedColorsViewDelegate {
+    func savedColorsViewPlusButtonPressed(_ savedColorsView: SavedColorsView) {
+        savedColorsView.savedColors.append(color)
+    }
+    
     func savedColorsViewColorSelected(_ savedColorsView: SavedColorsView) {
-        guard let selectedColor = savedColorsView.lastSelectedColor else { return }
-        opacitySlider.value = selectedColor.alpha
-        color = selectedColor
-        colorSelectionView.colorChanged(to: color)
+        guard let color = savedColorsView.lastSelectedColor else { return }
+        self.color = color
+        colorSelectionView.colorChanged(to: color.copy(alpha: 1)!)
+        opacitySlider.value = color.alpha
+        updateViewColors()
     }
 }

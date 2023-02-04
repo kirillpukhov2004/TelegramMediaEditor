@@ -10,6 +10,7 @@ class SavedColorsView: UIView {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout)
         collectionView.dataSource = self
         collectionView.delegate = self
+        collectionView.showsHorizontalScrollIndicator = false
         collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "Cell")
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
@@ -23,6 +24,13 @@ class SavedColorsView: UIView {
         }
     }
     private(set) var lastSelectedColor: CGColor?
+    
+    override var bounds: CGRect {
+        didSet {
+            collectionView.reloadData()
+            layoutIfNeeded()
+        }
+    }
     
     // MARK: Initialization
     
@@ -47,6 +55,16 @@ class SavedColorsView: UIView {
         delegate?.savedColorsViewColorSelected(self)
     }
     
+    @objc private func plusButtonPressed() {
+        delegate?.savedColorsViewPlusButtonPressed(self)
+    }
+    
+    @objc private func colorLongPressed(_ sender: UIGestureRecognizer) {
+        guard let pressedView = sender.view as? UICollectionViewCell else { return }
+        guard let index = collectionView.indexPath(for: pressedView)?.row else { return }
+        savedColors.remove(at: index)
+    }
+    
     // MARK: Private Functions
     
     private func buildViewHierarchy() {
@@ -63,24 +81,44 @@ class SavedColorsView: UIView {
     private func configureViews() {
         
     }
+    
+    // MARK: Public Functions
 }
 
 // MARK: - : UICollectionViewDataSource
 
 extension SavedColorsView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return savedColors.count
+        return savedColors.count + 1
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath)
-        cell.layer.backgroundColor = savedColors[indexPath.row]
+        cell.contentView.subviews.forEach { $0.removeFromSuperview() }
+        cell.gestureRecognizers?.forEach { cell.removeGestureRecognizer($0) }
+        cell.backgroundColor = .clear
+        
+        if indexPath.row == collectionView.numberOfItems(inSection: collectionView.numberOfSections - 1) - 1 {
+            cell.layer.backgroundColor = UIColor.secondarySystemBackground.cgColor
+            
+            let symbolConfiguration = UIImage.SymbolConfiguration(weight: .semibold)
+            let plusImage = UIImage(systemName: "plus", withConfiguration: symbolConfiguration)!.withTintColor(.label, renderingMode: .alwaysOriginal)
+            let imageView = UIImageView(image: plusImage)
+            imageView.frame = cell.bounds.insetBy(dx: cell.bounds.height * 0.175, dy: cell.bounds.height * 0.175)
+            cell.contentView.addSubview(imageView)
+            
+            let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(plusButtonPressed))
+            cell.addGestureRecognizer(tapGestureRecognizer)
+        } else {
+            cell.layer.backgroundColor = savedColors[indexPath.row]
+            
+            let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(colorSelected(_:)))
+            cell.addGestureRecognizer(tapGestureRecognizer)
+            
+            let longGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(colorLongPressed(_:)))
+            cell.addGestureRecognizer(longGestureRecognizer)
+        }
         cell.layer.cornerRadius = cell.frame.width / 2
-        
-        let tapGestureRecognizer = UITapGestureRecognizer()
-        tapGestureRecognizer.addTarget(self, action: #selector(colorSelected(_:)))
-        cell.addGestureRecognizer(tapGestureRecognizer)
-        
         return cell
     }
 }
