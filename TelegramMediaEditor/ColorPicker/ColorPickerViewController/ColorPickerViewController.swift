@@ -342,7 +342,7 @@ extension ColorPickerViewController: ColorSelectionViewDelegate {
 
 extension ColorPickerViewController: SavedColorsViewDelegate {
     func savedColorsViewPlusButtonPressed(_ savedColorsView: SavedColorsView) {
-        savedColorsView.savedColors.append(color)
+        savedColorsView.saveColor(color)
     }
     
     func savedColorsViewColorSelected(_ savedColorsView: SavedColorsView) {

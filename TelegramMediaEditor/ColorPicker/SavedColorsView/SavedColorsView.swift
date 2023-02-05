@@ -1,5 +1,11 @@
 import UIKit
 
+// MARK: - Constants
+
+fileprivate enum Constants {
+    static let savedColors = "savedColors"
+}
+
 // MARK: - SavedColorsView
 
 class SavedColorsView: UIView {
@@ -17,8 +23,14 @@ class SavedColorsView: UIView {
     
     public var delegate: SavedColorsViewDelegate?
     
-    public var savedColors: [CGColor] = [UIColor.red.cgColor, UIColor.green.cgColor, UIColor.blue.cgColor] {
-        didSet {
+    private(set) var savedColors: [CGColor]! {
+        willSet(colors) {
+            guard let colors = colors else { return }
+            let array = colors.map { cgColor in
+                let ciColor = CIColor(cgColor: cgColor)
+                return [ciColor.red, ciColor.green, ciColor.blue, ciColor.alpha]
+            }
+            UserDefaults.standard.set(array, forKey: Constants.savedColors)
             collectionView.reloadData()
         }
     }
@@ -28,6 +40,8 @@ class SavedColorsView: UIView {
     
     public init() {
         super.init(frame: .zero)
+        
+        savedColors = getSavedColors()
         
         buildViewHierarchy()
         setupConstraints()
@@ -92,7 +106,24 @@ class SavedColorsView: UIView {
         return CGSize(width: squareDimension, height: squareDimension)
     }
     
+    private func getSavedColors() -> [CGColor] {
+        guard let array = UserDefaults.standard.array(forKey: Constants.savedColors) as? [[CGFloat]] else {
+            return [UIColor.red.cgColor, UIColor.green.cgColor, UIColor.blue.cgColor]
+        }
+        
+        let colors = array.map { arr in
+            CGColor(red: arr[0], green: arr[1], blue: arr[2], alpha: arr[3])
+        }
+        
+        return colors
+
+    }
+    
     // MARK: Public Functions
+    
+    public func saveColor(_ color: CGColor) {
+        savedColors.append(color)
+    }
 }
 
 // MARK: - : UICollectionViewDataSource

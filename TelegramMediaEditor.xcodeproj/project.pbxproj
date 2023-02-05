@@ -117,6 +117,15 @@
 			path = ColorSelectionView;
 			sourceTree = "<group>";
 		};
+		D6131FEF29903A1F0047567A /* ColorPickerViewController */ = {
+			isa = PBXGroup;
+			children = (
+				D6FFDD3E2983F0060091CE14 /* ColorPickerViewController.swift */,
+				D6FFDD7D298434D80091CE14 /* ColorPickerViewControllerDelegate.swift */,
+			);
+			path = ColorPickerViewController;
+			sourceTree = "<group>";
+		};
 		D629F416298ADF50002F0418 /* ColorPickerButton */ = {
 			isa = PBXGroup;
 			children = (
@@ -255,8 +264,7 @@
 		D6FFDD3D2983EF300091CE14 /* ColorPicker */ = {
 			isa = PBXGroup;
 			children = (
-				D6FFDD3E2983F0060091CE14 /* ColorPickerViewController.swift */,
-				D6FFDD7D298434D80091CE14 /* ColorPickerViewControllerDelegate.swift */,
+				D6131FEF29903A1F0047567A /* ColorPickerViewController */,
 				D64E7E61298FAAA8004E4A90 /* SavedColorsView */,
 				D6073E51298AA1E800C2BFF2 /* ColorSelectionView */,
 				D629F416298ADF50002F0418 /* ColorPickerButton */,
