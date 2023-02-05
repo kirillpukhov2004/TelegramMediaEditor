@@ -39,7 +39,6 @@ class GridColorSelectionView: UIView, ColorSelectionView {
         collectionViewLayout.minimumInteritemSpacing = 0
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout)
         collectionView.dataSource = self
-        collectionView.delegate = self
         collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "Cell")
         collectionView.layer.cornerRadius = Constants.collectionViewCornerRadius
         collectionView.translatesAutoresizingMaskIntoConstraints = false
@@ -90,13 +89,20 @@ class GridColorSelectionView: UIView, ColorSelectionView {
     
     // MARK: Lifecycle
     
-    override var bounds: CGRect {
-        didSet {
-            collectionView.collectionViewLayout.invalidateLayout()
-            layoutIfNeeded()
-            if let selectedColorView = selectedColorView {
-                updateSelectedColorBorder(for: selectedColorView)
-            }
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        guard let collectionViewFlowLayout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout else { return }
+        let itemSize = calculateCellSize(for: bounds.size)
+        collectionViewFlowLayout.itemSize = itemSize
+        
+        let contentSize = CGSize(width: itemSize.width * Constants.colorsPerRow, height: itemSize.height * Constants.colorsPerCollumn)
+        collectionView.bounds = CGRect(origin: collectionView.bounds.origin, size: contentSize)
+        
+        collectionViewFlowLayout.invalidateLayout()
+        
+        if let selectedColorView = selectedColorView {
+            updateSelectedColorBorder(for: selectedColorView)
         }
     }
     
@@ -144,9 +150,14 @@ class GridColorSelectionView: UIView, ColorSelectionView {
     }
     
     private func updateSelectedColorBorder(for selectedColorView: UIView) {
-        let borderRect = selectedColorView.bounds.insetBy(dx: -1.25, dy: -1.25)
-        let borderOrigin: CGPoint = CGPoint(x: selectedColorView.frame.origin.x + selectedColorView.superview!.frame.origin.x,
-                                            y: selectedColorView.frame.origin.y + selectedColorView.superview!.frame.origin.y)
+        guard let collectionViewFlowLayout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout else { return }
+        let borderRect = CGRect(origin: .zero, size: collectionViewFlowLayout.itemSize).insetBy(dx: -1.25, dy: -1.25)
+        
+        let colorRow = selectedColorView.frame.origin.x / selectedColorView.frame.width
+        let colorCollumn = selectedColorView.frame.origin.y / selectedColorView.frame.height
+        
+        let borderOrigin: CGPoint = CGPoint(x: colorRow * collectionViewFlowLayout.itemSize.width + selectedColorView.superview!.frame.origin.x,
+                                            y: colorCollumn * collectionViewFlowLayout.itemSize.height + selectedColorView.superview!.frame.origin.y)
         let cornerRadius1: CGFloat = 1.25
         let cornerRadius2: CGFloat = Constants.collectionViewCornerRadius + 1.25
 
@@ -199,6 +210,12 @@ class GridColorSelectionView: UIView, ColorSelectionView {
         self.selectedColorView = selectedColorView
     }
     
+    private func calculateCellSize(for size: CGSize) -> CGSize {
+        let availableWidth = size.width
+        let itemDimension = floor(availableWidth / Constants.colorsPerRow)
+        return CGSize(width: itemDimension, height: itemDimension)
+    }
+    
     // MARK: Public Functions
     
     public func colorChanged(to color: CGColor) {
@@ -231,20 +248,5 @@ extension GridColorSelectionView: UICollectionViewDataSource {
         cell.backgroundColor = cellColor
         
         return cell
-    }
-}
-
-// MARK: - : UICollectionViewFlowLayout
-
-extension GridColorSelectionView: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let availableWidth = collectionView.frame.width
-        let itemDimension = floor(availableWidth / Constants.colorsPerRow)
-        let newSize =  CGSize(width: itemDimension * Constants.colorsPerRow, height: itemDimension * Constants.colorsPerCollumn)
-        let newBounds = CGRect(origin: .zero, size: newSize)
-        if !collectionView.bounds.equalTo(newBounds) {
-            collectionView.bounds = newBounds
-        }
-        return CGSize(width: itemDimension, height: itemDimension)
     }
 }
