@@ -9,9 +9,8 @@ class SavedColorsView: UIView {
         collectionViewLayout.minimumInteritemSpacing = 8
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout)
         collectionView.dataSource = self
-        collectionView.delegate = self
         collectionView.showsHorizontalScrollIndicator = false
-        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "Cell")
+        collectionView.register(SavedColorsCollectionViewCell.self, forCellWithReuseIdentifier: "Cell")
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
@@ -25,13 +24,6 @@ class SavedColorsView: UIView {
     }
     private(set) var lastSelectedColor: CGColor?
     
-    override var bounds: CGRect {
-        didSet {
-            collectionView.reloadData()
-            layoutIfNeeded()
-        }
-    }
-    
     // MARK: Initialization
     
     public init() {
@@ -44,6 +36,16 @@ class SavedColorsView: UIView {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    // MARK: Lifecycle
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        guard let collectionViewFlowLayout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout else { return }
+        collectionViewFlowLayout.itemSize = calculateCellSize(for: bounds.size)
+        collectionViewFlowLayout.invalidateLayout()
     }
     
     // MARK: Actions
@@ -82,6 +84,14 @@ class SavedColorsView: UIView {
         
     }
     
+    private func calculateCellSize(for size: CGSize) -> CGSize {
+        let collectionViewLayout = collectionView.collectionViewLayout
+        let availdableHeight = bounds.height - (collectionViewLayout as! UICollectionViewFlowLayout).minimumLineSpacing * 3
+        let availableWidth = bounds.width - (collectionViewLayout as! UICollectionViewFlowLayout).minimumInteritemSpacing * (savedColors.count + 1)
+        let squareDimension = min(availableWidth / 2, availdableHeight / 2)
+        return CGSize(width: squareDimension, height: squareDimension)
+    }
+    
     // MARK: Public Functions
 }
 
@@ -105,6 +115,8 @@ extension SavedColorsView: UICollectionViewDataSource {
             let plusImage = UIImage(systemName: "plus", withConfiguration: symbolConfiguration)!.withTintColor(.label, renderingMode: .alwaysOriginal)
             let imageView = UIImageView(image: plusImage)
             imageView.frame = cell.bounds.insetBy(dx: cell.bounds.height * 0.175, dy: cell.bounds.height * 0.175)
+            imageView.autoresizingMask = [.flexibleLeftMargin, .flexibleTopMargin, .flexibleRightMargin, .flexibleBottomMargin, .flexibleHeight, .flexibleWidth]
+            imageView.contentMode = .scaleAspectFit
             cell.contentView.addSubview(imageView)
             
             let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(plusButtonPressed))
@@ -118,19 +130,7 @@ extension SavedColorsView: UICollectionViewDataSource {
             let longGestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(colorLongPressed(_:)))
             cell.addGestureRecognizer(longGestureRecognizer)
         }
-        cell.layer.cornerRadius = cell.frame.width / 2
+
         return cell
-    }
-}
-
-// MARK: - UICollectionViewDelegateFlowLayout
-
-extension SavedColorsView: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let availdableHeight: CGFloat = collectionView.bounds.height - (collectionViewLayout as! UICollectionViewFlowLayout).minimumLineSpacing * 3
-        let availableWidth: CGFloat = collectionView.bounds.width - (collectionViewLayout as! UICollectionViewFlowLayout).minimumInteritemSpacing * (savedColors.count + 1)
-        let squareDimension: CGFloat = min(availableWidth / 2, availdableHeight / 2)
-        
-        return CGSize(width: squareDimension, height: squareDimension)
     }
 }
