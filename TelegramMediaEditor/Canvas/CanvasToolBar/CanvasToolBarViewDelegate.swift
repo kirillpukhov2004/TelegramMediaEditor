@@ -1,5 +1,5 @@
 import UIKit
 
 protocol CanvasToolBarViewDelegate {
-    func activeToolUpdated(_ tool: Tool)
+    func canvasToolBarViewActiveToolChanged(_ canvasToolBarView: CanvasToolBarView)
 }

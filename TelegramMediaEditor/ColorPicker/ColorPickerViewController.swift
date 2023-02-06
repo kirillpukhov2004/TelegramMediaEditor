@@ -6,11 +6,9 @@ fileprivate struct Constants {
     static let topBarHeight: CGFloat = 54
     static let segmentedControlHeight: CGFloat = 28
     
-    static let sliderWidth: CGFloat = 269
-    static let sliderHeight: CGFloat = 36
-    
-    static let sliderThumbWidth: CGFloat = 29
-    static let sliderThumbHeight: CGFloat = 29
+    static let sliderSize = CGSize(width: 269, height: 36)
+    static let sliderThumbSize = CGSize(width: 29, height: 29)
+    static let colorViewIndicatorSize = CGSize(width: 82, height: 82)
 }
 
 // MARK: - ColorPickerViewController
@@ -70,7 +68,7 @@ class ColorPickerViewController: UIViewController {
         slider.addTarget(self, action: #selector(sliderValueChanged(_:)), for: .valueChanged)
         slider.setTrackLayer(to: opacitySliderTrackLayer(for: colorSelectionView.selectedColor ?? color.copy(alpha: 1)!))
         slider.setThumbLayer(to: opacitySliderThumbLayer(for: color))
-        slider.layer.cornerRadius = Constants.sliderHeight / 2
+        slider.layer.cornerRadius = Constants.sliderSize.height / 2
         slider.clipsToBounds = true
         slider.translatesAutoresizingMaskIntoConstraints = false
         return slider
@@ -235,13 +233,20 @@ class ColorPickerViewController: UIViewController {
             colorSelectionView.rightAnchor.constraint(equalTo: view.layoutMarginsGuide.rightAnchor),
             colorSelectionView.leftAnchor.constraint(equalTo: view.layoutMarginsGuide.leftAnchor),
             colorSelectionView.heightAnchor.constraint(equalTo: colorSelectionView.widthAnchor, multiplier: 10 / 12),
-            selectedColorIndicatorView.topAnchor.constraint(equalTo: colorSelectionView.bottomAnchor, constant: 20),
+            
+            opacitySlider.topAnchor.constraint(equalTo: colorSelectionView.bottomAnchor, constant: 20),
+            opacitySlider.leftAnchor.constraint(equalTo: view.layoutMarginsGuide.leftAnchor),
+            opacitySlider.heightAnchor.constraint(equalToConstant: Constants.sliderSize.height),
+            opacitySlider.widthAnchor.constraint(equalToConstant: Constants.sliderSize.width),
+            
+            selectedColorIndicatorView.topAnchor.constraint(equalTo: opacitySlider.bottomAnchor, constant: 20),
             selectedColorIndicatorView.leftAnchor.constraint(equalTo: view.layoutMarginsGuide.leftAnchor),
-            selectedColorIndicatorView.heightAnchor.constraint(equalTo: colorSelectionView.heightAnchor, multiplier: 0.35),
-            selectedColorIndicatorView.widthAnchor.constraint(equalTo: selectedColorIndicatorView.heightAnchor, multiplier: 1),
-            savedColorsView.topAnchor.constraint(equalTo: colorSelectionView.bottomAnchor, constant: 20),
-            savedColorsView.rightAnchor.constraint(equalTo: view.layoutMarginsGuide.rightAnchor),
-            savedColorsView.leftAnchor.constraint(equalTo: selectedColorIndicatorView.rightAnchor, constant: 20),
+            selectedColorIndicatorView.heightAnchor.constraint(equalToConstant: Constants.colorViewIndicatorSize.height),
+            selectedColorIndicatorView.widthAnchor.constraint(equalToConstant: Constants.colorViewIndicatorSize.width),
+            
+            savedColorsView.topAnchor.constraint(equalTo: selectedColorIndicatorView.topAnchor),
+            savedColorsView.rightAnchor.constraint(equalTo: opacitySlider.rightAnchor),
+            savedColorsView.leftAnchor.constraint(equalTo: selectedColorIndicatorView.rightAnchor, constant: 36),
             savedColorsView.heightAnchor.constraint(equalTo: selectedColorIndicatorView.heightAnchor),
         ]
     }
@@ -252,14 +257,17 @@ class ColorPickerViewController: UIViewController {
          colorSelectionView.leftAnchor.constraint(equalTo: view.layoutMarginsGuide.leftAnchor),
          colorSelectionView.widthAnchor.constraint(equalTo: view.layoutMarginsGuide.widthAnchor, multiplier: 1/2),
          colorSelectionView.heightAnchor.constraint(equalTo: colorSelectionView.widthAnchor, multiplier: 10/12),
+         
          opacitySlider.topAnchor.constraint(equalTo: colorSelectionView.topAnchor),
          opacitySlider.leftAnchor.constraint(equalTo: colorSelectionView.rightAnchor, constant: 20),
-         opacitySlider.heightAnchor.constraint(equalToConstant: Constants.sliderHeight),
-         opacitySlider.widthAnchor.constraint(equalToConstant: Constants.sliderWidth),
+         opacitySlider.heightAnchor.constraint(equalToConstant: Constants.sliderSize.height),
+         opacitySlider.widthAnchor.constraint(equalToConstant: Constants.sliderSize.width),
+         
          selectedColorIndicatorView.leftAnchor.constraint(equalTo: colorSelectionView.rightAnchor, constant: 20),
          selectedColorIndicatorView.topAnchor.constraint(equalTo: opacitySlider.bottomAnchor, constant: 20),
-         selectedColorIndicatorView.heightAnchor.constraint(equalTo: colorSelectionView.heightAnchor, multiplier: 0.3),
-         selectedColorIndicatorView.widthAnchor.constraint(equalTo: selectedColorIndicatorView.heightAnchor, multiplier: 1),
+         selectedColorIndicatorView.heightAnchor.constraint(equalToConstant: Constants.colorViewIndicatorSize.height),
+         selectedColorIndicatorView.widthAnchor.constraint(equalToConstant: Constants.colorViewIndicatorSize.width),
+         
          savedColorsView.topAnchor.constraint(equalTo: opacitySlider.bottomAnchor, constant: 20),
          savedColorsView.rightAnchor.constraint(equalTo: view.layoutMarginsGuide.rightAnchor),
          savedColorsView.leftAnchor.constraint(equalTo: selectedColorIndicatorView.rightAnchor, constant: 20),
@@ -270,7 +278,7 @@ class ColorPickerViewController: UIViewController {
     private func opacitySliderTrackLayer(for color: CGColor) -> CALayer {
         let layer = CALayer()
         layer.backgroundColor = UIColor.white.cgColor
-        layer.frame.size = CGSize(width: Constants.sliderWidth, height: Constants.sliderHeight)
+        layer.frame.size = CGSize(width: Constants.sliderSize.width, height: Constants.sliderSize.height)
         
         let backgroundGradientLayer = CAGradientLayer()
         backgroundGradientLayer.colors = [UIColor.clear.cgColor, color]
@@ -283,15 +291,15 @@ class ColorPickerViewController: UIViewController {
     }
     
     private func opacitySliderThumbLayer(for color: CGColor) -> CALayer {
-        let horizontalPadding: CGFloat = (Constants.sliderHeight - Constants.sliderThumbHeight) / 2
+        let horizontalPadding: CGFloat = (Constants.sliderSize.height - Constants.sliderThumbSize.height) / 2
         let layer = CALayer()
         layer.backgroundColor = UIColor.clear.cgColor
-        layer.frame.size = CGSize(width: Constants.sliderThumbWidth + horizontalPadding * 2, height: Constants.sliderThumbWidth)
+        layer.frame.size = CGSize(width: Constants.sliderThumbSize.width + horizontalPadding * 2, height: Constants.sliderThumbSize.width)
         
         let firstShapeLayer = CAShapeLayer()
         firstShapeLayer.fillColor = UIColor.label.cgColor
-        let firstBezierPath = UIBezierPath(arcCenter: CGPoint(x: Constants.sliderThumbWidth / 2 + horizontalPadding, y: Constants.sliderThumbHeight / 2),
-                                           radius: Constants.sliderThumbWidth / 2,
+        let firstBezierPath = UIBezierPath(arcCenter: CGPoint(x: Constants.sliderThumbSize.width / 2 + horizontalPadding, y: Constants.sliderThumbSize.height / 2),
+                                           radius: Constants.sliderThumbSize.width / 2,
                                            startAngle: 0, endAngle: 2 * .pi,
                                            clockwise: true)
         firstShapeLayer.path = firstBezierPath.cgPath
@@ -299,8 +307,8 @@ class ColorPickerViewController: UIViewController {
         
         let secondShapeLayer = CAShapeLayer()
         secondShapeLayer.fillColor = color
-        let secondBezierPath = UIBezierPath(arcCenter: CGPoint(x: Constants.sliderThumbWidth / 2 + horizontalPadding, y: Constants.sliderThumbHeight / 2),
-                                           radius: Constants.sliderThumbWidth / 2 - 3,
+        let secondBezierPath = UIBezierPath(arcCenter: CGPoint(x: Constants.sliderThumbSize.width / 2 + horizontalPadding, y: Constants.sliderThumbSize.height / 2),
+                                            radius: Constants.sliderThumbSize.width / 2 - 3,
                                            startAngle: 0, endAngle: 2 * .pi,
                                            clockwise: true)
         secondShapeLayer.path = secondBezierPath.cgPath

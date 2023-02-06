@@ -97,7 +97,8 @@ extension CanvasViewController: CanvasTopBarViewDelegate {
 // MARK: - : ToolBarViewDelegate
 
 extension CanvasViewController: CanvasToolBarViewDelegate {
-    func activeToolUpdated(_ tool: Tool) {
-        canvasView.tool = tool
+    func canvasToolBarViewActiveToolChanged(_ canvasToolBarView: CanvasToolBarView) {
+        let newActiveTool = canvasToolBarView.activeTool
+        canvasView.tool = newActiveTool
     }
 }

@@ -14,6 +14,7 @@
 		D6073E53298AA89600C2BFF2 /* ColorSelectionViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6073E52298AA89600C2BFF2 /* ColorSelectionViewDelegate.swift */; };
 		D6073E55298AB69C00C2BFF2 /* UIBezierPathExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6073E54298AB69C00C2BFF2 /* UIBezierPathExtensions.swift */; };
 		D629F419298AFA9B002F0418 /* SavedColorsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D629F418298AFA9B002F0418 /* SavedColorsView.swift */; };
+		D64E7E60298FAA26004E4A90 /* SavedColorsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D64E7E5F298FAA26004E4A90 /* SavedColorsCollectionViewCell.swift */; };
 		D65554742973E469004E3823 /* CGSizeExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D65554732973E469004E3823 /* CGSizeExtensions.swift */; };
 		D6995B902902CA9A000E2CA7 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = D6995B8F2902CA9A000E2CA7 /* Lottie */; };
 		D6AA0A492978865300F6A8D0 /* ViewConstraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6AA0A482978865300F6A8D0 /* ViewConstraints.swift */; };
@@ -58,6 +59,7 @@
 		D6073E54298AB69C00C2BFF2 /* UIBezierPathExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIBezierPathExtensions.swift; sourceTree = "<group>"; };
 		D629F418298AFA9B002F0418 /* SavedColorsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedColorsView.swift; sourceTree = "<group>"; };
 		D6453F4D28F7EE2C001F6101 /* TelegramMediaEditor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TelegramMediaEditor.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D64E7E5F298FAA26004E4A90 /* SavedColorsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedColorsCollectionViewCell.swift; sourceTree = "<group>"; };
 		D65554732973E469004E3823 /* CGSizeExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGSizeExtensions.swift; sourceTree = "<group>"; };
 		D6AA0A482978865300F6A8D0 /* ViewConstraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewConstraints.swift; sourceTree = "<group>"; };
 		D6D40D01298D6E85000470E0 /* SavedColorsViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedColorsViewDelegate.swift; sourceTree = "<group>"; };
@@ -148,6 +150,16 @@
 				D6453F4D28F7EE2C001F6101 /* TelegramMediaEditor.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		D64E7E61298FAAA8004E4A90 /* SavedColorsView */ = {
+			isa = PBXGroup;
+			children = (
+				D629F418298AFA9B002F0418 /* SavedColorsView.swift */,
+				D64E7E5F298FAA26004E4A90 /* SavedColorsCollectionViewCell.swift */,
+				D6D40D01298D6E85000470E0 /* SavedColorsViewDelegate.swift */,
+			);
+			path = SavedColorsView;
 			sourceTree = "<group>";
 		};
 		D65554722973DF25004E3823 /* Stroke */ = {
@@ -245,8 +257,7 @@
 			children = (
 				D6FFDD3E2983F0060091CE14 /* ColorPickerViewController.swift */,
 				D6FFDD7D298434D80091CE14 /* ColorPickerViewControllerDelegate.swift */,
-				D629F418298AFA9B002F0418 /* SavedColorsView.swift */,
-				D6D40D01298D6E85000470E0 /* SavedColorsViewDelegate.swift */,
+				D64E7E61298FAAA8004E4A90 /* SavedColorsView */,
 				D6073E51298AA1E800C2BFF2 /* ColorSelectionView */,
 				D629F416298ADF50002F0418 /* ColorPickerButton */,
 			);
@@ -364,6 +375,7 @@
 				D6F64B4629702B2400F47531 /* SegmentedControlSegment.swift in Sources */,
 				D6F64B3F29702B2400F47531 /* ColorPickerButton.swift in Sources */,
 				D6F64B4329702B2400F47531 /* Tool.swift in Sources */,
+				D64E7E60298FAA26004E4A90 /* SavedColorsCollectionViewCell.swift in Sources */,
 				D6F64B4429702B2400F47531 /* CanvasViewController.swift in Sources */,
 				D6FFDD80298438280091CE14 /* ColorPickerButtonDelegate.swift in Sources */,
 				D6F64B3E29702B2400F47531 /* CanvasView.swift in Sources */,
