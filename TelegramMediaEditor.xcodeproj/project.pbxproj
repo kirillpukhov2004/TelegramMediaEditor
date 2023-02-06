@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D603084A2990CD8100679AFA /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = D60308492990CD8100679AFA /* Color.swift */; };
+		D603084C2990CFFC00679AFA /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D603084B2990CFFC00679AFA /* UserDefaultsManager.swift */; };
+		D603084E2990DBA400679AFA /* UserDefaultsSavable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D603084D2990DBA400679AFA /* UserDefaultsSavable.swift */; };
+		D60308502990DBF000679AFA /* ArrayExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D603084F2990DBF000679AFA /* ArrayExtensions.swift */; };
 		D6073E4A298AA0FD00C2BFF2 /* GridColorSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6073E49298AA0FD00C2BFF2 /* GridColorSelectionView.swift */; };
 		D6073E4C298AA11000C2BFF2 /* SpectrumColorSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6073E4B298AA11000C2BFF2 /* SpectrumColorSelectionView.swift */; };
 		D6073E4E298AA12200C2BFF2 /* SlidersColorSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6073E4D298AA12200C2BFF2 /* SlidersColorSelectionView.swift */; };
@@ -51,6 +55,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		D60308492990CD8100679AFA /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
+		D603084B2990CFFC00679AFA /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
+		D603084D2990DBA400679AFA /* UserDefaultsSavable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsSavable.swift; sourceTree = "<group>"; };
+		D603084F2990DBF000679AFA /* ArrayExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayExtensions.swift; sourceTree = "<group>"; };
 		D6073E49298AA0FD00C2BFF2 /* GridColorSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridColorSelectionView.swift; sourceTree = "<group>"; };
 		D6073E4B298AA11000C2BFF2 /* SpectrumColorSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpectrumColorSelectionView.swift; sourceTree = "<group>"; };
 		D6073E4D298AA12200C2BFF2 /* SlidersColorSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlidersColorSelectionView.swift; sourceTree = "<group>"; };
@@ -165,8 +173,8 @@
 			isa = PBXGroup;
 			children = (
 				D629F418298AFA9B002F0418 /* SavedColorsView.swift */,
-				D64E7E5F298FAA26004E4A90 /* SavedColorsCollectionViewCell.swift */,
 				D6D40D01298D6E85000470E0 /* SavedColorsViewDelegate.swift */,
+				D64E7E5F298FAA26004E4A90 /* SavedColorsCollectionViewCell.swift */,
 			);
 			path = SavedColorsView;
 			sourceTree = "<group>";
@@ -188,6 +196,7 @@
 				D65554732973E469004E3823 /* CGSizeExtensions.swift */,
 				D6FFDD7B298424790091CE14 /* CGFloatExtensions.swift */,
 				D6073E54298AB69C00C2BFF2 /* UIBezierPathExtensions.swift */,
+				D603084F2990DBF000679AFA /* ArrayExtensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -294,7 +303,10 @@
 		D6FFDD89298457610091CE14 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				D60308492990CD8100679AFA /* Color.swift */,
 				D6AA0A482978865300F6A8D0 /* ViewConstraints.swift */,
+				D603084B2990CFFC00679AFA /* UserDefaultsManager.swift */,
+				D603084D2990DBA400679AFA /* UserDefaultsSavable.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -380,7 +392,9 @@
 				D6FFDD7E298434D80091CE14 /* ColorPickerViewControllerDelegate.swift in Sources */,
 				D6F64B3829702B2400F47531 /* ImagePickerAccessRequestViewController.swift in Sources */,
 				D6D40D02298D6E85000470E0 /* SavedColorsViewDelegate.swift in Sources */,
+				D603084E2990DBA400679AFA /* UserDefaultsSavable.swift in Sources */,
 				D6F64B4629702B2400F47531 /* SegmentedControlSegment.swift in Sources */,
+				D603084C2990CFFC00679AFA /* UserDefaultsManager.swift in Sources */,
 				D6F64B3F29702B2400F47531 /* ColorPickerButton.swift in Sources */,
 				D6F64B4329702B2400F47531 /* Tool.swift in Sources */,
 				D64E7E60298FAA26004E4A90 /* SavedColorsCollectionViewCell.swift in Sources */,
@@ -392,6 +406,7 @@
 				D6F64B3A29702B2400F47531 /* ImagePickerCollectionViewCell.swift in Sources */,
 				D65554742973E469004E3823 /* CGSizeExtensions.swift in Sources */,
 				D6F64B4B29702B2400F47531 /* Stroke.swift in Sources */,
+				D603084A2990CD8100679AFA /* Color.swift in Sources */,
 				D6073E53298AA89600C2BFF2 /* ColorSelectionViewDelegate.swift in Sources */,
 				D6ECEA5D29704BA000DD9502 /* StrokeSample.swift in Sources */,
 				D6073E4E298AA12200C2BFF2 /* SlidersColorSelectionView.swift in Sources */,
@@ -409,6 +424,7 @@
 				D6F64B3729702B2400F47531 /* StrokeGestureRecognizer.swift in Sources */,
 				D6FFDD8229844E6A0091CE14 /* CanvasToolBarViewDelegate.swift in Sources */,
 				D6F64B4729702B2400F47531 /* SegmentedControl.swift in Sources */,
+				D60308502990DBF000679AFA /* ArrayExtensions.swift in Sources */,
 				D6073E4C298AA11000C2BFF2 /* SpectrumColorSelectionView.swift in Sources */,
 				D6F64B4829702B2400F47531 /* AppDelegate.swift in Sources */,
 				D6ECEA6029704C4900DD9502 /* UIColorExtensions.swift in Sources */,
@@ -551,7 +567,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
 				INFOPLIST_KEY_UIRequiresFullScreen = NO;
 				INFOPLIST_KEY_UIStatusBarStyle = "";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -588,7 +604,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
 				INFOPLIST_KEY_UIRequiresFullScreen = NO;
 				INFOPLIST_KEY_UIStatusBarStyle = "";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (

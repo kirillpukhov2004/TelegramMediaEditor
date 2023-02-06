@@ -23,14 +23,9 @@ class SavedColorsView: UIView {
     
     public var delegate: SavedColorsViewDelegate?
     
-    private(set) var savedColors: [CGColor]! {
-        willSet(colors) {
-            guard let colors = colors else { return }
-            let array = colors.map { cgColor in
-                let ciColor = CIColor(cgColor: cgColor)
-                return [ciColor.red, ciColor.green, ciColor.blue, ciColor.alpha]
-            }
-            UserDefaults.standard.set(array, forKey: Constants.savedColors)
+    private(set) lazy var savedColors: [CGColor] = restoreColors() {
+        willSet(cgColors) {
+            saveColors(cgColors)
             collectionView.reloadData()
         }
     }
@@ -40,8 +35,6 @@ class SavedColorsView: UIView {
     
     public init() {
         super.init(frame: .zero)
-        
-        savedColors = getSavedColors()
         
         buildViewHierarchy()
         setupConstraints()
@@ -106,17 +99,21 @@ class SavedColorsView: UIView {
         return CGSize(width: squareDimension, height: squareDimension)
     }
     
-    private func getSavedColors() -> [CGColor] {
-        guard let array = UserDefaults.standard.array(forKey: Constants.savedColors) as? [[CGFloat]] else {
-            return [UIColor.red.cgColor, UIColor.green.cgColor, UIColor.blue.cgColor]
+    private func saveColors(_ cgColors: [CGColor]) {
+        let colors = cgColors.map({ Color(cgColor: $0) })
+        colors.save(Constants.savedColors)
+    }
+    
+    private func restoreColors() -> [CGColor] {
+        let defaultColors = [UIColor.red.cgColor, UIColor.green.cgColor, UIColor.blue.cgColor]
+        
+        guard let colors = Array<Color>.restore(Constants.savedColors) else {
+            return defaultColors
         }
         
-        let colors = array.map { arr in
-            CGColor(red: arr[0], green: arr[1], blue: arr[2], alpha: arr[3])
-        }
+        let cgColors: [CGColor] = colors.map({ $0.cgColor })
         
-        return colors
-
+        return cgColors
     }
     
     // MARK: Public Functions
