@@ -7,28 +7,10 @@ struct Color: Codable {
     public var alpha: Double = 1
     
     public init(cgColor: CGColor) {
-        var components: [CGFloat] = [0, 0, 0, 1]
-        
-        let numberOfComponents = cgColor.numberOfComponents
-        for index in 0..<numberOfComponents {
-            switch index {
-            case 0:
-                components[0] = cgColor.components?[index] ?? 0
-            case 1:
-                components[1] = cgColor.components?[index] ?? 0
-            case 2:
-                components[2] = cgColor.components?[index] ?? 0
-            case 3:
-                components[3] = cgColor.components?[index] ?? 1
-            default:
-                return
-            }
-        }
-        
-        self.red = components[0]
-        self.green = components[1]
-        self.blue = components[2]
-        self.alpha = components[3]
+        self.red = cgColor.red
+        self.green = cgColor.green
+        self.blue = cgColor.blue
+        self.alpha = cgColor.alpha
     }
     
     public var cgColor: CGColor {

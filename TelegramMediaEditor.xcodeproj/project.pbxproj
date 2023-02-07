@@ -18,10 +18,12 @@
 		D6073E53298AA89600C2BFF2 /* ColorSelectionViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6073E52298AA89600C2BFF2 /* ColorSelectionViewDelegate.swift */; };
 		D6073E55298AB69C00C2BFF2 /* UIBezierPathExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6073E54298AB69C00C2BFF2 /* UIBezierPathExtensions.swift */; };
 		D629F419298AFA9B002F0418 /* SavedColorsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D629F418298AFA9B002F0418 /* SavedColorsView.swift */; };
+		D62A6FCE29939FEB00670648 /* CGColorExtesnion.swift in Sources */ = {isa = PBXBuildFile; fileRef = D62A6FCD29939FEB00670648 /* CGColorExtesnion.swift */; };
 		D64E7E60298FAA26004E4A90 /* SavedColorsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D64E7E5F298FAA26004E4A90 /* SavedColorsCollectionViewCell.swift */; };
 		D65554742973E469004E3823 /* CGSizeExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D65554732973E469004E3823 /* CGSizeExtensions.swift */; };
 		D6995B902902CA9A000E2CA7 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = D6995B8F2902CA9A000E2CA7 /* Lottie */; };
 		D6AA0A492978865300F6A8D0 /* ViewConstraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6AA0A482978865300F6A8D0 /* ViewConstraints.swift */; };
+		D6AC82CB2993D8A500CE434E /* ColorIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6AC82CA2993D8A500CE434E /* ColorIndicatorView.swift */; };
 		D6D40D02298D6E85000470E0 /* SavedColorsViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6D40D01298D6E85000470E0 /* SavedColorsViewDelegate.swift */; };
 		D6ECEA5D29704BA000DD9502 /* StrokeSample.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6ECEA5C29704BA000DD9502 /* StrokeSample.swift */; };
 		D6ECEA6029704C4900DD9502 /* UIColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6ECEA5F29704C4900DD9502 /* UIColorExtensions.swift */; };
@@ -66,10 +68,12 @@
 		D6073E52298AA89600C2BFF2 /* ColorSelectionViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSelectionViewDelegate.swift; sourceTree = "<group>"; };
 		D6073E54298AB69C00C2BFF2 /* UIBezierPathExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIBezierPathExtensions.swift; sourceTree = "<group>"; };
 		D629F418298AFA9B002F0418 /* SavedColorsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedColorsView.swift; sourceTree = "<group>"; };
+		D62A6FCD29939FEB00670648 /* CGColorExtesnion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGColorExtesnion.swift; sourceTree = "<group>"; };
 		D6453F4D28F7EE2C001F6101 /* TelegramMediaEditor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TelegramMediaEditor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D64E7E5F298FAA26004E4A90 /* SavedColorsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedColorsCollectionViewCell.swift; sourceTree = "<group>"; };
 		D65554732973E469004E3823 /* CGSizeExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGSizeExtensions.swift; sourceTree = "<group>"; };
 		D6AA0A482978865300F6A8D0 /* ViewConstraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewConstraints.swift; sourceTree = "<group>"; };
+		D6AC82CA2993D8A500CE434E /* ColorIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorIndicatorView.swift; sourceTree = "<group>"; };
 		D6D40D01298D6E85000470E0 /* SavedColorsViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedColorsViewDelegate.swift; sourceTree = "<group>"; };
 		D6ECEA5C29704BA000DD9502 /* StrokeSample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StrokeSample.swift; sourceTree = "<group>"; };
 		D6ECEA5F29704C4900DD9502 /* UIColorExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtensions.swift; sourceTree = "<group>"; };
@@ -128,6 +132,7 @@
 		D6131FEF29903A1F0047567A /* ColorPickerViewController */ = {
 			isa = PBXGroup;
 			children = (
+				D6AC82CA2993D8A500CE434E /* ColorIndicatorView.swift */,
 				D6FFDD3E2983F0060091CE14 /* ColorPickerViewController.swift */,
 				D6FFDD7D298434D80091CE14 /* ColorPickerViewControllerDelegate.swift */,
 			);
@@ -193,6 +198,7 @@
 			isa = PBXGroup;
 			children = (
 				D6ECEA5F29704C4900DD9502 /* UIColorExtensions.swift */,
+				D62A6FCD29939FEB00670648 /* CGColorExtesnion.swift */,
 				D65554732973E469004E3823 /* CGSizeExtensions.swift */,
 				D6FFDD7B298424790091CE14 /* CGFloatExtensions.swift */,
 				D6073E54298AB69C00C2BFF2 /* UIBezierPathExtensions.swift */,
@@ -406,12 +412,14 @@
 				D6F64B3A29702B2400F47531 /* ImagePickerCollectionViewCell.swift in Sources */,
 				D65554742973E469004E3823 /* CGSizeExtensions.swift in Sources */,
 				D6F64B4B29702B2400F47531 /* Stroke.swift in Sources */,
+				D62A6FCE29939FEB00670648 /* CGColorExtesnion.swift in Sources */,
 				D603084A2990CD8100679AFA /* Color.swift in Sources */,
 				D6073E53298AA89600C2BFF2 /* ColorSelectionViewDelegate.swift in Sources */,
 				D6ECEA5D29704BA000DD9502 /* StrokeSample.swift in Sources */,
 				D6073E4E298AA12200C2BFF2 /* SlidersColorSelectionView.swift in Sources */,
 				D6F64B3D29702B2400F47531 /* CanvasToolBarView.swift in Sources */,
 				D6073E4A298AA0FD00C2BFF2 /* GridColorSelectionView.swift in Sources */,
+				D6AC82CB2993D8A500CE434E /* ColorIndicatorView.swift in Sources */,
 				D629F419298AFA9B002F0418 /* SavedColorsView.swift in Sources */,
 				D6F64B4129702B2400F47531 /* ToolType.swift in Sources */,
 				D6F64B3929702B2400F47531 /* ImagePickerViewController.swift in Sources */,

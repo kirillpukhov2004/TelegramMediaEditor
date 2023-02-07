@@ -87,12 +87,10 @@ class ColorPickerViewController: UIViewController {
         }
     }
     
-    private lazy var selectedColorIndicatorView: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor(cgColor: color)
-        view.layer.cornerRadius = 10
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
+    private lazy var colorIndicatorView: ColorIndicatorView = {
+        let colorIndicatorView = ColorIndicatorView(color)
+        colorIndicatorView.translatesAutoresizingMaskIntoConstraints = false
+        return colorIndicatorView
     }()
     
     private lazy var portraitConstraints: [NSLayoutConstraint] = calculatePortraitConstraints()
@@ -183,7 +181,7 @@ class ColorPickerViewController: UIViewController {
         view.addSubview(segmentedControl)
         view.addSubview(opacitySlider)
         view.addSubview(colorSelectionView)
-        view.addSubview(selectedColorIndicatorView)
+        view.addSubview(colorIndicatorView)
         view.addSubview(savedColorsView)
     }
     
@@ -239,15 +237,15 @@ class ColorPickerViewController: UIViewController {
             opacitySlider.heightAnchor.constraint(equalToConstant: Constants.sliderSize.height),
             opacitySlider.widthAnchor.constraint(equalToConstant: Constants.sliderSize.width),
             
-            selectedColorIndicatorView.topAnchor.constraint(equalTo: opacitySlider.bottomAnchor, constant: 20),
-            selectedColorIndicatorView.leftAnchor.constraint(equalTo: view.layoutMarginsGuide.leftAnchor),
-            selectedColorIndicatorView.heightAnchor.constraint(equalToConstant: Constants.colorViewIndicatorSize.height),
-            selectedColorIndicatorView.widthAnchor.constraint(equalToConstant: Constants.colorViewIndicatorSize.width),
+            colorIndicatorView.topAnchor.constraint(equalTo: opacitySlider.bottomAnchor, constant: 20),
+            colorIndicatorView.leftAnchor.constraint(equalTo: view.layoutMarginsGuide.leftAnchor),
+            colorIndicatorView.heightAnchor.constraint(equalToConstant: Constants.colorViewIndicatorSize.height),
+            colorIndicatorView.widthAnchor.constraint(equalToConstant: Constants.colorViewIndicatorSize.width),
             
-            savedColorsView.topAnchor.constraint(equalTo: selectedColorIndicatorView.topAnchor),
+            savedColorsView.topAnchor.constraint(equalTo: colorIndicatorView.topAnchor),
             savedColorsView.rightAnchor.constraint(equalTo: opacitySlider.rightAnchor),
-            savedColorsView.leftAnchor.constraint(equalTo: selectedColorIndicatorView.rightAnchor, constant: 36),
-            savedColorsView.heightAnchor.constraint(equalTo: selectedColorIndicatorView.heightAnchor),
+            savedColorsView.leftAnchor.constraint(equalTo: colorIndicatorView.rightAnchor, constant: 36),
+            savedColorsView.heightAnchor.constraint(equalTo: colorIndicatorView.heightAnchor),
         ]
     }
     
@@ -263,26 +261,36 @@ class ColorPickerViewController: UIViewController {
          opacitySlider.heightAnchor.constraint(equalToConstant: Constants.sliderSize.height),
          opacitySlider.widthAnchor.constraint(equalToConstant: Constants.sliderSize.width),
          
-         selectedColorIndicatorView.leftAnchor.constraint(equalTo: colorSelectionView.rightAnchor, constant: 20),
-         selectedColorIndicatorView.topAnchor.constraint(equalTo: opacitySlider.bottomAnchor, constant: 20),
-         selectedColorIndicatorView.heightAnchor.constraint(equalToConstant: Constants.colorViewIndicatorSize.height),
-         selectedColorIndicatorView.widthAnchor.constraint(equalToConstant: Constants.colorViewIndicatorSize.width),
+         colorIndicatorView.leftAnchor.constraint(equalTo: colorSelectionView.rightAnchor, constant: 20),
+         colorIndicatorView.topAnchor.constraint(equalTo: opacitySlider.bottomAnchor, constant: 20),
+         colorIndicatorView.heightAnchor.constraint(equalToConstant: Constants.colorViewIndicatorSize.height),
+         colorIndicatorView.widthAnchor.constraint(equalToConstant: Constants.colorViewIndicatorSize.width),
          
          savedColorsView.topAnchor.constraint(equalTo: opacitySlider.bottomAnchor, constant: 20),
          savedColorsView.rightAnchor.constraint(equalTo: view.layoutMarginsGuide.rightAnchor),
-         savedColorsView.leftAnchor.constraint(equalTo: selectedColorIndicatorView.rightAnchor, constant: 20),
-         savedColorsView.heightAnchor.constraint(equalTo: selectedColorIndicatorView.heightAnchor),
+         savedColorsView.leftAnchor.constraint(equalTo: colorIndicatorView.rightAnchor, constant: 20),
+         savedColorsView.heightAnchor.constraint(equalTo: colorIndicatorView.heightAnchor),
         ]
     }
     
     private func opacitySliderTrackLayer(for color: CGColor) -> CALayer {
         let layer = CALayer()
-        layer.backgroundColor = UIColor.white.cgColor
         layer.frame.size = CGSize(width: Constants.sliderSize.width, height: Constants.sliderSize.height)
+        
+        let chessBoardImage = getChessBoardImage(
+            ofSize: layer.bounds.size,
+            squaresPerCollumn: 3,
+            evenSquareColor: CGColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 0.5),
+            oddSquareColor: CGColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 0)
+        )
+        let chessBoardImageLayer = CALayer()
+        chessBoardImageLayer.contents = chessBoardImage.cgImage
+        chessBoardImageLayer.frame = layer.bounds
+        layer.addSublayer(chessBoardImageLayer)
         
         let backgroundGradientLayer = CAGradientLayer()
         backgroundGradientLayer.colors = [UIColor.clear.cgColor, color]
-        backgroundGradientLayer.locations = [-1, 1]
+        backgroundGradientLayer.locations = [0, 1]
         backgroundGradientLayer.transform = CATransform3DMakeRotation(-(.pi / 2), 0, 0, 1)
         backgroundGradientLayer.frame = layer.bounds
         layer.addSublayer(backgroundGradientLayer)
@@ -322,7 +330,102 @@ class ColorPickerViewController: UIViewController {
     private func updateViewColors() {
         opacitySlider.setTrackLayer(to: opacitySliderTrackLayer(for: color.copy(alpha: 1)!))
         opacitySlider.setThumbLayer(to: opacitySliderThumbLayer(for: color))
-        selectedColorIndicatorView.backgroundColor = UIColor(cgColor: color)
+        colorIndicatorView.setColor(color)
+    }
+    
+    private var evenChessSegmentPattern: CGPatternDrawPatternCallback = { info, context in
+        guard let info = info else { return }
+        let segmentSideLength: CGFloat = unsafeBitCast(info, to: CGFloat.self)
+        let squareSideLength: CGFloat = segmentSideLength / 2
+        let firstRect = CGRect(x: squareSideLength, y: 0, width: squareSideLength, height: squareSideLength)
+        let secondRect = CGRect(x: 0, y: squareSideLength, width: squareSideLength, height: squareSideLength)
+        context.addRect(firstRect)
+        context.addRect(secondRect)
+        context.fillPath()
+    }
+    private var oddChessSegmentPattern: CGPatternDrawPatternCallback = { info, context in
+        guard let info = info else { return }
+        let segmentSideLength: CGFloat = unsafeBitCast(info, to: CGFloat.self)
+        let squareSideLength: CGFloat = segmentSideLength / 2
+        let firstRect = CGRect(x: 0, y: 0, width: squareSideLength, height: squareSideLength)
+        let secondRect = CGRect(x: squareSideLength, y: squareSideLength, width: squareSideLength, height: squareSideLength)
+        context.addRect(firstRect)
+        context.addRect(secondRect)
+        context.fillPath()
+    }
+    
+    private func getChessBoardImage(
+        ofSize size: CGSize,
+        squaresPerRow: Int? = nil,
+        squaresPerCollumn: Int? = nil,
+        evenSquareColor: CGColor = UIColor.black.cgColor,
+        oddSquareColor: CGColor = UIColor.white.cgColor
+    ) -> UIImage {
+        let squareSideLength: CGFloat  = {
+            if let squaresPerRow = squaresPerRow {
+                return size.width / squaresPerRow
+            } else if let squaresPerCollumn = squaresPerCollumn {
+                return size.height / squaresPerCollumn
+            } else {
+                return size.width / 16
+            }
+        }()
+        let segmentSideLength: CGFloat = squareSideLength * 2
+        let segmentSideLengthRawPointer = unsafeBitCast(segmentSideLength, to: UnsafeMutableRawPointer.self)
+        
+        var evenPatternCallbacks = CGPatternCallbacks(
+            version: 0,
+            drawPattern: evenChessSegmentPattern,
+            releaseInfo: nil
+        )
+        var oddPatternCallbacks = CGPatternCallbacks(
+            version: 0,
+            drawPattern: oddChessSegmentPattern,
+            releaseInfo: nil
+        )
+        
+        let evenPattern = CGPattern(
+            info: segmentSideLengthRawPointer,
+            bounds: CGRect(origin: .zero, size: CGSize(width: segmentSideLength, height: segmentSideLength)),
+            matrix: .identity,
+            xStep: segmentSideLength,
+            yStep: segmentSideLength,
+            tiling: .constantSpacing,
+            isColored: false,
+            callbacks: &evenPatternCallbacks
+        )!
+        let oddPattern = CGPattern(
+            info: segmentSideLengthRawPointer,
+            bounds: CGRect(origin: .zero, size: CGSize(width: segmentSideLength, height: segmentSideLength)),
+            matrix: .identity,
+            xStep: segmentSideLength,
+            yStep: segmentSideLength,
+            tiling: .constantSpacing,
+            isColored: false,
+            callbacks: &oddPatternCallbacks
+        )!
+
+        UIGraphicsBeginImageContextWithOptions(size, false, 0)
+        let context = UIGraphicsGetCurrentContext()!
+        
+        let colorSpace = CGColorSpaceCreateDeviceRGB()
+        let patternColorSpace = CGColorSpace(patternBaseSpace: colorSpace)!
+        context.setFillColorSpace(patternColorSpace)
+        
+        let rect = CGRect(origin: .zero, size: size)
+        
+        let evenFillColorComponents: [CGFloat] = [evenSquareColor.red, evenSquareColor.green, evenSquareColor.blue, evenSquareColor.alpha]
+        context.setFillPattern(evenPattern, colorComponents: evenFillColorComponents)
+        context.fill(rect)
+        
+        let oddFillColorComponents: [CGFloat] = [oddSquareColor.red, oddSquareColor.green, oddSquareColor.blue, oddSquareColor.alpha]
+        context.setFillPattern(oddPattern, colorComponents: oddFillColorComponents)
+        context.fill(rect)
+        
+        let image = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        
+        return image
     }
     
     // MARK: Public Functions
