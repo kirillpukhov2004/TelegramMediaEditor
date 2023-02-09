@@ -97,20 +97,11 @@ class CanvasToolBarView: UIView {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-    private lazy var verticalStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .vertical
-        stackView.alignment = .fill
-        stackView.distribution = .equalSpacing
-        stackView.spacing = 16
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        return stackView
-    }()
     private lazy var topHorizontalStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.alignment = .center
-        stackView.distribution = .equalSpacing
+        stackView.distribution = .equalCentering
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
@@ -118,7 +109,7 @@ class CanvasToolBarView: UIView {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.alignment = .center
-        stackView.distribution = .equalSpacing
+        stackView.distribution = .equalCentering
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
@@ -229,9 +220,8 @@ class CanvasToolBarView: UIView {
         addSubview(toolViewsWrapper)
         toolViews.forEach { toolViewsWrapper.addSubview($0) }
         
-        addSubview(verticalStackView)
-        verticalStackView.addArrangedSubview(topHorizontalStackView)
-        verticalStackView.addArrangedSubview(bottomHorizontalStackView)
+        addSubview(topHorizontalStackView)
+        addSubview(bottomHorizontalStackView)
         
         topHorizontalStackView.addArrangedSubview(colorPickerButton)
         topHorizontalStackView.addArrangedSubview(addButton)
@@ -303,9 +293,17 @@ class CanvasToolBarView: UIView {
         ])
         
         NSLayoutConstraint.activate([
-            verticalStackView.rightAnchor.constraint(equalTo: layoutMarginsGuide.rightAnchor),
-            verticalStackView.bottomAnchor.constraint(equalTo: layoutMarginsGuide.bottomAnchor),
-            verticalStackView.leftAnchor.constraint(equalTo: layoutMarginsGuide.leftAnchor),
+            topHorizontalStackView.rightAnchor.constraint(equalTo: rightAnchor),
+            topHorizontalStackView.bottomAnchor.constraint(equalTo: bottomHorizontalStackView.topAnchor, constant: -16),
+            topHorizontalStackView.leftAnchor.constraint(equalTo: leftAnchor),
+            topHorizontalStackView.heightAnchor.constraint(equalToConstant: 49)
+        ])
+        
+        NSLayoutConstraint.activate([
+            bottomHorizontalStackView.rightAnchor.constraint(equalTo: rightAnchor),
+            bottomHorizontalStackView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            bottomHorizontalStackView.leftAnchor.constraint(equalTo: leftAnchor),
+            bottomHorizontalStackView.heightAnchor.constraint(equalToConstant: 33),
         ])
     }
     

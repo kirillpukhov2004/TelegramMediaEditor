@@ -50,11 +50,9 @@ class CanvasViewController: UIViewController {
     
     func setupConstraints() {
         NSLayoutConstraint.activate([
-            canvasView.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor,
-                                            constant: Constants.canvasEdgeInsets.top),
+            canvasView.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor, constant: Constants.canvasEdgeInsets.top),
             canvasView.rightAnchor.constraint(equalTo: view.rightAnchor),
-            canvasView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor,
-                                               constant: Constants.canvasEdgeInsets.bottom),
+            canvasView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: Constants.canvasEdgeInsets.bottom),
             canvasView.leftAnchor.constraint(equalTo: view.leftAnchor),
         ])
         
@@ -65,9 +63,9 @@ class CanvasViewController: UIViewController {
         ])
         
         NSLayoutConstraint.activate([
-            toolBarView.rightAnchor.constraint(equalTo: view.rightAnchor),
-            toolBarView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            toolBarView.leftAnchor.constraint(equalTo: view.leftAnchor),
+            toolBarView.rightAnchor.constraint(equalTo: view.layoutMarginsGuide.rightAnchor),
+            toolBarView.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor),
+            toolBarView.leftAnchor.constraint(equalTo: view.layoutMarginsGuide.leftAnchor),
             toolBarView.heightAnchor.constraint(equalToConstant: 82),
         ])
     }
