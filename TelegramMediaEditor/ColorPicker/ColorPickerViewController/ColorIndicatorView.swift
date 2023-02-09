@@ -12,27 +12,6 @@ class ColorIndicatorView: UIView {
         return layer
     }()
     
-    private var evenChessSegmentPattern: CGPatternDrawPatternCallback = { info, context in
-        guard let info = info else { return }
-        let segmentSideLength: CGFloat = unsafeBitCast(info, to: CGFloat.self)
-        let squareSideLength: CGFloat = segmentSideLength / 2
-        let firstRect = CGRect(x: squareSideLength, y: 0, width: squareSideLength, height: squareSideLength)
-        let secondRect = CGRect(x: 0, y: squareSideLength, width: squareSideLength, height: squareSideLength)
-        context.addRect(firstRect)
-        context.addRect(secondRect)
-        context.fillPath()
-    }
-    private var oddChessSegmentPattern: CGPatternDrawPatternCallback = { info, context in
-        guard let info = info else { return }
-        let segmentSideLength: CGFloat = unsafeBitCast(info, to: CGFloat.self)
-        let squareSideLength: CGFloat = segmentSideLength / 2
-        let firstRect = CGRect(x: 0, y: 0, width: squareSideLength, height: squareSideLength)
-        let secondRect = CGRect(x: squareSideLength, y: squareSideLength, width: squareSideLength, height: squareSideLength)
-        context.addRect(firstRect)
-        context.addRect(secondRect)
-        context.fillPath()
-    }
-    
     public var color: CGColor {
         return colorLayer.backgroundColor ?? UIColor.black.cgColor
     }

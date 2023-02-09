@@ -243,7 +243,7 @@ class ColorPickerViewController: UIViewController {
             colorIndicatorView.widthAnchor.constraint(equalToConstant: Constants.colorViewIndicatorSize.width),
             
             savedColorsView.topAnchor.constraint(equalTo: colorIndicatorView.topAnchor),
-            savedColorsView.rightAnchor.constraint(equalTo: opacitySlider.rightAnchor),
+            savedColorsView.rightAnchor.constraint(equalTo: view.layoutMarginsGuide.rightAnchor),
             savedColorsView.leftAnchor.constraint(equalTo: colorIndicatorView.rightAnchor, constant: 36),
             savedColorsView.heightAnchor.constraint(equalTo: colorIndicatorView.heightAnchor),
         ]
