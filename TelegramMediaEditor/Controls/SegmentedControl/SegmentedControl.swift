@@ -1,17 +1,29 @@
 import UIKit
 
+enum SegmentedControlCorners {
+    case circle
+    case rounded
+    case squared
+}
+
 // MARK: - SegmentedControl
 
 class SegmentedControl: UIControl {
-    private(set) var segments: [String] = []
+    private(set) var segments = [String]()
     private(set) var selectedSegmentIndex: Int?
-    private var segmentLabels: [UILabel] = []
+    private var labels = [UILabel]()
     
-    private lazy var selectedSegmentIndicator: CALayer = {
+    private lazy var selectedSegmentBackgroundLayer: CALayer = {
         let layer = CALayer()
-        layer.backgroundColor = CGColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 0.3)
+        layer.backgroundColor = UIColor.white.cgColor.copy(alpha: 0.3)!
         return layer
     }()
+    
+    var segmentedControlCorners: SegmentedControlCorners = .rounded {
+        didSet {
+            setNeedsLayout()
+        }
+    }
     
     // MARK: Initialization
     
@@ -30,20 +42,24 @@ class SegmentedControl: UIControl {
     // MARK: Lifecycle
     
     override func layoutSubviews() {
-        let labelWidth = (frame.width - 5.0) / CGFloat(segmentLabels.count)
-        segmentLabels.enumerated().forEach { (index, segmentLabel) in
-            segmentLabel.frame = CGRect(x: 2.5 + labelWidth * CGFloat(index),
-                                 y: 2.5,
-                                 width: (frame.width - 5.0) / CGFloat(segmentLabels.count),
-                                 height: frame.height - 5.0)
-            segmentLabel.layer.cornerRadius = segmentLabel.frame.height / 2.0
+        let labelWidth = bounds.width / labels.count
+        
+        labels.enumerated().forEach { index, segmentLabel in
+            segmentLabel.frame = CGRect(
+                x: labelWidth * index,
+                y: 0,
+                width: labelWidth,
+                height: bounds.height
+            )
         }
         
-        layer.cornerRadius = frame.height / 2
         if let selectedSegmentIndex = selectedSegmentIndex {
-            selectedSegmentIndicator.frame = segmentLabels[selectedSegmentIndex].frame
-            selectedSegmentIndicator.cornerRadius = selectedSegmentIndicator.frame.height / 2
+            let label = labels[selectedSegmentIndex]
+            updateSelectedSegmentBackgroudLayer(label.frame)
+            setCorners(forLayer: selectedSegmentBackgroundLayer)
         }
+        
+        setCorners(forLayer: layer)
     }
     
     // MARK: Touches Handling
@@ -51,7 +67,7 @@ class SegmentedControl: UIControl {
     override func beginTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
         let touchLocation = touch.location(in: self)
         
-        if let selectedSegment = segmentLabels.enumerated().first(where: { $0.element.frame.contains(touchLocation) }) {
+        if let selectedSegment = labels.enumerated().first(where: { $0.element.frame.contains(touchLocation) }) {
             selectSegment(selectedSegment.element)
         }
         
@@ -61,7 +77,7 @@ class SegmentedControl: UIControl {
     // MARK: Private Functions
     
     private func buildViewHierarchy() {
-        layer.addSublayer(selectedSegmentIndicator)
+        layer.addSublayer(selectedSegmentBackgroundLayer)
     }
     
     private func setupConstraints() {
@@ -69,8 +85,25 @@ class SegmentedControl: UIControl {
     }
     
     private func configureViews() {
-        backgroundColor = UIColor(cgColor: CGColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 0.1))
+        layer.backgroundColor = UIColor.white.cgColor.copy(alpha: 0.1)!
         layer.masksToBounds = true
+    }
+    
+    private func setCorners(forLayer layer: CALayer) {
+        switch segmentedControlCorners {
+        case .rounded:
+            layer.cornerRadius = min(layer.bounds.height, layer.bounds.width) / 3
+        case .circle:
+            layer.cornerRadius = min(layer.bounds.height, layer.bounds.width) / 2
+        case .squared:
+            layer.cornerRadius = 0
+        }
+    }
+    
+    private func updateSelectedSegmentBackgroudLayer(_ frame: CGRect, insets: CGFloat = 2.5) {
+        let insets = UIEdgeInsets(top: insets, left: insets, bottom: insets, right: insets)
+        selectedSegmentBackgroundLayer.frame = frame
+        selectedSegmentBackgroundLayer.bounds = frame.inset(by: insets)
     }
     
     // MARK: Public Functions
@@ -78,48 +111,45 @@ class SegmentedControl: UIControl {
     public func setSegments(_ segments: [String]) {
         self.segments = segments
         
-        segmentLabels = []
+        labels = []
         segments.enumerated().forEach { (index, segment) in
             let label = UILabel()
             label.text = segment
-            label.font = .systemFont(ofSize: 14, weight: .semibold)
+            label.font = .systemFont(ofSize: 13, weight: .semibold)
             label.textColor = .white
             label.textAlignment = .center
             label.layer.masksToBounds = true
             addSubview(label)
-            segmentLabels.append(label)
+            labels.append(label)
         }
         
-        if selectedSegmentIndex == nil && !segments.isEmpty || selectedSegmentIndex == nil {
-            selectedSegmentIndex = 0
-            selectSegment(segmentLabels[0], animated: false)
+        if !segments.isEmpty && selectedSegmentIndex == nil {
+            selectSegment(labels[0])
         } else if segments.isEmpty {
             selectedSegmentIndex = nil
+            selectedSegmentBackgroundLayer.removeFromSuperlayer()
         }
     }
     
-    public func selectSegment(_ segment: UILabel, animated: Bool = true) {
-        guard let selectedSegmentIndex = selectedSegmentIndex else { return }
-        guard let newSelectedSegmentIndex = segmentLabels.enumerated().first(where: { $0.element == segment })?.offset else { return }
-        let selectedSegment = segmentLabels[selectedSegmentIndex]
+    public func selectSegment(_ segment: UILabel) {
+        guard let newSelectedSegmentIndex = labels.enumerated().first(where: { $0.element == segment })?.offset else { return }
+        let newSelectedSegment = labels[newSelectedSegmentIndex]
         
-        if animated {
-            let segmentWidth = (frame.width - 5.0) / CGFloat(segmentLabels.count)
-            let deltaPosition = segmentWidth * CGFloat(newSelectedSegmentIndex - selectedSegmentIndex)
+        updateSelectedSegmentBackgroudLayer(newSelectedSegment.frame)
+        setCorners(forLayer: selectedSegmentBackgroundLayer)
+        
+        if let selectedSegmentIndex = selectedSegmentIndex {
+            let selectedSegment = labels[selectedSegmentIndex]
             
-            let animation = CABasicAnimation(keyPath: "position.x")
-            animation.duration = 0.25
-            animation.fromValue = selectedSegment.layer.position.x
-            animation.toValue = selectedSegment.layer.position.x + deltaPosition
-            animation.fillMode = .both
-            animation.isRemovedOnCompletion = false
-            selectedSegmentIndicator.add(animation, forKey: nil)
+            let slideAnimation = CABasicAnimation(keyPath: "frame.origin.x")
+            slideAnimation.duration = 0.25
+            slideAnimation.fromValue = selectedSegment.frame.origin.x
+            slideAnimation.toValue = newSelectedSegment.frame.origin.x
             
-            self.selectedSegmentIndex = newSelectedSegmentIndex
-        } else {
-            selectedSegmentIndicator.frame = segmentLabels[newSelectedSegmentIndex].frame
-            self.selectedSegmentIndex = newSelectedSegmentIndex
+            selectedSegmentBackgroundLayer.add(slideAnimation, forKey: nil)
         }
+        
+        selectedSegmentIndex = newSelectedSegmentIndex
         sendActions(for: .valueChanged)
     }
 }

@@ -69,6 +69,7 @@ class CanvasToolBarView: UIView {
     private lazy var segmentedControl: SegmentedControl = {
         let segmentedControl = SegmentedControl()
         segmentedControl.setSegments(["Draw", "Text"])
+        segmentedControl.segmentedControlCorners = .circle
         segmentedControl.translatesAutoresizingMaskIntoConstraints = false
         return segmentedControl
     }()

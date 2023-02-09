@@ -204,7 +204,7 @@ class ColorPickerViewController: UIViewController {
     }
     
     private func configureViews() {
-        
+        overrideUserInterfaceStyle = .dark
     }
     
     private func updateConstraints() {
@@ -305,7 +305,7 @@ class ColorPickerViewController: UIViewController {
         layer.frame.size = CGSize(width: Constants.sliderThumbSize.width + horizontalPadding * 2, height: Constants.sliderThumbSize.width)
         
         let firstShapeLayer = CAShapeLayer()
-        firstShapeLayer.fillColor = UIColor.label.cgColor
+        firstShapeLayer.fillColor = UIColor.white.cgColor
         let firstBezierPath = UIBezierPath(arcCenter: CGPoint(x: Constants.sliderThumbSize.width / 2 + horizontalPadding, y: Constants.sliderThumbSize.height / 2),
                                            radius: Constants.sliderThumbSize.width / 2,
                                            startAngle: 0, endAngle: 2 * .pi,

@@ -59,7 +59,7 @@ class GridColorSelectionView: UIView, ColorSelectionView {
     private lazy var selectedColorViewBorderShapeLayer: CAShapeLayer = {
         let shapeLayer = CAShapeLayer()
         shapeLayer.fillColor = UIColor.clear.cgColor
-        shapeLayer.strokeColor = UIColor.label.cgColor
+        shapeLayer.strokeColor = UIColor.white.cgColor
         shapeLayer.lineWidth = 3
         return shapeLayer
     }()
