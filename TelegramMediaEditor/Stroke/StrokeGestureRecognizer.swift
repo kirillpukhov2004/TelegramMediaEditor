@@ -30,15 +30,17 @@ class StrokeGestureRecognizer: UIGestureRecognizer {
     private var timeoutTimer: Timer?
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent) {
-        if let trackingTouch = trackingTouch {
-           if (event.timestamp - touchStartTimestamp!) < Timeout {
+        if touches.count >= 2 {
+            state = .failed
+        } else if let trackingTouch = trackingTouch {
+            if (event.timestamp - touchStartTimestamp!) < Timeout {
                timeoutTimer?.invalidate()
                state = .failed
                
                strokeDelegate?.touchFailed()
-           } else {
+            } else {
                touches.filter { $0 !== trackingTouch }.forEach { ignore($0, for: event) }
-           }
+            }
         } else {
             stroke = Stroke()
             trackingTouch = touches.first!
@@ -91,10 +93,16 @@ class StrokeGestureRecognizer: UIGestureRecognizer {
         timeoutTimer = nil
     }
     
+    // MARK: Private Functions
+    
     private func appendStrokeSample(with touch: UITouch, usePredictedTouches: Bool) {
         let location = touch.location(in: view)
         let timestamp = touch.timestamp
         let strokeSample = StrokeSample(location: location, timestamp: timestamp)
         stroke?.addSmaple(strokeSample)
+    }
+    
+    private func failGesture() {
+        
     }
 }

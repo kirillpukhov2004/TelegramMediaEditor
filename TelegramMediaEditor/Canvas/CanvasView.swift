@@ -7,9 +7,9 @@ class CanvasView: UIView {
     private(set) var strokes: [Stroke] = []
     
     private lazy var strokeGestureRecognizer: StrokeGestureRecognizer = {
-        let gestureRecognizer = StrokeGestureRecognizer()
-        gestureRecognizer.strokeDelegate = self
-        return gestureRecognizer
+        let strokeGestureRecognizer = StrokeGestureRecognizer()
+        strokeGestureRecognizer.strokeDelegate = self
+        return strokeGestureRecognizer
     }()
     
     // MARK: Initialization
@@ -20,6 +20,7 @@ class CanvasView: UIView {
         super.init(frame: .zero)
         
         buildViewHieararchy()
+        setupConstraints()
         configureViews()
     }
     
@@ -27,19 +28,13 @@ class CanvasView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func buildViewHieararchy() {
-        
-    }
-    
-    private func configureViews() {
-        backgroundColor = .white
-        addGestureRecognizer(strokeGestureRecognizer)
-    }
-    
     // MARK: View Functions
     
     override func draw(_ rect: CGRect) {
         guard let context = UIGraphicsGetCurrentContext() else { return }
+        
+        context.setFillColor(UIColor.white.cgColor)
+        context.fill(rect)
         
         strokes.forEach { stroke in
             context.setLineWidth(stroke.width)
@@ -50,6 +45,19 @@ class CanvasView: UIView {
     }
     
     // MARK: Private Functions
+    
+    private func buildViewHieararchy() {
+        
+    }
+    
+    private func setupConstraints() {
+        
+    }
+    
+    private func configureViews() {
+        addGestureRecognizer(strokeGestureRecognizer)
+        layer.backgroundColor = UIColor.white.cgColor
+    }
     
     private func drawBeziérStroke(_ stroke: Stroke, in context: CGContext) {
         let samples = stroke.samples

@@ -14,11 +14,23 @@ fileprivate struct Constants {
 // MARK: - CanvasViewController
 
 class CanvasViewController: UIViewController {
+    lazy var scrollView: UIScrollView = {
+        let scrollView =  UIScrollView()
+        scrollView.delegate = self
+        scrollView.panGestureRecognizer.minimumNumberOfTouches = 2
+        scrollView.minimumZoomScale = 1
+        scrollView.maximumZoomScale = 3
+        scrollView.showsVerticalScrollIndicator = false
+        scrollView.showsHorizontalScrollIndicator = false
+//        scrollView.clipsToBounds = false
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        return scrollView
+    }()
     lazy var canvasView: CanvasView = {
         let canvasView = CanvasView(toolBarView.activeTool)
-        canvasView.translatesAutoresizingMaskIntoConstraints = false
         return canvasView
     }()
+    
     lazy var topBarView: CanvasTopBarView = {
         let topBarView = CanvasTopBarView()
         topBarView.delegate = self
@@ -42,26 +54,40 @@ class CanvasViewController: UIViewController {
         configureViews()
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        canvasView.frame = scrollView.bounds
+    }
+    
     func buildViewHierarchy() {
-        view.addSubview(canvasView)
+        view.addSubview(scrollView)
+        scrollView.addSubview(canvasView)
         view.addSubview(topBarView)
         view.addSubview(toolBarView)
     }
     
     func setupConstraints() {
         NSLayoutConstraint.activate([
-            canvasView.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor, constant: Constants.canvasEdgeInsets.top),
-            canvasView.rightAnchor.constraint(equalTo: view.rightAnchor),
-            canvasView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: Constants.canvasEdgeInsets.bottom),
-            canvasView.leftAnchor.constraint(equalTo: view.leftAnchor),
+            scrollView.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor, constant: Constants.canvasEdgeInsets.top),
+            scrollView.rightAnchor.constraint(equalTo: view.rightAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: Constants.canvasEdgeInsets.bottom),
+            scrollView.leftAnchor.constraint(equalTo: view.leftAnchor),
         ])
-        
+
+//        NSLayoutConstraint.activate([
+//            canvasView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+//            canvasView.rightAnchor.constraint(equalTo: scrollView.rightAnchor),
+//            canvasView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+//            canvasView.leftAnchor.constraint(equalTo: scrollView.leftAnchor)
+//        ])
+//
         NSLayoutConstraint.activate([
             topBarView.topAnchor.constraint(equalTo: view.topAnchor),
             topBarView.rightAnchor.constraint(equalTo: view.rightAnchor),
             topBarView.leftAnchor.constraint(equalTo: view.leftAnchor),
         ])
-        
+
         NSLayoutConstraint.activate([
             toolBarView.rightAnchor.constraint(equalTo: view.layoutMarginsGuide.rightAnchor),
             toolBarView.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor),
@@ -89,6 +115,14 @@ extension CanvasViewController: CanvasTopBarViewDelegate {
     
     func undoButtonAction() {
         print(#function)
+    }
+}
+
+// MARK: - : UIScrollViewDelegate
+
+extension CanvasViewController: UIScrollViewDelegate {
+    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
+        return canvasView
     }
 }
 
