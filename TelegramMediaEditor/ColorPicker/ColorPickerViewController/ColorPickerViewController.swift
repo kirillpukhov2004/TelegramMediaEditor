@@ -80,12 +80,7 @@ class ColorPickerViewController: UIViewController {
         return savedColorsView
     }()
     
-    private(set) var color: CGColor {
-        didSet {
-            updateViewColors()
-            delegate?.colorPickerViewControllerColorChanged(self)
-        }
-    }
+    private(set) var color: CGColor
     
     private lazy var colorIndicatorView: ColorIndicatorView = {
         let colorIndicatorView = ColorIndicatorView(color)
@@ -330,6 +325,9 @@ class ColorPickerViewController: UIViewController {
     private func updateViewColors() {
         opacitySlider.setTrackLayer(to: opacitySliderTrackLayer(for: color.copy(alpha: 1)!))
         opacitySlider.setThumbLayer(to: opacitySliderThumbLayer(for: color))
+        
+        savedColorsView.selectedColor = color
+        
         colorIndicatorView.setColor(color)
     }
     
@@ -438,6 +436,15 @@ extension ColorPickerViewController: ColorSelectionViewDelegate {
     func colorSelectionViewColorDidChanged(_ colorSelectionView: ColorSelectionView) {
         guard let newColor = colorSelectionView.selectedColor else { return }
         color = newColor.copy(alpha: opacitySlider.value)!
+        
+        savedColorsView.selectedColor = color
+        
+        opacitySlider.setTrackLayer(to: opacitySliderTrackLayer(for: color.copy(alpha: 1)!))
+        opacitySlider.setThumbLayer(to: opacitySliderThumbLayer(for: color))
+        
+        colorIndicatorView.setColor(color)
+        
+        delegate?.colorPickerViewControllerColorChanged(self)
     }
 }
 
@@ -449,10 +456,17 @@ extension ColorPickerViewController: SavedColorsViewDelegate {
     }
     
     func savedColorsViewColorSelected(_ savedColorsView: SavedColorsView) {
-        guard let color = savedColorsView.lastSelectedColor else { return }
-        self.color = color
+        guard let selectedColor = savedColorsView.selectedColor else { return }
+        color = selectedColor
+        
         colorSelectionView.colorChanged(to: color.copy(alpha: 1)!)
+        
         opacitySlider.value = color.alpha
-        updateViewColors()
+        opacitySlider.setTrackLayer(to: opacitySliderTrackLayer(for: color.copy(alpha: 1)!))
+        opacitySlider.setThumbLayer(to: opacitySliderThumbLayer(for: color))
+        
+        colorIndicatorView.setColor(color)
+        
+        delegate?.colorPickerViewControllerColorChanged(self)
     }
 }

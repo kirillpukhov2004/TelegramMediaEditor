@@ -14,6 +14,6 @@ struct Color: Codable {
     }
     
     public var cgColor: CGColor {
-        return CGColor(red: red, green: green, blue: blue, alpha: alpha)
+        return UIColor(red: red, green: green, blue: blue, alpha: alpha).cgColor
     }
 }

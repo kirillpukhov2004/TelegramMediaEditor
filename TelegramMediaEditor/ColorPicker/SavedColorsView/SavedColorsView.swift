@@ -25,7 +25,8 @@ class SavedColorsView: UIView {
         section.visibleItemsInvalidationHandler = { [weak self] visibleItems, offset, environment in
             guard let strongSelf = self else { return }
             
-            let _ = round(offset.x / strongSelf.collectionView.bounds.width * 100) / 100
+            let pageNumber = round(offset.x / strongSelf.collectionView.bounds.width * 100) / 100
+            self?.updateIndicators()
         }
         
         return UICollectionViewCompositionalLayout(section: section)
@@ -45,9 +46,14 @@ class SavedColorsView: UIView {
         didSet {
             saveColors(colorsDict)
             applySnapshot()
+            updateIndicators()
         }
     }
-    private(set) var lastSelectedColor: CGColor?
+    public var selectedColor: CGColor? {
+        didSet {
+            updateIndicators()
+        }
+    }
     
     // MARK: Initialization
     
@@ -77,7 +83,7 @@ class SavedColorsView: UIView {
     @objc private func colorSelected(_ sender: UIGestureRecognizer) {
         guard let selectedColorView = sender.view else { return }
         guard let selectedColor = selectedColorView.backgroundColor else { return }
-        lastSelectedColor = selectedColor.cgColor
+        self.selectedColor = selectedColor.cgColor
         delegate?.savedColorsViewColorSelected(self)
     }
     
@@ -173,20 +179,23 @@ class SavedColorsView: UIView {
     public func saveColor(_ color: CGColor) {
         colorsDict[Date()] = color
     }
+    
+    public func updateIndicators() {
+        collectionView.visibleCells.compactMap({ $0 as? SavedColorsCollectionViewCell }).forEach({ $0.isSelectedColor = ($0.color == selectedColor) })
+    }
 }
 
 // MARK: UICollectionViewDelegate
 
 extension SavedColorsView: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    if indexPath.row != collectionView.numberOfItems(inSection: 0) - 1 {
-        guard let cell = collectionView.cellForItem(at: indexPath) as? SavedColorsCollectionViewCell else { return }
-        
-        let color = cell.getColor()
-        lastSelectedColor = color
-        delegate?.savedColorsViewColorSelected(self)
+        if indexPath.row != collectionView.numberOfItems(inSection: 0) - 1 {
+            guard let cell = collectionView.cellForItem(at: indexPath) as? SavedColorsCollectionViewCell else { return }
+            
+            selectedColor = cell.color
+            delegate?.savedColorsViewColorSelected(self)
+        }
     }
-}
     
     func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemsAt indexPaths: [IndexPath], point: CGPoint) -> UIContextMenuConfiguration? {
         guard let indexPath = indexPaths.first else { return nil }

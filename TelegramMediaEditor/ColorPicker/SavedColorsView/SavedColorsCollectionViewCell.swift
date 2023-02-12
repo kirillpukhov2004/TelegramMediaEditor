@@ -12,6 +12,20 @@ class SavedColorsCollectionViewCell: UICollectionViewCell {
         return layer
     }()
     
+    public var isSelectedColor: Bool = false {
+        didSet {
+            if isSelectedColor {
+                contentView.layer.mask = configureSelectedIndicatorLayer()
+            } else {
+                contentView.layer.mask = nil
+            }
+        }
+    }
+    
+    public var color: CGColor {
+        return colorLayer.backgroundColor ?? UIColor.black.cgColor
+    }
+    
     // MARK: Initialization
     
     override init(frame: CGRect) {
@@ -34,6 +48,9 @@ class SavedColorsCollectionViewCell: UICollectionViewCell {
         backgroundLayer.frame = contentView.bounds
         colorLayer.frame = contentView.bounds
         
+        if isSelectedColor {
+            contentView.layer.mask = configureSelectedIndicatorLayer()
+        }
         configureBackgroudLayer()
     }
     
@@ -41,6 +58,7 @@ class SavedColorsCollectionViewCell: UICollectionViewCell {
         contentView.subviews.forEach { $0.removeFromSuperview() }
         backgroundLayer.removeFromSuperlayer()
         colorLayer.backgroundColor = UIColor.clear.cgColor
+        isSelectedColor = false
     }
     
     // MARK: Private Functions
@@ -52,6 +70,35 @@ class SavedColorsCollectionViewCell: UICollectionViewCell {
     
     private func configureViews() {
         contentView.layer.masksToBounds = true
+    }
+    
+    private func configureSelectedIndicatorLayer() -> CAShapeLayer {
+        let squareBezierPath = UIBezierPath(rect: contentView.bounds)
+        
+        let firstCircleBezierPath = UIBezierPath(arcCenter: CGPoint(x: contentView.bounds.width / 2, y: contentView.bounds.height / 2),
+                                                 radius: contentView.bounds.height * 0.80 / 2,
+                                      startAngle: 0,
+                                      endAngle: .pi * 2,
+                                      clockwise: true)
+        
+        let secondCircleBezierPath = UIBezierPath(arcCenter: CGPoint(x: contentView.bounds.width / 2, y: contentView.bounds.height / 2),
+                                                  radius: contentView.bounds.height * 0.60 / 2,
+                                                  startAngle: 0,
+                                                  endAngle: .pi * 2,
+                                                  clockwise: true)
+        
+        let containerShapeLayer = CAShapeLayer()
+        
+        let mutablePath = CGMutablePath()
+        mutablePath.addPath(firstCircleBezierPath.cgPath)
+        mutablePath.addPath(secondCircleBezierPath.cgPath)
+        mutablePath.addPath(squareBezierPath.cgPath)
+        
+        containerShapeLayer.fillRule = .evenOdd
+        containerShapeLayer.fillColor = UIColor.black.cgColor
+        containerShapeLayer.path = mutablePath
+            
+        return containerShapeLayer
     }
     
     private func configureBackgroudLayer() {
@@ -85,13 +132,13 @@ class SavedColorsCollectionViewCell: UICollectionViewCell {
     
     public func configure(withColor color: CGColor, isButton: Bool = false) {
         colorLayer.backgroundColor = color
-        
+
         if !isButton {
             contentView.layer.insertSublayer(backgroundLayer, at: 0)
+            
+            if isSelectedColor {
+                contentView.layer.mask = configureSelectedIndicatorLayer()
+            }
         }
-    }
-    
-    public func getColor() -> CGColor {
-        return colorLayer.backgroundColor!
     }
 }
