@@ -169,4 +169,13 @@ enum Tool {
             }
         }
     }
+    
+    var haveWidthIndicator: Bool {
+        switch self {
+        case .pen, .brush, .neon, .pencil:
+            return true
+        default:
+            return false
+        }
+    }
 }

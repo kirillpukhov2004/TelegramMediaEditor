@@ -24,7 +24,7 @@ class ToolView: UIView {
         toolView = tool.view
         
         super.init(frame: .zero)
-        
+    
         buildViewHierarchy()
         setupConstraints()
         configureViews()
@@ -48,21 +48,23 @@ class ToolView: UIView {
             toolView.widthAnchor.constraint(equalTo: widthAnchor),
         ])
         
-        if let toolWidth = tool.width {
+        if tool.haveWidthIndicator, let toolWidth = tool.width {
             widthIdicatorViewTopAnchor = widthIdicatorView.topAnchor.constraint(equalTo: toolView.centerYAnchor)
             widthIdicatorViewHeightAnchor = widthIdicatorView.heightAnchor.constraint(equalToConstant: toolWidth)
             widthIndicatorViewWidthAnchor = widthIdicatorView.widthAnchor.constraint(equalTo: toolView.widthAnchor)
             NSLayoutConstraint.activate([
                 widthIdicatorViewTopAnchor,
-                widthIdicatorView.centerXAnchor.constraint(equalTo: centerXAnchor),
+                widthIdicatorView.centerXAnchor.constraint(equalTo: toolView.centerXAnchor),
                 widthIdicatorViewHeightAnchor,
                 widthIndicatorViewWidthAnchor,
             ])
+            
         }
     }
     
     private func configureViews() {
-        widthIdicatorView.isHidden = (tool.width == nil)
+        widthIdicatorView.isHidden = !tool.haveWidthIndicator
+        widthIdicatorView.backgroundColor = UIColor(cgColor: tool.color ?? UIColor.white.cgColor)
     }
     
     // MARK: Lifecycle
@@ -70,14 +72,14 @@ class ToolView: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
 
-        guard tool.width != nil else { return }
-        
+        guard tool.haveWidthIndicator else { return }
+
         let widthScaleFactor = toolView.frame.size.width / tool.baseImageView.image!.size.width
         let heightScaleFactor = toolView.frame.size.height / tool.baseImageView.image!.size.height
         let scaleFactor = min(widthScaleFactor, heightScaleFactor)
-
+        
         widthIdicatorViewTopAnchor.constant = -24 / tool.baseImageView.contentScaleFactor * scaleFactor
-        widthIndicatorViewWidthAnchor.constant = -18 / tool.baseImageView.contentScaleFactor * widthScaleFactor * (tool.baseImageView.frame.width == 40 ? 3 : 1)
+        widthIndicatorViewWidthAnchor.constant = -18 / tool.baseImageView.contentScaleFactor * widthScaleFactor * (toolView.frame.width == 40 ? 3 : 1)
     }
     
     // MARK: Public Functions
