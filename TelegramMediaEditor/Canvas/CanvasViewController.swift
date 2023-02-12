@@ -67,12 +67,14 @@ class CanvasViewController: UIViewController {
     }
     
     private var drawingRect: CGRect {
-        guard let backgroundImage = backgroundImageView.image else { return backgroundImageView.bounds }
+        guard let backgroundImage = backgroundImage else { return backgroundImageView.bounds }
         let widthRatio = backgroundImageView.bounds.size.width / backgroundImage.size.width
         let heightRatio = backgroundImageView.bounds.size.height / backgroundImage.size.height
         let scale = min(widthRatio, heightRatio)
+        
         let imageScaledSize = CGSize(width: backgroundImage.size.width * scale, height: backgroundImage.size.height * scale)
         let origin = CGPoint(x: backgroundImageView.bounds.width / 2 - imageScaledSize.width / 2, y: 0)
+        
         return CGRect(origin: origin, size: imageScaledSize)
     }
     
@@ -100,6 +102,12 @@ class CanvasViewController: UIViewController {
         super.viewDidLoad()
     
         configureViews()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        canvasView.frame = drawingRect
     }
     
     // MARK: Private Funcitons

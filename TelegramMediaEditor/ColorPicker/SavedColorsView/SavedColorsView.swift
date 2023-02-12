@@ -175,17 +175,60 @@ class SavedColorsView: UIView {
     }
 }
 
+// MARK: UICollectionViewDelegate
+
 extension SavedColorsView: UICollectionViewDelegate {
-    func collectionView(
-        _ collectionView: UICollectionView,
-        didSelectItemAt indexPath: IndexPath
-    ) {
-        if indexPath.row != collectionView.numberOfItems(inSection: 0) - 1 {
-            guard let cell = collectionView.cellForItem(at: indexPath) as? SavedColorsCollectionViewCell else { return }
-            
-            let color = cell.getColor()
-            lastSelectedColor = color
-            delegate?.savedColorsViewColorSelected(self)
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    if indexPath.row != collectionView.numberOfItems(inSection: 0) - 1 {
+        guard let cell = collectionView.cellForItem(at: indexPath) as? SavedColorsCollectionViewCell else { return }
+        
+        let color = cell.getColor()
+        lastSelectedColor = color
+        delegate?.savedColorsViewColorSelected(self)
+    }
+}
+    
+    func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemsAt indexPaths: [IndexPath], point: CGPoint) -> UIContextMenuConfiguration? {
+        guard let indexPath = indexPaths.first else { return nil }
+        let deleteAction = UIAction(title: "Delete", image: UIImage(systemName: "trash")!, attributes: [.destructive]) { [weak self] _ in
+            guard let identifier = self?.collectionViewDiffableDataSource?.itemIdentifier(for: indexPath) else { return }
+            self?.colorsDict.removeValue(forKey: identifier)
         }
+        
+        return UIContextMenuConfiguration(actionProvider: { _ in
+            return UIMenu(children: [deleteAction])
+        })
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, contextMenuConfiguration configuration: UIContextMenuConfiguration, highlightPreviewForItemAt indexPath: IndexPath) -> UITargetedPreview? {
+        collectionView.clipsToBounds = false
+        
+        guard let cell = collectionView.cellForItem(at: indexPath) else { return nil }
+        
+        let previewParameters = UIPreviewParameters()
+        previewParameters.visiblePath = UIBezierPath(roundedRect: cell.bounds, byRoundingCorners: .allCorners, cornerRadii: CGSize(width: cell.bounds.width / 2, height: cell.bounds.height / 2))
+        
+        let previewTarget = UIPreviewTarget(container: collectionView, center: cell.center, transform: .identity)
+        
+        let target = UITargetedPreview(view: cell, parameters: previewParameters, target: previewTarget)
+        
+        return target
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, contextMenuConfiguration configuration: UIContextMenuConfiguration, dismissalPreviewForItemAt indexPath: IndexPath) -> UITargetedPreview? {
+        guard let cell = collectionView.cellForItem(at: indexPath) else { return nil }
+        
+        let previewParameters = UIPreviewParameters()
+        previewParameters.visiblePath = UIBezierPath(roundedRect: cell.bounds, byRoundingCorners: .allCorners, cornerRadii: CGSize(width: cell.bounds.width / 2, height: cell.bounds.height / 2))
+        
+        let previewTarget = UIPreviewTarget(container: collectionView, center: cell.center, transform: .identity)
+        
+        let target = UITargetedPreview(view: cell, parameters: previewParameters, target: previewTarget)
+        
+        return target
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willEndContextMenuInteraction configuration: UIContextMenuConfiguration, animator: UIContextMenuInteractionAnimating?) {
+        collectionView.clipsToBounds = true
     }
 }
