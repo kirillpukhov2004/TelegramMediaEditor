@@ -223,7 +223,6 @@
 				D6F64B2029702B2400F47531 /* Canvas */,
 				D6FFDD3D2983EF300091CE14 /* ColorPicker */,
 				D6F64B2A29702B2400F47531 /* Controls */,
-				D65554722973DF25004E3823 /* Stroke */,
 				D6FFDD89298457610091CE14 /* Utilities */,
 				D6ECEA6129704C8800DD9502 /* Extensions */,
 				D6F64B1E29702B2400F47531 /* Assets.xcassets */,
@@ -248,6 +247,7 @@
 			children = (
 				D6F64B2929702B2400F47531 /* CanvasViewController.swift */,
 				D6F64B2229702B2400F47531 /* CanvasView.swift */,
+				D65554722973DF25004E3823 /* Stroke */,
 				D6FFDD88298457300091CE14 /* CanvasTopBar */,
 				D6FFDD87298457130091CE14 /* CanvasToolBar */,
 			);

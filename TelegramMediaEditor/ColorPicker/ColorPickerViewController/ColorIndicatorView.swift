@@ -18,7 +18,7 @@ class ColorIndicatorView: UIView {
     
     // MARK: Initialization
     
-    public init(_ selectedColor: CGColor) {
+    public init(_ selectedColor: CGColor = UIColor.clear.cgColor) {
         super.init(frame: .zero)
         
         setColor(selectedColor)

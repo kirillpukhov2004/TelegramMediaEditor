@@ -72,10 +72,10 @@ class CanvasViewController: UIViewController {
         let heightRatio = backgroundImageView.bounds.size.height / backgroundImage.size.height
         let scale = min(widthRatio, heightRatio)
         
-        let imageScaledSize = CGSize(width: backgroundImage.size.width * scale, height: backgroundImage.size.height * scale)
-        let origin = CGPoint(x: backgroundImageView.bounds.width / 2 - imageScaledSize.width / 2, y: 0)
+        let size = CGSize(width: backgroundImage.size.width * scale, height: backgroundImage.size.height * scale)
+        let origin = CGPoint(x: backgroundImageView.bounds.width / 2 - size.width / 2, y: backgroundImageView.bounds.height / 2 - size.height / 2)
         
-        return CGRect(origin: origin, size: imageScaledSize)
+        return CGRect(origin: origin, size: size)
     }
     
     // MARK: Initialization

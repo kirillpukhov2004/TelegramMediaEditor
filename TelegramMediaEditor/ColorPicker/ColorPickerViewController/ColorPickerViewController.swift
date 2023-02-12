@@ -80,13 +80,13 @@ class ColorPickerViewController: UIViewController {
         return savedColorsView
     }()
     
-    private(set) var color: CGColor
-    
     private lazy var colorIndicatorView: ColorIndicatorView = {
-        let colorIndicatorView = ColorIndicatorView(color)
+        let colorIndicatorView = ColorIndicatorView()
         colorIndicatorView.translatesAutoresizingMaskIntoConstraints = false
         return colorIndicatorView
     }()
+    
+    private(set) var color: CGColor
     
     private lazy var portraitConstraints: [NSLayoutConstraint] = calculatePortraitConstraints()
     private lazy var landscapeConstraints: [NSLayoutConstraint] = calculateLandscapeConstraints()
@@ -163,6 +163,9 @@ class ColorPickerViewController: UIViewController {
     
     @objc private func sliderValueChanged(_ slider: Slider) {
         color = color.copy(alpha: slider.value)!
+        
+        opacitySlider.setThumbLayer(to: opacitySliderThumbLayer(for: color))
+        savedColorsView.selectedColor = color
     }
     
     // MARK: Private Functions
@@ -212,6 +215,14 @@ class ColorPickerViewController: UIViewController {
             NSLayoutConstraint.deactivate(portraitConstraints)
             NSLayoutConstraint.activate(landscapeConstraints)
         }
+    }
+    
+    override func viewDidLayoutSubviews() {
+        savedColorsView.selectedColor = color
+        
+        colorSelectionView.colorChanged(to: color.copy(alpha: 1)!)
+        
+        colorIndicatorView.setColor(color)
     }
     
     private func recalculateConstraints() {
