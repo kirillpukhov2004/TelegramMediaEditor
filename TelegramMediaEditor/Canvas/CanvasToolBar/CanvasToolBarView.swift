@@ -22,11 +22,10 @@ fileprivate enum Constants {
 
 class CanvasToolBarView: UIView {
     private lazy var toolViews: [ToolView] = {
-        let toolsTypesList: [ToolType] = [.pen, .brush, .neon, .pencil, .eraser, .lasso]
+        let toolsList: [Tool] = [.pen(), .brush(), .neon(), .pencil(), .eraser(), .lasso]
         
         var toolsViews = [ToolView]()
-        toolsViews = toolsTypesList.map { toolType in
-            let tool = Tool(type: toolType, width: 1, color: UIColor.black.cgColor)
+        toolsViews = toolsList.map { tool in
             let toolView = ToolView(for: tool)
             
             let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(toolSelected(_:)))
@@ -37,7 +36,7 @@ class CanvasToolBarView: UIView {
         return toolsViews
     }()
     private lazy var colorPickerButton: ColorPickerButton = {
-        let colorPickerButton = ColorPickerButton(activeTool.color)
+        let colorPickerButton = ColorPickerButton(activeTool.color ?? UIColor.white.cgColor)
         colorPickerButton.delegate = self
         colorPickerButton.translatesAutoresizingMaskIntoConstraints = false
         return colorPickerButton
@@ -203,7 +202,7 @@ class CanvasToolBarView: UIView {
         let newActiveToolViewIndex = toolViews.firstIndex(of: toolView)!
         
         if activeToolViewIndex == newActiveToolViewIndex {
-            if toolView.tool.type.haveWidth {
+            if toolView.tool.width != nil {
                 toggleEditingState()
             }
         } else {
@@ -315,7 +314,7 @@ class CanvasToolBarView: UIView {
         if !isEditing {
             centerActiveTool()
             
-            slider.value = activeTool.width
+            slider.value = activeTool.width ?? 1
             
             segmentedControl.isHidden = true
             slider.isHidden = false
@@ -342,7 +341,7 @@ class CanvasToolBarView: UIView {
         }
         
         activeToolViewIndex = index
-        colorPickerButton.selectedColor = activeTool.color
+        colorPickerButton.selectedColor = activeTool.color ?? UIColor.black.cgColor
         delegate?.canvasToolBarViewActiveToolChanged(self)
     }
     

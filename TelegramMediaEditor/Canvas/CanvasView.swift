@@ -138,8 +138,8 @@ class CanvasView: UIView {
 extension CanvasView: StrokeGestureRecognizerDelegate {
     func touchPossible() {
         guard let newStroke = strokeGestureRecognizer.stroke else { return }
-        newStroke.width = tool.width
-        newStroke.color = tool.color
+        newStroke.width = tool.width!
+        newStroke.color = tool.color!
         strokes.append(newStroke)
         refreshCanvas()
     }
