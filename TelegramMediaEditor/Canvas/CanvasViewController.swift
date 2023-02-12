@@ -14,7 +14,20 @@ fileprivate struct Constants {
 // MARK: - CanvasViewController
 
 class CanvasViewController: UIViewController {
-    lazy var scrollView: UIScrollView = {
+    private lazy var topBarView: CanvasTopBarView = {
+        let topBarView = CanvasTopBarView()
+        topBarView.delegate = self
+        topBarView.translatesAutoresizingMaskIntoConstraints = false
+        return topBarView
+    }()
+    private lazy var toolBarView: CanvasToolBarView = {
+        let toolBarView = CanvasToolBarView()
+        toolBarView.delegate = self
+        toolBarView.translatesAutoresizingMaskIntoConstraints = false
+        return toolBarView
+    }()
+    
+    private lazy var scrollView: UIScrollView = {
         let scrollView =  UIScrollView()
         scrollView.delegate = self
         scrollView.panGestureRecognizer.minimumNumberOfTouches = 2
@@ -22,72 +35,109 @@ class CanvasViewController: UIViewController {
         scrollView.maximumZoomScale = 3
         scrollView.showsVerticalScrollIndicator = false
         scrollView.showsHorizontalScrollIndicator = false
-//        scrollView.clipsToBounds = false
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         return scrollView
     }()
-    lazy var canvasView: CanvasView = {
+    private lazy var canvasWrapperView: UIView = {
+        let view = UIView()
+        view.autoresizingMask = [.flexibleHeight, .flexibleWidth]
+        return view
+    }()
+    private lazy var canvasView: CanvasView = {
         let canvasView = CanvasView(toolBarView.activeTool)
+        canvasView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         return canvasView
     }()
+    private lazy var backgroundImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        imageView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
+        return imageView
+    }()
     
-    lazy var topBarView: CanvasTopBarView = {
-        let topBarView = CanvasTopBarView()
-        topBarView.delegate = self
-        topBarView.translatesAutoresizingMaskIntoConstraints = false
-        return topBarView
-    }()
-    lazy var toolBarView: CanvasToolBarView = {
-        let toolBarView = CanvasToolBarView()
-        toolBarView.delegate = self
-        toolBarView.translatesAutoresizingMaskIntoConstraints = false
-        return toolBarView
-    }()
+    public var backgroundImage: UIImage? {
+        get {
+            return backgroundImageView.image
+        }
+        
+        set {
+            backgroundImageView.image = newValue
+            canvasView.frame = drawingRect
+        }
+    }
+    
+    private var drawingRect: CGRect {
+        guard let backgroundImage = backgroundImageView.image else { return backgroundImageView.bounds }
+        let widthRatio = backgroundImageView.bounds.size.width / backgroundImage.size.width
+        let heightRatio = backgroundImageView.bounds.size.height / backgroundImage.size.height
+        let scale = min(widthRatio, heightRatio)
+        let imageScaledSize = CGSize(width: backgroundImage.size.width * scale, height: backgroundImage.size.height * scale)
+        let origin = CGPoint(x: backgroundImageView.bounds.width / 2 - imageScaledSize.width / 2, y: 0)
+        return CGRect(origin: origin, size: imageScaledSize)
+    }
+    
+    // MARK: Initialization
+    
+    public init() {
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     // MARK: Lifecycle
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func loadView() {
+        view = UIView()
+        view.backgroundColor = .systemBackground
         
         buildViewHierarchy()
         setupConstraints()
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    
         configureViews()
     }
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        
-        canvasView.frame = scrollView.bounds
-    }
+    // MARK: Private Funcitons
     
-    func buildViewHierarchy() {
+    private func buildViewHierarchy() {
         view.addSubview(scrollView)
-        scrollView.addSubview(canvasView)
+        scrollView.addSubview(canvasWrapperView)
+        canvasWrapperView.addSubview(backgroundImageView)
+        canvasWrapperView.addSubview(canvasView)
+        
         view.addSubview(topBarView)
         view.addSubview(toolBarView)
     }
     
-    func setupConstraints() {
+    private func setupConstraints() {
+        canvasWrapperView.frame = scrollView.bounds
+        backgroundImageView.frame = canvasWrapperView.bounds
+        
         NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor, constant: Constants.canvasEdgeInsets.top),
             scrollView.rightAnchor.constraint(equalTo: view.rightAnchor),
             scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: Constants.canvasEdgeInsets.bottom),
             scrollView.leftAnchor.constraint(equalTo: view.leftAnchor),
         ])
+        
+        NSLayoutConstraint.activate([
+            backgroundImageView.topAnchor.constraint(equalTo: canvasWrapperView.topAnchor),
+            backgroundImageView.rightAnchor.constraint(equalTo: canvasWrapperView.rightAnchor),
+            backgroundImageView.bottomAnchor.constraint(equalTo: canvasWrapperView.bottomAnchor),
+            backgroundImageView.leftAnchor.constraint(equalTo: canvasWrapperView.leftAnchor)
+        ])
 
-//        NSLayoutConstraint.activate([
-//            canvasView.topAnchor.constraint(equalTo: scrollView.topAnchor),
-//            canvasView.rightAnchor.constraint(equalTo: scrollView.rightAnchor),
-//            canvasView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
-//            canvasView.leftAnchor.constraint(equalTo: scrollView.leftAnchor)
-//        ])
-//
         NSLayoutConstraint.activate([
             topBarView.topAnchor.constraint(equalTo: view.topAnchor),
             topBarView.rightAnchor.constraint(equalTo: view.rightAnchor),
             topBarView.leftAnchor.constraint(equalTo: view.leftAnchor),
         ])
-
+        
         NSLayoutConstraint.activate([
             toolBarView.rightAnchor.constraint(equalTo: view.layoutMarginsGuide.rightAnchor),
             toolBarView.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor),
@@ -96,7 +146,7 @@ class CanvasViewController: UIViewController {
         ])
     }
     
-    func configureViews() {
+    private func configureViews() {
         overrideUserInterfaceStyle = .dark
         navigationController?.setNavigationBarHidden(true, animated: false)
     }
@@ -106,7 +156,7 @@ class CanvasViewController: UIViewController {
 
 extension CanvasViewController: CanvasTopBarViewDelegate {
     func resetZoomScaleButtonAction() {
-        print(#function)
+        scrollView.setZoomScale(1, animated: true)
     }
     
     func clearAllButtonAction() {
@@ -122,7 +172,7 @@ extension CanvasViewController: CanvasTopBarViewDelegate {
 
 extension CanvasViewController: UIScrollViewDelegate {
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
-        return canvasView
+        return canvasWrapperView
     }
 }
 

@@ -2,16 +2,16 @@ import UIKit
 
 // MARK: - CanvasView
 
-class CanvasView: UIView {
-    public var tool: Tool
-    private(set) var strokes: [Stroke] = []
-    
+class CanvasView: UIView {    
     private lazy var strokeGestureRecognizer: StrokeGestureRecognizer = {
         let strokeGestureRecognizer = StrokeGestureRecognizer()
         strokeGestureRecognizer.strokeDelegate = self
         return strokeGestureRecognizer
     }()
     
+    public var tool: Tool
+    private(set) var strokes: [Stroke] = []
+
     // MARK: Initialization
     
     public init(_ tool: Tool) {
@@ -33,7 +33,7 @@ class CanvasView: UIView {
     override func draw(_ rect: CGRect) {
         guard let context = UIGraphicsGetCurrentContext() else { return }
         
-        context.setFillColor(UIColor.white.cgColor)
+        context.setFillColor(UIColor.clear.cgColor)
         context.fill(rect)
         
         strokes.forEach { stroke in
@@ -55,8 +55,8 @@ class CanvasView: UIView {
     }
     
     private func configureViews() {
+        backgroundColor = UIColor.clear
         addGestureRecognizer(strokeGestureRecognizer)
-        layer.backgroundColor = UIColor.white.cgColor
     }
     
     private func drawBeziérStroke(_ stroke: Stroke, in context: CGContext) {

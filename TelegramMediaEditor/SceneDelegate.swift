@@ -9,17 +9,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(windowScene: windowScene)
         
         let navigationController = UINavigationController()
-        let vc = CanvasViewController()
-        navigationController.pushViewController(vc, animated: false)
         
-//        let authorizationStatus = PHPhotoLibrary.authorizationStatus()
-//        if authorizationStatus == .notDetermined || authorizationStatus == .denied {
-//            let imagePickerAccessRequestViewController = ImagePickerAccessRequestViewController()
-//            navigationController.pushViewController(imagePickerAccessRequestViewController, animated: false)
-//        } else {
-//            let imagePickerViewController = ImagePickerViewController()
-//            navigationController.pushViewController(imagePickerViewController, animated: false)
-//        }
+        let authorizationStatus = PHPhotoLibrary.authorizationStatus()
+        if authorizationStatus == .notDetermined || authorizationStatus == .denied {
+            let imagePickerAccessRequestViewController = ImagePickerAccessRequestViewController()
+            navigationController.pushViewController(imagePickerAccessRequestViewController, animated: false)
+        } else {
+            let imagePickerViewController = ImagePickerViewController()
+            navigationController.pushViewController(imagePickerViewController, animated: false)
+        }
         
         window?.rootViewController = navigationController
         window?.makeKeyAndVisible()

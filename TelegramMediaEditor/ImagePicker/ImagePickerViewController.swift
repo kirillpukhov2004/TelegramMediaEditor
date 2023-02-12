@@ -172,8 +172,6 @@ extension ImagePickerViewController: UICollectionViewDelegateFlowLayout {
             print("🔴 \(#function): Can't get photoAsset for cell"); return
         }
         
-        let canvasViewController = CanvasViewController()
-        
         activityIndicator.style = .large
         activityIndicator.frame = view.frame
         activityIndicator.center = view.center
@@ -187,8 +185,6 @@ extension ImagePickerViewController: UICollectionViewDelegateFlowLayout {
                 if progress == 1.0 {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                         self?.activityIndicator.stopAnimating()
-                        self?.navigationController?.pushViewController(canvasViewController,
-                                                                       animated: true)
                     }
                 }
             }
@@ -197,13 +193,15 @@ extension ImagePickerViewController: UICollectionViewDelegateFlowLayout {
         _ = PHImageManager.default().requestImageDataAndOrientation(
             for: photoAsset,
             options: imageReqeustOptions
-        ) { imageData, _, _, _ in
-//            guard let imageData = imageData else {
-//                print("🔴 \(#function): Image data is nil"); return
-//            }
-//
-//            canvasViewController.image = UIImage(data: imageData)
-//            canvasViewController.asset = photoAsset
+        ) { [weak self] imageData, _, _, _ in
+            guard let imageData = imageData else {
+                print("🔴 \(#function): Image data is nil"); return
+            }
+
+            guard let image = UIImage(data: imageData) else { fatalError() }
+            let canvasViewController = CanvasViewController()
+            canvasViewController.backgroundImage = image
+            self?.navigationController?.pushViewController(canvasViewController, animated: true)
         }
     }
 }
