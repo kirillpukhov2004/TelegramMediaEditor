@@ -52,7 +52,6 @@
 		D6FFDD3F2983F0060091CE14 /* ColorPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6FFDD3E2983F0060091CE14 /* ColorPickerViewController.swift */; };
 		D6FFDD7C298424790091CE14 /* CGFloatExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6FFDD7B298424790091CE14 /* CGFloatExtensions.swift */; };
 		D6FFDD7E298434D80091CE14 /* ColorPickerViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6FFDD7D298434D80091CE14 /* ColorPickerViewControllerDelegate.swift */; };
-		D6FFDD80298438280091CE14 /* ColorPickerButtonDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6FFDD7F298438280091CE14 /* ColorPickerButtonDelegate.swift */; };
 		D6FFDD8229844E6A0091CE14 /* CanvasToolBarViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6FFDD8129844E6A0091CE14 /* CanvasToolBarViewDelegate.swift */; };
 		D6FFDD86298454F40091CE14 /* CanvasTopBarViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6FFDD85298454F40091CE14 /* CanvasTopBarViewDelegate.swift */; };
 /* End PBXBuildFile section */
@@ -104,7 +103,6 @@
 		D6FFDD3E2983F0060091CE14 /* ColorPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPickerViewController.swift; sourceTree = "<group>"; };
 		D6FFDD7B298424790091CE14 /* CGFloatExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGFloatExtensions.swift; sourceTree = "<group>"; };
 		D6FFDD7D298434D80091CE14 /* ColorPickerViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPickerViewControllerDelegate.swift; sourceTree = "<group>"; };
-		D6FFDD7F298438280091CE14 /* ColorPickerButtonDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPickerButtonDelegate.swift; sourceTree = "<group>"; };
 		D6FFDD8129844E6A0091CE14 /* CanvasToolBarViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasToolBarViewDelegate.swift; sourceTree = "<group>"; };
 		D6FFDD85298454F40091CE14 /* CanvasTopBarViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasTopBarViewDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -135,19 +133,10 @@
 			isa = PBXGroup;
 			children = (
 				D6FFDD3E2983F0060091CE14 /* ColorPickerViewController.swift */,
-				D6FFDD7D298434D80091CE14 /* ColorPickerViewControllerDelegate.swift */,
 				D6AC82CA2993D8A500CE434E /* ColorIndicatorView.swift */,
+				D6FFDD7D298434D80091CE14 /* ColorPickerViewControllerDelegate.swift */,
 			);
 			path = ColorPickerViewController;
-			sourceTree = "<group>";
-		};
-		D629F416298ADF50002F0418 /* ColorPickerButton */ = {
-			isa = PBXGroup;
-			children = (
-				D6F64B2329702B2400F47531 /* ColorPickerButton.swift */,
-				D6FFDD7F298438280091CE14 /* ColorPickerButtonDelegate.swift */,
-			);
-			path = ColorPickerButton;
 			sourceTree = "<group>";
 		};
 		D629F417298ADF7E002F0418 /* ColorSelectionViews */ = {
@@ -285,7 +274,6 @@
 				D6131FEF29903A1F0047567A /* ColorPickerViewController */,
 				D64E7E61298FAAA8004E4A90 /* SavedColorsView */,
 				D6073E51298AA1E800C2BFF2 /* ColorSelectionView */,
-				D629F416298ADF50002F0418 /* ColorPickerButton */,
 			);
 			path = ColorPicker;
 			sourceTree = "<group>";
@@ -293,9 +281,10 @@
 		D6FFDD87298457130091CE14 /* CanvasToolBar */ = {
 			isa = PBXGroup;
 			children = (
-				D6F64B2529702B2400F47531 /* Tool */,
 				D6F64B2129702B2400F47531 /* CanvasToolBarView.swift */,
 				D6FFDD8129844E6A0091CE14 /* CanvasToolBarViewDelegate.swift */,
+				D6F64B2329702B2400F47531 /* ColorPickerButton.swift */,
+				D6F64B2529702B2400F47531 /* Tool */,
 			);
 			path = CanvasToolBar;
 			sourceTree = "<group>";
@@ -407,7 +396,6 @@
 				D6F64B3F29702B2400F47531 /* ColorPickerButton.swift in Sources */,
 				D64E7E60298FAA26004E4A90 /* SavedColorsCollectionViewCell.swift in Sources */,
 				D6F64B4429702B2400F47531 /* CanvasViewController.swift in Sources */,
-				D6FFDD80298438280091CE14 /* ColorPickerButtonDelegate.swift in Sources */,
 				D6F64B3E29702B2400F47531 /* CanvasView.swift in Sources */,
 				D6F64B4529702B2400F47531 /* Slider.swift in Sources */,
 				D6073E55298AB69C00C2BFF2 /* UIBezierPathExtensions.swift in Sources */,

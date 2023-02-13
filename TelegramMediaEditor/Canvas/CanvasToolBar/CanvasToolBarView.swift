@@ -37,7 +37,7 @@ class CanvasToolBarView: UIView {
     }()
     private lazy var colorPickerButton: ColorPickerButton = {
         let colorPickerButton = ColorPickerButton(activeTool.color ?? UIColor.white.cgColor)
-        colorPickerButton.delegate = self
+        colorPickerButton.addTarget(self, action: #selector(colorPickerButtonPressed), for: .touchDown)
         colorPickerButton.translatesAutoresizingMaskIntoConstraints = false
         return colorPickerButton
     }()
@@ -214,6 +214,13 @@ class CanvasToolBarView: UIView {
         changeActiveToolWidth(to: slider.value)
     }
     
+    @objc private func colorPickerButtonPressed() {
+        guard let rootVC = self.window?.rootViewController else { return }
+        let colorPickerViewController = ColorPickerViewController(activeTool.color ?? UIColor.white.cgColor)
+        colorPickerViewController.delegate = self
+        rootVC.present(colorPickerViewController, animated: true)
+    }
+
     // MARK: Private Functions
     
     private func buildViewHierarchy() {
@@ -341,7 +348,7 @@ class CanvasToolBarView: UIView {
         }
         
         activeToolViewIndex = index
-        colorPickerButton.selectedColor = activeTool.color ?? UIColor.black.cgColor
+        colorPickerButton.color = activeTool.color ?? UIColor.black.cgColor
         delegate?.canvasToolBarViewActiveToolChanged(self)
     }
     
@@ -420,11 +427,10 @@ class CanvasToolBarView: UIView {
     }
 }
 
-// MARK: - : ColorPickerDelegate
+// MARK: - : ColorPickerViewControllerDelegate
 
-extension CanvasToolBarView: ColorPickerButtonDelegate {
-    func colorChanged(_ colorPicker: ColorPickerButton) {
-        let color = colorPicker.selectedColor
-        changeActiveToolColor(to: color)
+extension CanvasToolBarView: ColorPickerViewControllerDelegate {
+    func colorPickerViewControllerColorChanged(_ colorPickerViewController: ColorPickerViewController) {
+        changeActiveToolColor(to: colorPickerViewController.color)
     }
 }
