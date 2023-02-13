@@ -1,4 +1,5 @@
 import UIKit
+import Photos
 
 // MARK: - Constants
 
@@ -65,6 +66,7 @@ class CanvasViewController: UIViewController {
             canvasView.frame = drawingRect
         }
     }
+    public var backgroundImageAsset: PHAsset?
     
     private var drawingRect: CGRect {
         guard let backgroundImage = backgroundImage else { return backgroundImageView.bounds }
@@ -157,6 +159,8 @@ class CanvasViewController: UIViewController {
     private func configureViews() {
         overrideUserInterfaceStyle = .dark
         navigationController?.setNavigationBarHidden(true, animated: false)
+        
+        topBarView.resetZoomScaleButton.isHidden = true
     }
 }
 
@@ -181,6 +185,10 @@ extension CanvasViewController: CanvasTopBarViewDelegate {
 extension CanvasViewController: UIScrollViewDelegate {
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         return canvasWrapperView
+    }
+    
+    func scrollViewDidZoom(_ scrollView: UIScrollView) {
+        topBarView.resetZoomScaleButton.isHidden = (scrollView.zoomScale <= 1)
     }
 }
 

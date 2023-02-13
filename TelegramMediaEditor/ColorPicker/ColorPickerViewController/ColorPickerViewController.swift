@@ -166,6 +166,7 @@ class ColorPickerViewController: UIViewController {
         
         opacitySlider.setThumbLayer(to: opacitySliderThumbLayer(for: color))
         savedColorsView.selectedColor = color
+        colorIndicatorView.setColor(color)
     }
     
     // MARK: Private Functions

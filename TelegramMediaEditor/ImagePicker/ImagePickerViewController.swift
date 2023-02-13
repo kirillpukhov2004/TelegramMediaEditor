@@ -201,6 +201,7 @@ extension ImagePickerViewController: UICollectionViewDelegateFlowLayout {
             guard let image = UIImage(data: imageData) else { fatalError() }
             let canvasViewController = CanvasViewController()
             canvasViewController.backgroundImage = image
+            canvasViewController.backgroundImageAsset = photoAsset
             self?.navigationController?.pushViewController(canvasViewController, animated: true)
         }
     }
