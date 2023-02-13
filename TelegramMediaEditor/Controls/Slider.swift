@@ -4,6 +4,8 @@ import UIKit
 
 class Slider: UIControl {
     private lazy var trackLayer: CALayer = defaultTrackLayer
+    private lazy var thumbLayer: CALayer = defaultThumbLayer
+    
     private var defaultTrackLayer: CALayer {
         let shapeLayer = CAShapeLayer()
         
@@ -49,8 +51,6 @@ class Slider: UIControl {
         
         return shapeLayer
     }
-    
-    private lazy var thumbLayer: CALayer = defaultThumbLayer
     private var defaultThumbLayer: CALayer {
         let shapeLayer = CAShapeLayer()
         
@@ -105,6 +105,9 @@ class Slider: UIControl {
     
     public init() {
         super.init(frame: .zero)
+        
+        self.value = self.maximumValue
+        
         buildViewHierarchy()
     }
     

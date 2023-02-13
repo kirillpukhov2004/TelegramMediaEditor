@@ -29,6 +29,7 @@
 		D6D40D02298D6E85000470E0 /* SavedColorsViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6D40D01298D6E85000470E0 /* SavedColorsViewDelegate.swift */; };
 		D6ECEA5D29704BA000DD9502 /* StrokeSample.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6ECEA5C29704BA000DD9502 /* StrokeSample.swift */; };
 		D6ECEA6029704C4900DD9502 /* UIColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6ECEA5F29704C4900DD9502 /* UIColorExtensions.swift */; };
+		D6EDF070299AA5A9007A3527 /* OpacitySlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6EDF06F299AA5A9007A3527 /* OpacitySlider.swift */; };
 		D6F64B3529702B2400F47531 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D6F64B1629702B2400F47531 /* LaunchScreen.storyboard */; };
 		D6F64B3729702B2400F47531 /* StrokeGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F64B1929702B2400F47531 /* StrokeGestureRecognizer.swift */; };
 		D6F64B3829702B2400F47531 /* ImagePickerAccessRequestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F64B1B29702B2400F47531 /* ImagePickerAccessRequestViewController.swift */; };
@@ -79,6 +80,7 @@
 		D6D40D01298D6E85000470E0 /* SavedColorsViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedColorsViewDelegate.swift; sourceTree = "<group>"; };
 		D6ECEA5C29704BA000DD9502 /* StrokeSample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StrokeSample.swift; sourceTree = "<group>"; };
 		D6ECEA5F29704C4900DD9502 /* UIColorExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorExtensions.swift; sourceTree = "<group>"; };
+		D6EDF06F299AA5A9007A3527 /* OpacitySlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpacitySlider.swift; sourceTree = "<group>"; };
 		D6F64B1629702B2400F47531 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D6F64B1929702B2400F47531 /* StrokeGestureRecognizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StrokeGestureRecognizer.swift; sourceTree = "<group>"; };
 		D6F64B1B29702B2400F47531 /* ImagePickerAccessRequestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagePickerAccessRequestViewController.swift; sourceTree = "<group>"; };
@@ -133,6 +135,7 @@
 			isa = PBXGroup;
 			children = (
 				D6FFDD3E2983F0060091CE14 /* ColorPickerViewController.swift */,
+				D6EDF06F299AA5A9007A3527 /* OpacitySlider.swift */,
 				D6AC82CA2993D8A500CE434E /* ColorIndicatorView.swift */,
 				D6FFDD7D298434D80091CE14 /* ColorPickerViewControllerDelegate.swift */,
 			);
@@ -410,6 +413,7 @@
 				D6073E4E298AA12200C2BFF2 /* SlidersColorSelectionView.swift in Sources */,
 				D6F64B3D29702B2400F47531 /* CanvasToolBarView.swift in Sources */,
 				D6073E4A298AA0FD00C2BFF2 /* GridColorSelectionView.swift in Sources */,
+				D6EDF070299AA5A9007A3527 /* OpacitySlider.swift in Sources */,
 				D6AC82CB2993D8A500CE434E /* ColorIndicatorView.swift in Sources */,
 				D629F419298AFA9B002F0418 /* SavedColorsView.swift in Sources */,
 				D6F64B4129702B2400F47531 /* Tool.swift in Sources */,
