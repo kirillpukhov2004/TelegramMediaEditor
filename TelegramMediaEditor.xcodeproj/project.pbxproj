@@ -135,9 +135,9 @@
 			isa = PBXGroup;
 			children = (
 				D6FFDD3E2983F0060091CE14 /* ColorPickerViewController.swift */,
+				D6FFDD7D298434D80091CE14 /* ColorPickerViewControllerDelegate.swift */,
 				D6EDF06F299AA5A9007A3527 /* OpacitySlider.swift */,
 				D6AC82CA2993D8A500CE434E /* ColorIndicatorView.swift */,
-				D6FFDD7D298434D80091CE14 /* ColorPickerViewControllerDelegate.swift */,
 			);
 			path = ColorPickerViewController;
 			sourceTree = "<group>";

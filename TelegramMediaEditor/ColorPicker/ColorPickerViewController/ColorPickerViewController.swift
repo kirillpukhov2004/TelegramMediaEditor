@@ -72,7 +72,7 @@ class ColorPickerViewController: UIViewController {
     }()
     
     private lazy var colorIndicatorView: ColorIndicatorView = {
-        let colorIndicatorView = ColorIndicatorView()
+        let colorIndicatorView = ColorIndicatorView(color)
         colorIndicatorView.translatesAutoresizingMaskIntoConstraints = false
         return colorIndicatorView
     }()
@@ -155,8 +155,9 @@ class ColorPickerViewController: UIViewController {
     @objc private func sliderValueChanged(_ slider: Slider) {
         color = color.copy(alpha: slider.value)!
         
+        opacitySlider.color = color
         savedColorsView.selectedColor = color
-        colorIndicatorView.setColor(color)
+        colorIndicatorView.color = color
     }
     
     // MARK: Private Functions
@@ -213,7 +214,7 @@ class ColorPickerViewController: UIViewController {
         
         colorSelectionView.colorChanged(to: color.copy(alpha: 1)!)
         
-        colorIndicatorView.setColor(color)
+        colorIndicatorView.color = color
     }
     
     private func recalculateConstraints() {
@@ -275,7 +276,7 @@ class ColorPickerViewController: UIViewController {
         
         savedColorsView.selectedColor = color
         
-        colorIndicatorView.setColor(color)
+        colorIndicatorView.color = color
     }
 }
 
@@ -291,7 +292,7 @@ extension ColorPickerViewController: ColorSelectionViewDelegate {
         
         opacitySlider.color = color
         
-        colorIndicatorView.setColor(color)
+        colorIndicatorView.color = color
         
         delegate?.colorPickerViewControllerColorChanged(self)
     }
@@ -312,7 +313,7 @@ extension ColorPickerViewController: SavedColorsViewDelegate {
         
         opacitySlider.color = color
         
-        colorIndicatorView.setColor(color)
+        colorIndicatorView.color = color
         
         delegate?.colorPickerViewControllerColorChanged(self)
     }

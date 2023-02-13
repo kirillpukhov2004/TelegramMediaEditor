@@ -13,15 +13,24 @@ class ColorIndicatorView: UIView {
     }()
     
     public var color: CGColor {
-        return colorLayer.backgroundColor ?? UIColor.black.cgColor
+        get {
+            return colorLayer.backgroundColor!
+        }
+        
+        set {
+            CATransaction.begin()
+            CATransaction.setDisableActions(true)
+            colorLayer.backgroundColor = newValue
+            CATransaction.commit()
+        }
     }
     
     // MARK: Initialization
     
-    public init(_ selectedColor: CGColor = UIColor.clear.cgColor) {
+    public init(_ color: CGColor) {
         super.init(frame: .zero)
         
-        setColor(selectedColor)
+        self.color = color
         
         buildViewHierarchy()
         setupConstraints()
@@ -80,16 +89,5 @@ class ColorIndicatorView: UIView {
     private func configureViews() {
         layer.cornerRadius = 10
         layer.masksToBounds = true
-    }
-    
-    // MARK: Public Functions
-    
-    public func setColor(_ color: CGColor) {
-        CATransaction.begin()
-        CATransaction.setDisableActions(true)
-        
-        colorLayer.backgroundColor = color
-        
-        CATransaction.commit()
     }
 }
