@@ -131,6 +131,24 @@ class CanvasView: UIView {
         strokes = []
         refreshCanvas()
     }
+    
+    public func getDrawingImage() -> UIImage? {
+        UIGraphicsBeginImageContextWithOptions(bounds.size, false, 0)
+        
+        guard let context = UIGraphicsGetCurrentContext() else { return nil }
+        
+        context.setFillColor(UIColor.clear.cgColor)
+        context.fill(bounds)
+        
+        strokes.forEach { stroke in
+            context.setLineWidth(stroke.width)
+            context.setStrokeColor(stroke.color)
+            context.setLineCap(.round)
+            drawBeziérStroke(stroke, in: context)
+        }
+        
+        return UIGraphicsGetImageFromCurrentImageContext()
+    }
 }
 
 // MARK: - : StrokeGestureRecognizerDelegate

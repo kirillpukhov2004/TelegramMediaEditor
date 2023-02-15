@@ -70,6 +70,8 @@ class CanvasViewController: UIViewController {
     
     private var drawingRect: CGRect {
         guard let backgroundImage = backgroundImage else { return backgroundImageView.bounds }
+        
+        // Calculating actual image frame inside imageView accroding to content mode .scaleAspectFit
         let widthRatio = backgroundImageView.bounds.size.width / backgroundImage.size.width
         let heightRatio = backgroundImageView.bounds.size.height / backgroundImage.size.height
         let scale = min(widthRatio, heightRatio)
@@ -162,6 +164,20 @@ class CanvasViewController: UIViewController {
         
         topBarView.resetZoomScaleButton.isHidden = true
     }
+    
+    private func generateImage() -> UIImage {
+        let drawing = canvasView.getDrawingImage()
+        let image = backgroundImage
+        
+        UIGraphicsBeginImageContextWithOptions(image!.size, true, 0)
+        
+        let rect = CGRect(origin: .zero, size: image!.size)
+        
+        image?.draw(in: rect)
+        drawing?.draw(in: rect, blendMode: .normal, alpha: 1)
+        
+        return UIGraphicsGetImageFromCurrentImageContext()!
+    }
 }
 
 // MARK: - : TopBarViewDelegate
@@ -198,5 +214,26 @@ extension CanvasViewController: CanvasToolBarViewDelegate {
     func canvasToolBarViewActiveToolChanged(_ canvasToolBarView: CanvasToolBarView) {
         let newActiveTool = canvasToolBarView.activeTool
         canvasView.tool = newActiveTool
+    }
+    
+    func canvasToolBarCancelButtonPressed(_ canvasToolBarView: CanvasToolBarView) {
+        navigationController?.popViewController(animated: true)
+    }
+    
+    func canvasToolBarSaveButtonPressed(_ canvasToolBarView: CanvasToolBarView) {
+        let image = generateImage()
+        PHPhotoLibrary.shared().performChanges({
+            _ = PHAssetChangeRequest.creationRequestForAsset(from: image)
+        }) { [weak self] success, error in
+            if let error = error {
+                print(#function, error)
+            }
+            
+            if success {
+                DispatchQueue.main.async {
+                    self?.navigationController?.popViewController(animated: true)
+                }
+            }
+        }
     }
 }

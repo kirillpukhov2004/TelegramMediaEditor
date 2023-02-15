@@ -51,10 +51,10 @@ class CanvasToolBarView: UIView {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
-    private lazy var doneButton: UIButton = {
+    private lazy var saveButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "download")!, for: .normal)
-        button.addTarget(self, action: #selector(doneButtonPressed), for: .touchDown)
+        button.addTarget(self, action: #selector(saveButtonPressed), for: .touchDown)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -136,9 +136,6 @@ class CanvasToolBarView: UIView {
     
     public var delegate: CanvasToolBarViewDelegate?
     
-    public var doneButtonPressedAction: (() -> Void)?
-    public var cancelButtonPressedAction: (() -> Void)?
-    
     private var isEditing: Bool = false
     
     // MARK: Initialization
@@ -189,12 +186,12 @@ class CanvasToolBarView: UIView {
     @objc private func addButtonPressed() {
     }
     
-    @objc private func doneButtonPressed() {
-        doneButtonPressedAction?()
+    @objc private func saveButtonPressed() {
+        delegate?.canvasToolBarSaveButtonPressed(self)
     }
     
     @objc private func cancelButtonPressed() {
-        cancelButtonPressedAction?()
+        delegate?.canvasToolBarCancelButtonPressed(self)
     }
     
     @objc private func toolSelected(_ sender: UITapGestureRecognizer) {
@@ -236,7 +233,7 @@ class CanvasToolBarView: UIView {
         bottomHorizontalStackView.addArrangedSubview(cancelButton)
         bottomHorizontalStackView.addArrangedSubview(segmentedControl)
         bottomHorizontalStackView.addArrangedSubview(slider)
-        bottomHorizontalStackView.addArrangedSubview(doneButton)
+        bottomHorizontalStackView.addArrangedSubview(saveButton)
     }
     
     private func setupConstraints() {
@@ -290,8 +287,8 @@ class CanvasToolBarView: UIView {
         ])
         
         NSLayoutConstraint.activate([
-            doneButton.heightAnchor.constraint(equalToConstant: 33),
-            doneButton.widthAnchor.constraint(equalTo: doneButton.heightAnchor)
+            saveButton.heightAnchor.constraint(equalToConstant: 33),
+            saveButton.widthAnchor.constraint(equalTo: saveButton.heightAnchor)
         ])
         
         NSLayoutConstraint.activate([
