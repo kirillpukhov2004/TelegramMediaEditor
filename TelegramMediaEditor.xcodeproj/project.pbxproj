@@ -32,9 +32,9 @@
 		D6EDF070299AA5A9007A3527 /* OpacitySlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6EDF06F299AA5A9007A3527 /* OpacitySlider.swift */; };
 		D6F64B3529702B2400F47531 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D6F64B1629702B2400F47531 /* LaunchScreen.storyboard */; };
 		D6F64B3729702B2400F47531 /* StrokeGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F64B1929702B2400F47531 /* StrokeGestureRecognizer.swift */; };
-		D6F64B3829702B2400F47531 /* ImagePickerAccessRequestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F64B1B29702B2400F47531 /* ImagePickerAccessRequestViewController.swift */; };
-		D6F64B3929702B2400F47531 /* ImagePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F64B1C29702B2400F47531 /* ImagePickerViewController.swift */; };
-		D6F64B3A29702B2400F47531 /* ImagePickerCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F64B1D29702B2400F47531 /* ImagePickerCollectionViewCell.swift */; };
+		D6F64B3829702B2400F47531 /* PickerAccessRequestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F64B1B29702B2400F47531 /* PickerAccessRequestViewController.swift */; };
+		D6F64B3929702B2400F47531 /* PickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F64B1C29702B2400F47531 /* PickerViewController.swift */; };
+		D6F64B3A29702B2400F47531 /* PickerCollectionViewPhotoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F64B1D29702B2400F47531 /* PickerCollectionViewPhotoCell.swift */; };
 		D6F64B3B29702B2400F47531 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D6F64B1E29702B2400F47531 /* Assets.xcassets */; };
 		D6F64B3D29702B2400F47531 /* CanvasToolBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F64B2129702B2400F47531 /* CanvasToolBarView.swift */; };
 		D6F64B3E29702B2400F47531 /* CanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F64B2229702B2400F47531 /* CanvasView.swift */; };
@@ -83,9 +83,9 @@
 		D6EDF06F299AA5A9007A3527 /* OpacitySlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpacitySlider.swift; sourceTree = "<group>"; };
 		D6F64B1629702B2400F47531 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D6F64B1929702B2400F47531 /* StrokeGestureRecognizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StrokeGestureRecognizer.swift; sourceTree = "<group>"; };
-		D6F64B1B29702B2400F47531 /* ImagePickerAccessRequestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagePickerAccessRequestViewController.swift; sourceTree = "<group>"; };
-		D6F64B1C29702B2400F47531 /* ImagePickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagePickerViewController.swift; sourceTree = "<group>"; };
-		D6F64B1D29702B2400F47531 /* ImagePickerCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagePickerCollectionViewCell.swift; sourceTree = "<group>"; };
+		D6F64B1B29702B2400F47531 /* PickerAccessRequestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PickerAccessRequestViewController.swift; sourceTree = "<group>"; };
+		D6F64B1C29702B2400F47531 /* PickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PickerViewController.swift; sourceTree = "<group>"; };
+		D6F64B1D29702B2400F47531 /* PickerCollectionViewPhotoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PickerCollectionViewPhotoCell.swift; sourceTree = "<group>"; };
 		D6F64B1E29702B2400F47531 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D6F64B2129702B2400F47531 /* CanvasToolBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CanvasToolBarView.swift; sourceTree = "<group>"; };
 		D6F64B2229702B2400F47531 /* CanvasView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CanvasView.swift; sourceTree = "<group>"; };
@@ -150,6 +150,15 @@
 				D6073E4D298AA12200C2BFF2 /* SlidersColorSelectionView.swift */,
 			);
 			path = ColorSelectionViews;
+			sourceTree = "<group>";
+		};
+		D63848FC299D71BC00FFF4AC /* PickerViewController */ = {
+			isa = PBXGroup;
+			children = (
+				D6F64B1C29702B2400F47531 /* PickerViewController.swift */,
+				D6F64B1D29702B2400F47531 /* PickerCollectionViewPhotoCell.swift */,
+			);
+			path = PickerViewController;
 			sourceTree = "<group>";
 		};
 		D6453F4428F7EE2C001F6101 = {
@@ -225,9 +234,8 @@
 		D6F64B1A29702B2400F47531 /* ImagePicker */ = {
 			isa = PBXGroup;
 			children = (
-				D6F64B1C29702B2400F47531 /* ImagePickerViewController.swift */,
-				D6F64B1D29702B2400F47531 /* ImagePickerCollectionViewCell.swift */,
-				D6F64B1B29702B2400F47531 /* ImagePickerAccessRequestViewController.swift */,
+				D63848FC299D71BC00FFF4AC /* PickerViewController */,
+				D6F64B1B29702B2400F47531 /* PickerAccessRequestViewController.swift */,
 			);
 			path = ImagePicker;
 			sourceTree = "<group>";
@@ -391,7 +399,7 @@
 				D6FFDD3F2983F0060091CE14 /* ColorPickerViewController.swift in Sources */,
 				D6FB1649297FCAF000594793 /* CanvasTopBarView.swift in Sources */,
 				D6FFDD7E298434D80091CE14 /* ColorPickerViewControllerDelegate.swift in Sources */,
-				D6F64B3829702B2400F47531 /* ImagePickerAccessRequestViewController.swift in Sources */,
+				D6F64B3829702B2400F47531 /* PickerAccessRequestViewController.swift in Sources */,
 				D6D40D02298D6E85000470E0 /* SavedColorsViewDelegate.swift in Sources */,
 				D603084E2990DBA400679AFA /* UserDefaultsSavable.swift in Sources */,
 				D6F64B4629702B2400F47531 /* SegmentedControlSegment.swift in Sources */,
@@ -402,7 +410,7 @@
 				D6F64B3E29702B2400F47531 /* CanvasView.swift in Sources */,
 				D6F64B4529702B2400F47531 /* Slider.swift in Sources */,
 				D6073E55298AB69C00C2BFF2 /* UIBezierPathExtensions.swift in Sources */,
-				D6F64B3A29702B2400F47531 /* ImagePickerCollectionViewCell.swift in Sources */,
+				D6F64B3A29702B2400F47531 /* PickerCollectionViewPhotoCell.swift in Sources */,
 				D65554742973E469004E3823 /* CGSizeExtensions.swift in Sources */,
 				D6F64B4B29702B2400F47531 /* Stroke.swift in Sources */,
 				D62A6FCE29939FEB00670648 /* CGColorExtesnion.swift in Sources */,
@@ -417,7 +425,7 @@
 				D6AC82CB2993D8A500CE434E /* ColorIndicatorView.swift in Sources */,
 				D629F419298AFA9B002F0418 /* SavedColorsView.swift in Sources */,
 				D6F64B4129702B2400F47531 /* Tool.swift in Sources */,
-				D6F64B3929702B2400F47531 /* ImagePickerViewController.swift in Sources */,
+				D6F64B3929702B2400F47531 /* PickerViewController.swift in Sources */,
 				D6FFDD86298454F40091CE14 /* CanvasTopBarViewDelegate.swift in Sources */,
 				D6C68F1D2997734300C305A1 /* CGPointExtensions.swift in Sources */,
 				D6F64B4929702B2400F47531 /* NavigationController.swift in Sources */,

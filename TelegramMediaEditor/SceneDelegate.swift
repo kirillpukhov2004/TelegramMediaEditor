@@ -12,10 +12,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let authorizationStatus = PHPhotoLibrary.authorizationStatus()
         if authorizationStatus == .notDetermined || authorizationStatus == .denied {
-            let imagePickerAccessRequestViewController = ImagePickerAccessRequestViewController()
+            let imagePickerAccessRequestViewController = PickerAccessRequestViewController()
             navigationController.pushViewController(imagePickerAccessRequestViewController, animated: false)
         } else {
-            let imagePickerViewController = ImagePickerViewController()
+            let imagePickerViewController = PickerViewController()
             navigationController.pushViewController(imagePickerViewController, animated: false)
         }
         
