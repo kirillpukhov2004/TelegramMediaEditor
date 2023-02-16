@@ -9,14 +9,17 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(windowScene: windowScene)
         
         let navigationController = UINavigationController()
+        navigationController.overrideUserInterfaceStyle = .dark
         
-        let authorizationStatus = PHPhotoLibrary.authorizationStatus()
-        if authorizationStatus == .notDetermined || authorizationStatus == .denied {
-            let imagePickerAccessRequestViewController = PickerAccessRequestViewController()
-            navigationController.pushViewController(imagePickerAccessRequestViewController, animated: false)
-        } else {
+        switch PHPhotoLibrary.authorizationStatus() {
+        case .authorized, .limited:
             let imagePickerViewController = PickerViewController()
             navigationController.pushViewController(imagePickerViewController, animated: false)
+        case .notDetermined, .denied:
+            let imagePickerAccessRequestViewController = PickerAccessRequestViewController()
+            navigationController.pushViewController(imagePickerAccessRequestViewController, animated: false)
+        default:
+            print("🔴 Image access restricted")
         }
         
         window?.rootViewController = navigationController

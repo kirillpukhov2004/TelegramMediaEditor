@@ -49,12 +49,10 @@
 		D6F64B4929702B2400F47531 /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F64B3129702B2400F47531 /* NavigationController.swift */; };
 		D6F64B4B29702B2400F47531 /* Stroke.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F64B3329702B2400F47531 /* Stroke.swift */; };
 		D6F64B4C29702B2400F47531 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F64B3429702B2400F47531 /* SceneDelegate.swift */; };
-		D6FB1649297FCAF000594793 /* CanvasTopBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6FB1648297FCAF000594793 /* CanvasTopBarView.swift */; };
 		D6FFDD3F2983F0060091CE14 /* ColorPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6FFDD3E2983F0060091CE14 /* ColorPickerViewController.swift */; };
 		D6FFDD7C298424790091CE14 /* CGFloatExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6FFDD7B298424790091CE14 /* CGFloatExtensions.swift */; };
 		D6FFDD7E298434D80091CE14 /* ColorPickerViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6FFDD7D298434D80091CE14 /* ColorPickerViewControllerDelegate.swift */; };
 		D6FFDD8229844E6A0091CE14 /* CanvasToolBarViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6FFDD8129844E6A0091CE14 /* CanvasToolBarViewDelegate.swift */; };
-		D6FFDD86298454F40091CE14 /* CanvasTopBarViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6FFDD85298454F40091CE14 /* CanvasTopBarViewDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -101,12 +99,10 @@
 		D6F64B3229702B2400F47531 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D6F64B3329702B2400F47531 /* Stroke.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stroke.swift; sourceTree = "<group>"; };
 		D6F64B3429702B2400F47531 /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		D6FB1648297FCAF000594793 /* CanvasTopBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasTopBarView.swift; sourceTree = "<group>"; };
 		D6FFDD3E2983F0060091CE14 /* ColorPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPickerViewController.swift; sourceTree = "<group>"; };
 		D6FFDD7B298424790091CE14 /* CGFloatExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGFloatExtensions.swift; sourceTree = "<group>"; };
 		D6FFDD7D298434D80091CE14 /* ColorPickerViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPickerViewControllerDelegate.swift; sourceTree = "<group>"; };
 		D6FFDD8129844E6A0091CE14 /* CanvasToolBarViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasToolBarViewDelegate.swift; sourceTree = "<group>"; };
-		D6FFDD85298454F40091CE14 /* CanvasTopBarViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasTopBarViewDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -218,7 +214,7 @@
 				D6F64B3029702B2400F47531 /* AppDelegate.swift */,
 				D6F64B3429702B2400F47531 /* SceneDelegate.swift */,
 				D6F64B3129702B2400F47531 /* NavigationController.swift */,
-				D6F64B1A29702B2400F47531 /* ImagePicker */,
+				D6F64B1A29702B2400F47531 /* Picker */,
 				D6F64B2029702B2400F47531 /* Canvas */,
 				D6FFDD3D2983EF300091CE14 /* ColorPicker */,
 				D6F64B2A29702B2400F47531 /* Controls */,
@@ -231,13 +227,13 @@
 			path = TelegramMediaEditor;
 			sourceTree = "<group>";
 		};
-		D6F64B1A29702B2400F47531 /* ImagePicker */ = {
+		D6F64B1A29702B2400F47531 /* Picker */ = {
 			isa = PBXGroup;
 			children = (
 				D63848FC299D71BC00FFF4AC /* PickerViewController */,
 				D6F64B1B29702B2400F47531 /* PickerAccessRequestViewController.swift */,
 			);
-			path = ImagePicker;
+			path = Picker;
 			sourceTree = "<group>";
 		};
 		D6F64B2029702B2400F47531 /* Canvas */ = {
@@ -246,7 +242,6 @@
 				D6F64B2929702B2400F47531 /* CanvasViewController.swift */,
 				D6F64B2229702B2400F47531 /* CanvasView.swift */,
 				D65554722973DF25004E3823 /* Stroke */,
-				D6FFDD88298457300091CE14 /* CanvasTopBar */,
 				D6FFDD87298457130091CE14 /* CanvasToolBar */,
 			);
 			path = Canvas;
@@ -298,15 +293,6 @@
 				D6F64B2529702B2400F47531 /* Tool */,
 			);
 			path = CanvasToolBar;
-			sourceTree = "<group>";
-		};
-		D6FFDD88298457300091CE14 /* CanvasTopBar */ = {
-			isa = PBXGroup;
-			children = (
-				D6FB1648297FCAF000594793 /* CanvasTopBarView.swift */,
-				D6FFDD85298454F40091CE14 /* CanvasTopBarViewDelegate.swift */,
-			);
-			path = CanvasTopBar;
 			sourceTree = "<group>";
 		};
 		D6FFDD89298457610091CE14 /* Utilities */ = {
@@ -397,7 +383,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				D6FFDD3F2983F0060091CE14 /* ColorPickerViewController.swift in Sources */,
-				D6FB1649297FCAF000594793 /* CanvasTopBarView.swift in Sources */,
 				D6FFDD7E298434D80091CE14 /* ColorPickerViewControllerDelegate.swift in Sources */,
 				D6F64B3829702B2400F47531 /* PickerAccessRequestViewController.swift in Sources */,
 				D6D40D02298D6E85000470E0 /* SavedColorsViewDelegate.swift in Sources */,
@@ -426,7 +411,6 @@
 				D629F419298AFA9B002F0418 /* SavedColorsView.swift in Sources */,
 				D6F64B4129702B2400F47531 /* Tool.swift in Sources */,
 				D6F64B3929702B2400F47531 /* PickerViewController.swift in Sources */,
-				D6FFDD86298454F40091CE14 /* CanvasTopBarViewDelegate.swift in Sources */,
 				D6C68F1D2997734300C305A1 /* CGPointExtensions.swift in Sources */,
 				D6F64B4929702B2400F47531 /* NavigationController.swift in Sources */,
 				D6AA0A492978865300F6A8D0 /* ViewConstraints.swift in Sources */,

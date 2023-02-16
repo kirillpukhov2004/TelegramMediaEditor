@@ -1,4 +1,5 @@
 import UIKit
+import Lottie
 
 // MARK: - Constants
 
@@ -15,7 +16,7 @@ fileprivate enum Constants {
     static let bigToolViewWidth: CGFloat = 40
     
     static let toolSelectionAnimationDuration: CGFloat = 0.15
-    static let toolCenteringAnimationDuration: CGFloat = 0.9
+    static let toolCenteringAnimationDuration: CGFloat = 0.5
 }
 
 // MARK: - CanvasToolBarView
@@ -65,11 +66,21 @@ class CanvasToolBarView: UIView {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
+    private lazy var backButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "back")!, for: .normal)
+        button.addTarget(self, action: #selector(backButtonPressed), for: .touchDown)
+        button.isHidden = true
+        button.translatesAutoresizingMaskIntoConstraints = false
+        
+        return button
+    }()
     private lazy var segmentedControl: SegmentedControl = {
         let segmentedControl = SegmentedControl()
         segmentedControl.setSegments(["Draw", "Text"])
         segmentedControl.segmentedControlCorners = .circle
         segmentedControl.translatesAutoresizingMaskIntoConstraints = false
+        
         return segmentedControl
     }()
     private lazy var slider: Slider = {
@@ -81,6 +92,18 @@ class CanvasToolBarView: UIView {
         slider.addTarget(self, action: #selector(sliderValueChanged(_:)), for: .valueChanged)
         slider.translatesAutoresizingMaskIntoConstraints = false
         return slider
+    }()
+    
+    private lazy var lottieAnimationView: LottieAnimationView = {
+        let lottieAnimation = LottieAnimation.named("Lottie/backToCancel")
+        
+        let lottieAnimationView = LottieAnimationView()
+        lottieAnimationView.animation = lottieAnimation
+        lottieAnimationView.loopMode = .playOnce
+        lottieAnimationView.respectAnimationFrameRate = true
+        lottieAnimationView.isHidden = true
+        
+        return lottieAnimationView
     }()
     
     private lazy var toolViewsWrapper: UIView = {
@@ -122,23 +145,13 @@ class CanvasToolBarView: UIView {
     public var activeTool: Tool {
         return toolViews[activeToolViewIndex].tool
     }
-    private var isActiveToolCenteralTool: Bool {
-        let toolViewsCount = toolViews.count
-        
-        if toolViewsCount % 2 == 0 {
-            return false
-        } else if toolViews[Int(ceil(Float(toolViewsCount) / Float(2)))] === toolViews[activeToolViewIndex] {
-            return true
-        } else {
-            return false
-        }
-    }
+    private var isActiveToolCenteralTool: Bool = false
     
     public var delegate: CanvasToolBarViewDelegate?
     
     private var isEditing: Bool = false
     
-    // MARK: Initialization
+    // MARK: Lifecycle
     
     public init() {
         super.init(frame: .zero)
@@ -153,8 +166,6 @@ class CanvasToolBarView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    // MARK: Lifecycle
     
     override func layoutSubviews() {
         super.layoutSubviews()
@@ -194,11 +205,15 @@ class CanvasToolBarView: UIView {
         delegate?.canvasToolBarCancelButtonPressed(self)
     }
     
+    @objc private func backButtonPressed() {
+        toggleEditingState()
+    }
+    
     @objc private func toolSelected(_ sender: UITapGestureRecognizer) {
         let toolView = sender.view as! ToolView
         let newActiveToolViewIndex = toolViews.firstIndex(of: toolView)!
         
-        if activeToolViewIndex == newActiveToolViewIndex {
+        if activeToolViewIndex == newActiveToolViewIndex, !isActiveToolCenteralTool {
             if toolView.tool.width != nil {
                 toggleEditingState()
             }
@@ -230,7 +245,9 @@ class CanvasToolBarView: UIView {
         topHorizontalStackView.addArrangedSubview(colorPickerButton)
         topHorizontalStackView.addArrangedSubview(addButton)
         
+        bottomHorizontalStackView.addArrangedSubview(lottieAnimationView)
         bottomHorizontalStackView.addArrangedSubview(cancelButton)
+        bottomHorizontalStackView.addArrangedSubview(backButton)
         bottomHorizontalStackView.addArrangedSubview(segmentedControl)
         bottomHorizontalStackView.addArrangedSubview(slider)
         bottomHorizontalStackView.addArrangedSubview(saveButton)
@@ -297,6 +314,16 @@ class CanvasToolBarView: UIView {
         ])
         
         NSLayoutConstraint.activate([
+            backButton.heightAnchor.constraint(equalToConstant: 33),
+            backButton.widthAnchor.constraint(equalTo: backButton.heightAnchor)
+        ])
+        
+        NSLayoutConstraint.activate([
+            lottieAnimationView.heightAnchor.constraint(equalToConstant: 33),
+            lottieAnimationView.widthAnchor.constraint(equalTo: lottieAnimationView.heightAnchor)
+        ])
+        
+        NSLayoutConstraint.activate([
             topHorizontalStackView.rightAnchor.constraint(equalTo: rightAnchor),
             topHorizontalStackView.bottomAnchor.constraint(equalTo: bottomHorizontalStackView.topAnchor, constant: -16),
             topHorizontalStackView.leftAnchor.constraint(equalTo: leftAnchor),
@@ -332,6 +359,26 @@ class CanvasToolBarView: UIView {
             
             isEditing = false
         }
+        
+        toggleBackButton()
+    }
+    
+    private func toggleBackButton() {
+        if backButton.isHidden {
+            cancelButton.isHidden = true
+            lottieAnimationView.isHidden = false
+            lottieAnimationView.play(fromFrame: 30, toFrame: 60) { [weak self] _ in
+                self?.lottieAnimationView.isHidden = true
+                self?.backButton.isHidden = false
+            }
+        } else {
+            backButton.isHidden = true
+            lottieAnimationView.isHidden = false
+            lottieAnimationView.play(fromFrame: 0, toFrame: 30) { [weak self] _ in
+                self?.lottieAnimationView.isHidden = true
+                self?.cancelButton.isHidden = false
+            }
+        }
     }
     
     private func changeActiveTool(to index: Int) {
@@ -352,65 +399,61 @@ class CanvasToolBarView: UIView {
     private func centerActiveTool() {
         let toolViewsCount = toolViews.count
         
-        if isActiveToolCenteralTool {
+        let activeToolViewConstraints = toolsViewsConstraints[activeToolViewIndex]
+        let toolAreaWidth = Constants.toolViewsWidth / CGFloat(toolViewsCount)
+        let currentLeftOffset = activeToolViewConstraints.left!.constant
+        let additionalOffset = Constants.toolViewsWidth / 2 - currentLeftOffset - toolAreaWidth / 2
+        
+        activeToolViewConstraints.left!.constant = currentLeftOffset + additionalOffset
+        activeToolViewConstraints.height!.constant = Constants.bigToolViewHeight
+        activeToolViewConstraints.width!.constant = Constants.bigToolViewWidth
+        toolViews.enumerated().forEach { index, toolView in
+            guard index != activeToolViewIndex else { return }
             
-        } else {
-            let activeToolViewConstraints = toolsViewsConstraints[activeToolViewIndex]
-            let toolAreaWidth = Constants.toolViewsWidth / CGFloat(toolViewsCount)
-            let currentLeftOffset = activeToolViewConstraints.left!.constant
-            let additionalOffset = Constants.toolViewsWidth / 2 - currentLeftOffset - toolAreaWidth / 2
+            let toolViewConstants = toolsViewsConstraints[index]
             
-            activeToolViewConstraints.left!.constant = currentLeftOffset + additionalOffset
-            activeToolViewConstraints.height!.constant = Constants.bigToolViewHeight
-            activeToolViewConstraints.width!.constant = Constants.bigToolViewWidth
-            toolViews.enumerated().forEach { index, toolView in
-                guard index != activeToolViewIndex else { return }
-                
-                let toolViewConstants = toolsViewsConstraints[index]
-                
-                let currentToolLeftOffset = toolViewConstants.left!.constant
-                toolViewConstants.left!.constant = currentToolLeftOffset + additionalOffset
-                toolViewConstants.bottom!.constant = Constants.regularToolViewHeight
-            }
-            
-            UIView.animate(
-                withDuration: Constants.toolCenteringAnimationDuration,
-                delay: 0
-            ) { [weak self] in
-                self?.toolViewsWrapper.layoutIfNeeded()
-            }
+            let currentToolLeftOffset = toolViewConstants.left!.constant
+            toolViewConstants.left!.constant = currentToolLeftOffset + additionalOffset
+            toolViewConstants.bottom!.constant = Constants.regularToolViewHeight
         }
+        
+        UIView.animate(
+            withDuration: Constants.toolCenteringAnimationDuration,
+            delay: 0
+        ) { [weak self] in
+            self?.toolViewsWrapper.layoutIfNeeded()
+        }
+        
+        isActiveToolCenteralTool = true
     }
     
     private func uncenterActiveTool() {
-        if isActiveToolCenteralTool {
+        let toolHorizontalPadding: CGFloat = (Constants.toolViewsWidth / CGFloat(toolViews.count) - Constants.regularToolViewWidth) / 2
+        
+        toolViews.enumerated().forEach { index, toolView in
+            let toolViewConstraints = toolsViewsConstraints[index]
             
-        } else {
-            let toolHorizontalPadding: CGFloat = (Constants.toolViewsWidth / CGFloat(toolViews.count) - Constants.regularToolViewWidth) / 2
+            let totalPadding =  CGFloat(2 * index + 1) * toolHorizontalPadding
+            let leftOffset =  totalPadding + CGFloat(index) * Constants.regularToolViewWidth
             
-            toolViews.enumerated().forEach { index, toolView in
-                let toolViewConstraints = toolsViewsConstraints[index]
-                
-                let totalPadding =  CGFloat(2 * index + 1) * toolHorizontalPadding
-                let leftOffset =  totalPadding + CGFloat(index) * Constants.regularToolViewWidth
-                
-                toolViewConstraints.left!.constant = leftOffset
-                
-                if index == activeToolViewIndex {
-                    toolViewConstraints.height!.constant = Constants.regularToolViewHeight
-                    toolViewConstraints.width!.constant = Constants.regularToolViewWidth
-                } else {
-                    toolViewConstraints.bottom!.constant = Constants.regularToolViewBottomOffset
-                }
-            }
+            toolViewConstraints.left!.constant = leftOffset
             
-            UIView.animate(
-                withDuration: Constants.toolCenteringAnimationDuration,
-                delay: 0
-            ) { [weak self] in
-                self?.toolViewsWrapper.layoutIfNeeded()
+            if index == activeToolViewIndex {
+                toolViewConstraints.height!.constant = Constants.regularToolViewHeight
+                toolViewConstraints.width!.constant = Constants.regularToolViewWidth
+            } else {
+                toolViewConstraints.bottom!.constant = Constants.regularToolViewBottomOffset
             }
         }
+        
+        UIView.animate(
+            withDuration: Constants.toolCenteringAnimationDuration,
+            delay: 0
+        ) { [weak self] in
+            self?.toolViewsWrapper.layoutIfNeeded()
+        }
+        
+        isActiveToolCenteralTool = false
     }
     
     private func changeActiveToolColor(to color: CGColor) {
