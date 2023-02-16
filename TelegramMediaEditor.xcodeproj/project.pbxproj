@@ -17,6 +17,7 @@
 		D6073E50298AA16000C2BFF2 /* ColorSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6073E4F298AA16000C2BFF2 /* ColorSelectionView.swift */; };
 		D6073E53298AA89600C2BFF2 /* ColorSelectionViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6073E52298AA89600C2BFF2 /* ColorSelectionViewDelegate.swift */; };
 		D6073E55298AB69C00C2BFF2 /* UIBezierPathExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6073E54298AB69C00C2BFF2 /* UIBezierPathExtensions.swift */; };
+		D612E46C299E956800A50C99 /* TransitionAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D612E46B299E956800A50C99 /* TransitionAnimation.swift */; };
 		D629F419298AFA9B002F0418 /* SavedColorsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D629F418298AFA9B002F0418 /* SavedColorsView.swift */; };
 		D62A6FCE29939FEB00670648 /* CGColorExtesnion.swift in Sources */ = {isa = PBXBuildFile; fileRef = D62A6FCD29939FEB00670648 /* CGColorExtesnion.swift */; };
 		D64E7E60298FAA26004E4A90 /* SavedColorsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D64E7E5F298FAA26004E4A90 /* SavedColorsCollectionViewCell.swift */; };
@@ -46,7 +47,6 @@
 		D6F64B4629702B2400F47531 /* SegmentedControlSegment.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F64B2E29702B2400F47531 /* SegmentedControlSegment.swift */; };
 		D6F64B4729702B2400F47531 /* SegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F64B2F29702B2400F47531 /* SegmentedControl.swift */; };
 		D6F64B4829702B2400F47531 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F64B3029702B2400F47531 /* AppDelegate.swift */; };
-		D6F64B4929702B2400F47531 /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F64B3129702B2400F47531 /* NavigationController.swift */; };
 		D6F64B4B29702B2400F47531 /* Stroke.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F64B3329702B2400F47531 /* Stroke.swift */; };
 		D6F64B4C29702B2400F47531 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F64B3429702B2400F47531 /* SceneDelegate.swift */; };
 		D6FFDD3F2983F0060091CE14 /* ColorPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6FFDD3E2983F0060091CE14 /* ColorPickerViewController.swift */; };
@@ -66,6 +66,7 @@
 		D6073E4F298AA16000C2BFF2 /* ColorSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSelectionView.swift; sourceTree = "<group>"; };
 		D6073E52298AA89600C2BFF2 /* ColorSelectionViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSelectionViewDelegate.swift; sourceTree = "<group>"; };
 		D6073E54298AB69C00C2BFF2 /* UIBezierPathExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIBezierPathExtensions.swift; sourceTree = "<group>"; };
+		D612E46B299E956800A50C99 /* TransitionAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransitionAnimation.swift; sourceTree = "<group>"; };
 		D629F418298AFA9B002F0418 /* SavedColorsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedColorsView.swift; sourceTree = "<group>"; };
 		D62A6FCD29939FEB00670648 /* CGColorExtesnion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGColorExtesnion.swift; sourceTree = "<group>"; };
 		D6453F4D28F7EE2C001F6101 /* TelegramMediaEditor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TelegramMediaEditor.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -95,7 +96,6 @@
 		D6F64B2E29702B2400F47531 /* SegmentedControlSegment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegmentedControlSegment.swift; sourceTree = "<group>"; };
 		D6F64B2F29702B2400F47531 /* SegmentedControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegmentedControl.swift; sourceTree = "<group>"; };
 		D6F64B3029702B2400F47531 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		D6F64B3129702B2400F47531 /* NavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationController.swift; sourceTree = "<group>"; };
 		D6F64B3229702B2400F47531 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D6F64B3329702B2400F47531 /* Stroke.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stroke.swift; sourceTree = "<group>"; };
 		D6F64B3429702B2400F47531 /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -151,6 +151,7 @@
 		D63848FC299D71BC00FFF4AC /* PickerViewController */ = {
 			isa = PBXGroup;
 			children = (
+				D612E46B299E956800A50C99 /* TransitionAnimation.swift */,
 				D6F64B1C29702B2400F47531 /* PickerViewController.swift */,
 				D6F64B1D29702B2400F47531 /* PickerCollectionViewPhotoCell.swift */,
 			);
@@ -213,7 +214,6 @@
 			children = (
 				D6F64B3029702B2400F47531 /* AppDelegate.swift */,
 				D6F64B3429702B2400F47531 /* SceneDelegate.swift */,
-				D6F64B3129702B2400F47531 /* NavigationController.swift */,
 				D6F64B1A29702B2400F47531 /* Picker */,
 				D6F64B2029702B2400F47531 /* Canvas */,
 				D6FFDD3D2983EF300091CE14 /* ColorPicker */,
@@ -407,12 +407,12 @@
 				D6F64B3D29702B2400F47531 /* CanvasToolBarView.swift in Sources */,
 				D6073E4A298AA0FD00C2BFF2 /* GridColorSelectionView.swift in Sources */,
 				D6EDF070299AA5A9007A3527 /* OpacitySlider.swift in Sources */,
+				D612E46C299E956800A50C99 /* TransitionAnimation.swift in Sources */,
 				D6AC82CB2993D8A500CE434E /* ColorIndicatorView.swift in Sources */,
 				D629F419298AFA9B002F0418 /* SavedColorsView.swift in Sources */,
 				D6F64B4129702B2400F47531 /* Tool.swift in Sources */,
 				D6F64B3929702B2400F47531 /* PickerViewController.swift in Sources */,
 				D6C68F1D2997734300C305A1 /* CGPointExtensions.swift in Sources */,
-				D6F64B4929702B2400F47531 /* NavigationController.swift in Sources */,
 				D6AA0A492978865300F6A8D0 /* ViewConstraints.swift in Sources */,
 				D6073E50298AA16000C2BFF2 /* ColorSelectionView.swift in Sources */,
 				D6F64B4C29702B2400F47531 /* SceneDelegate.swift in Sources */,

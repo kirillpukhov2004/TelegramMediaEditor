@@ -8,7 +8,7 @@ class PickerCollectionViewPhotoCell: UICollectionViewCell {
     
     public static let identifier = "PickerCollectionViewPhotoCell"
     
-    private lazy var imageView: UIImageView = {
+    private(set) lazy var imageView: UIImageView = {
         let imageView = UIImageView(frame: bounds)
         imageView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         imageView.contentMode = .scaleAspectFill
@@ -18,6 +18,7 @@ class PickerCollectionViewPhotoCell: UICollectionViewCell {
     }()
     
     private(set) var asset: PHAsset?
+    
     public var imageCnotentMode: PHImageContentMode? {
         didSet {
             switch imageCnotentMode {

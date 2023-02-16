@@ -147,7 +147,9 @@ class CanvasView: UIView {
             drawBeziérStroke(stroke, in: context)
         }
         
-        return UIGraphicsGetImageFromCurrentImageContext()
+        let resultImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return resultImage
     }
 }
 

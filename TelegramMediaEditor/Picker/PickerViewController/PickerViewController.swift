@@ -4,10 +4,11 @@ import Photos
 // MARK: - PickerViewController
 
 class PickerViewController: UIViewController {
-    lazy var collectionView: UICollectionView = {
+    private(set) lazy var collectionView: UICollectionView = {
         let collectionViewLayout = UICollectionViewFlowLayout()
         
         let collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: collectionViewLayout)
+        collectionView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         collectionView.backgroundColor = .clear
         collectionView.dataSource = self
         collectionView.delegate = self
@@ -15,29 +16,21 @@ class PickerViewController: UIViewController {
         
         return collectionView
     }()
-    lazy var activityIndicator: UIActivityIndicatorView = {
-        let activityIndicator = UIActivityIndicatorView()
-        activityIndicator.style = .medium
-        activityIndicator.color = .white
-        activityIndicator.backgroundColor = UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 0.2)
-        activityIndicator.hidesWhenStopped = true
-        activityIndicator.isHidden = true
-        
-        return activityIndicator
-    }()
     
     private var autorizationStatus: PHAuthorizationStatus {
         PHPhotoLibrary.authorizationStatus()
     }
-    private var assets: PHFetchResult<PHAsset>?
-    
+    private(set) var assets: PHFetchResult<PHAsset>?
+
     var imagesPerRow: Int = 5
     var maximumImagesPerRow: Int {
-        return Int(view.bounds.width / CGFloat(10))
+        return Int(view.bounds.width / 10)
     }
     var imagePadding: CGFloat {
         return CGFloat(imagesPerRow <= 5 ? 2 : 0)
     }
+    
+    var selectedCellIndexPath: IndexPath?
     
     // MARK: Lifecycle
     
@@ -66,30 +59,15 @@ class PickerViewController: UIViewController {
     
     private func buildViewHierarchy() {
         view.addSubview(collectionView)
-        view.addSubview(activityIndicator)
     }
     
     private func configureViews() {
         overrideUserInterfaceStyle = .dark
+        navigationController?.delegate = self
         navigationController?.setNavigationBarHidden(true, animated: false)
     }
     
     private func setupConstraints() {
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: view.topAnchor),
-            collectionView.rightAnchor.constraint(equalTo: view.rightAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            collectionView.leftAnchor.constraint(equalTo: view.leftAnchor)
-        ])
-        
-        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            activityIndicator.topAnchor.constraint(equalTo: view.topAnchor),
-            activityIndicator.rightAnchor.constraint(equalTo: view.rightAnchor),
-            activityIndicator.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            activityIndicator.leftAnchor.constraint(equalTo: view.leftAnchor)
-        ])
     }
     
     private func fetchAssets() {
@@ -189,26 +167,13 @@ extension PickerViewController: UICollectionViewDelegateFlowLayout {
         }
         
         guard let photoAsset = cell.asset else {
-            print("🔴 \(#function): Can't get photoAsset for cell"); return
+            print("🔴 \(#function): Can't get asset for cell at indexPath: \(indexPath)"); return
         }
         
-        activityIndicator.style = .large
-        activityIndicator.frame = view.frame
-        activityIndicator.center = view.center
-        view.addSubview(activityIndicator)
-        
-        activityIndicator.startAnimating()
         let imageReqeustOptions = PHImageRequestOptions()
+        imageReqeustOptions.version = .current
+        imageReqeustOptions.isSynchronous = true
         imageReqeustOptions.isNetworkAccessAllowed = true
-        imageReqeustOptions.progressHandler = { [weak self] (progress, error, _, _) in
-            DispatchQueue.main.async {
-                if progress == 1.0 {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                        self?.activityIndicator.stopAnimating()
-                    }
-                }
-            }
-        }
         
         _ = PHImageManager.default().requestImageDataAndOrientation(
             for: photoAsset,
@@ -218,11 +183,34 @@ extension PickerViewController: UICollectionViewDelegateFlowLayout {
                 print("🔴 \(#function): Image data is nil"); return
             }
 
-            guard let image = UIImage(data: imageData) else { fatalError() }
-            let canvasViewController = CanvasViewController()
-            canvasViewController.backgroundImage = image
-            canvasViewController.backgroundImageAsset = photoAsset
+            guard let image = UIImage(data: imageData) else {
+                print("🔴 \(#function): Can't create image from imageData"); return
+            }
+            
+            let canvasViewController = CanvasViewController(backgroundImageAsset: photoAsset, backgroundImage: image)
+            
             self?.navigationController?.pushViewController(canvasViewController, animated: true)
         }
+        
+        selectedCellIndexPath = indexPath
+    }
+}
+
+
+extension PickerViewController: UINavigationControllerDelegate {
+    func navigationController(
+        _ navigationController: UINavigationController,
+        animationControllerFor operation: UINavigationController.Operation,
+        from fromVC: UIViewController,
+        to toVC: UIViewController
+    ) -> UIViewControllerAnimatedTransitioning? {
+        return TransitionAnimationContorller()
+    }
+    
+    func navigationController(
+        _ navigationController: UINavigationController,
+        interactionControllerFor animationController: UIViewControllerAnimatedTransitioning
+    ) -> UIViewControllerInteractiveTransitioning? {
+        return nil
     }
 }

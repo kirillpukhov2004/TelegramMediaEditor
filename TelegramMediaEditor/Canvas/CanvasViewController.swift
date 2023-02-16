@@ -1,6 +1,14 @@
 import UIKit
 import Photos
 
+// MARK: - AssetSavingType
+
+enum CanvasViewControllerTransitionType {
+    case save
+    case saveAs
+    case cancel
+}
+
 // MARK: - Constants
 
 fileprivate struct Constants {
@@ -15,14 +23,14 @@ fileprivate struct Constants {
 // MARK: - CanvasViewController
 
 class CanvasViewController: UIViewController {
-    private lazy var toolBarView: CanvasToolBarView = {
+    private(set) lazy var toolBarView: CanvasToolBarView = {
         let toolBarView = CanvasToolBarView()
         toolBarView.delegate = self
         toolBarView.translatesAutoresizingMaskIntoConstraints = false
         return toolBarView
     }()
     
-    private lazy var scrollView: UIScrollView = {
+    private(set) lazy var scrollView: UIScrollView = {
         let scrollView =  UIScrollView()
         scrollView.delegate = self
         scrollView.panGestureRecognizer.minimumNumberOfTouches = 2
@@ -34,26 +42,26 @@ class CanvasViewController: UIViewController {
         
         return scrollView
     }()
-    private lazy var canvasWrapperView: UIView = {
+    private(set) lazy var canvasWrapperView: UIView = {
         let view = UIView()
         view.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         
         return view
     }()
-    private lazy var canvasView: CanvasView = {
+    private(set) lazy var canvasView: CanvasView = {
         let canvasView = CanvasView(toolBarView.activeTool)
         canvasView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         
         return canvasView
     }()
-    private lazy var backgroundImageView: UIImageView = {
+    private(set) lazy var backgroundImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         imageView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         
         return imageView
     }()
-    
+
     private lazy var resetZoomScaleButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setTitle("Zoom Out", for: .normal)
@@ -72,7 +80,7 @@ class CanvasViewController: UIViewController {
         
         return button
     }()
-    public lazy var undoButton: UIButton = {
+    private lazy var undoButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setImage(UIImage(named: "undo")!, for: .normal)
         button.setTitleColor(.label, for: .normal)
@@ -80,21 +88,15 @@ class CanvasViewController: UIViewController {
         return button
     }()
     
-    public var backgroundImage: UIImage? {
-        get {
-            return backgroundImageView.image
-        }
-        
-        set {
-            backgroundImageView.image = newValue
+    public var backgroundImageAsset: PHAsset
+    public var backgroundImage: UIImage {
+        didSet {
+            backgroundImageView.image = backgroundImage
             canvasView.frame = drawingRect
         }
     }
-    public var backgroundImageAsset: PHAsset?
     
-    private var drawingRect: CGRect {
-        guard let backgroundImage = backgroundImage else { return backgroundImageView.bounds }
-        
+    public var drawingRect: CGRect {
         // Calculating actual image frame inside imageView accroding to content mode .scaleAspectFit
         let widthRatio = backgroundImageView.bounds.size.width / backgroundImage.size.width
         let heightRatio = backgroundImageView.bounds.size.height / backgroundImage.size.height
@@ -106,9 +108,14 @@ class CanvasViewController: UIViewController {
         return CGRect(origin: origin, size: size)
     }
     
+    public var transitionType: CanvasViewControllerTransitionType?
+    
     // MARK: Initialization
     
-    public init() {
+    public init(backgroundImageAsset: PHAsset, backgroundImage: UIImage) {
+        self.backgroundImageAsset = backgroundImageAsset
+        self.backgroundImage = backgroundImage
+        
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -195,24 +202,25 @@ class CanvasViewController: UIViewController {
     
     private func configureViews() {
         overrideUserInterfaceStyle = .dark
-        navigationController?.setNavigationBarHidden(false, animated: false)
+//        navigationController?.setNavigationBarHidden(false, animated: false)
         
         navigationItem.titleView?.isHidden = true
         navigationController?.navigationBar.isTranslucent = false
+        
+        backgroundImageView.image = backgroundImage
     }
     
-    private func generateImage() -> UIImage {
+    public func generateImage() -> UIImage {
         let drawing = canvasView.getDrawingImage()
-        let image = backgroundImage
         
-        UIGraphicsBeginImageContextWithOptions(image!.size, true, 0)
-        
-        let rect = CGRect(origin: .zero, size: image!.size)
-        
-        image?.draw(in: rect)
-        drawing?.draw(in: rect, blendMode: .normal, alpha: 1)
-        
-        return UIGraphicsGetImageFromCurrentImageContext()!
+        let rect = CGRect(origin: .zero, size: backgroundImage.size)
+        UIGraphicsBeginImageContextWithOptions(rect.size, true, 1)
+        backgroundImage.draw(in: rect)
+        drawing?.draw(in: rect, blendMode: .normal, alpha: 1.0)
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+
+        return image!
     }
 }
 
@@ -237,20 +245,23 @@ extension CanvasViewController: CanvasToolBarViewDelegate {
     }
     
     func canvasToolBarCancelButtonPressed(_ canvasToolBarView: CanvasToolBarView) {
+        transitionType = .cancel
         navigationController?.popViewController(animated: true)
     }
     
     func canvasToolBarSaveButtonPressed(_ canvasToolBarView: CanvasToolBarView) {
         let image = generateImage()
+        
         PHPhotoLibrary.shared().performChanges({
             _ = PHAssetChangeRequest.creationRequestForAsset(from: image)
         }) { [weak self] success, error in
             if let error = error {
-                print(#function, error)
+                print("🔴 \(#function): \(error)")
             }
             
             if success {
                 DispatchQueue.main.async {
+                    self?.transitionType = .saveAs
                     self?.navigationController?.popViewController(animated: true)
                 }
             }
