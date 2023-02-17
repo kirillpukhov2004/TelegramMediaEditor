@@ -160,7 +160,12 @@ class SavedColorsView: UIView {
     }
     
     private func restoreColors() -> [Date: CGColor] {
-        let defaultColorsDict = [Date().addingTimeInterval(1): UIColor.red.cgColor, Date().addingTimeInterval(2): UIColor.green.cgColor, Date().addingTimeInterval(3): UIColor.blue.cgColor]
+        let defaultColorsDict = [
+            Date().addingTimeInterval(1): UIColor(hex: 0xE22400).cgColor,
+            Date().addingTimeInterval(2): UIColor(hex: 0xF5EC00).cgColor,
+            Date().addingTimeInterval(3): UIColor(hex: 0x76BB40).cgColor,
+            Date().addingTimeInterval(4): UIColor(hex: 0x0042A9).cgColor,
+        ]
         
         guard let colorsDict = Dictionary<Date, Color>.restore(Constants.savedColors) else {
             return defaultColorsDict

@@ -178,12 +178,12 @@ extension PickerViewController: UICollectionViewDelegateFlowLayout {
         _ = PHImageManager.default().requestImageDataAndOrientation(
             for: photoAsset,
             options: imageReqeustOptions
-        ) { [weak self] imageData, _, _, _ in
-            guard let imageData = imageData else {
+        ) { [weak self] data, _, _, _ in
+            guard let data = data else {
                 print("🔴 \(#function): Image data is nil"); return
             }
-
-            guard let image = UIImage(data: imageData) else {
+            
+            guard let image = UIImage(data: data) else {
                 print("🔴 \(#function): Can't create image from imageData"); return
             }
             

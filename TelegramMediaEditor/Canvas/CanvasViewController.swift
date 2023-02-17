@@ -202,7 +202,7 @@ class CanvasViewController: UIViewController {
     
     private func configureViews() {
         overrideUserInterfaceStyle = .dark
-//        navigationController?.setNavigationBarHidden(false, animated: false)
+        navigationController?.setNavigationBarHidden(false, animated: false)
         
         navigationItem.titleView?.isHidden = true
         navigationController?.navigationBar.isTranslucent = false

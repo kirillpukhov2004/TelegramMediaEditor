@@ -458,6 +458,7 @@ class CanvasToolBarView: UIView {
     
     private func changeActiveToolColor(to color: CGColor) {
         toolViews[activeToolViewIndex].setColor(to: color)
+        colorPickerButton.color = color
         delegate?.canvasToolBarViewActiveToolChanged(self)
     }
     
