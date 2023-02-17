@@ -4,24 +4,27 @@ import Photos
 // MARK: - PickerViewController
 
 class PickerViewController: UIViewController {
+    fileprivate typealias CollectionViewDataSource = UICollectionViewDiffableDataSource<Int, PHAsset>
+    
     private(set) lazy var collectionView: UICollectionView = {
         let collectionViewLayout = UICollectionViewFlowLayout()
         
         let collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: collectionViewLayout)
         collectionView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         collectionView.backgroundColor = .clear
-        collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.register(PickerCollectionViewPhotoCell.self, forCellWithReuseIdentifier: PickerCollectionViewPhotoCell.identifier)
         
         return collectionView
     }()
+    private var collectionViewDiffableDataSource: CollectionViewDataSource!
     
     private var autorizationStatus: PHAuthorizationStatus {
         PHPhotoLibrary.authorizationStatus()
     }
     private(set) var assets: PHFetchResult<PHAsset>?
-
+    
+    private var notificationObserver: NSObjectProtocol!
     var imagesPerRow: Int = 5
     var maximumImagesPerRow: Int {
         return Int(view.bounds.width / 10)
@@ -51,8 +54,7 @@ class PickerViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        fetchAssets()
-        collectionView.reloadData()
+        updateSnapshot()
     }
     
     // MARK: Private Functions
@@ -65,9 +67,41 @@ class PickerViewController: UIViewController {
         overrideUserInterfaceStyle = .dark
         navigationController?.delegate = self
         navigationController?.setNavigationBarHidden(true, animated: false)
+        
+        notificationObserver = NotificationCenter.default.addObserver(
+            forName: UIApplication.didBecomeActiveNotification,
+            object: nil,
+            queue: nil
+        ) { [weak self] _ in
+            self?.updateSnapshot()
+        }
+
+        
+        collectionViewDiffableDataSource = CollectionViewDataSource(collectionView: collectionView, cellProvider: { collectionView, indexPath, asset in
+            let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: PickerCollectionViewPhotoCell.identifier,
+                for: indexPath
+            ) as! PickerCollectionViewPhotoCell
+            
+            cell.configure(asset: asset, imageContentMode: .aspectFill)
+            
+            return cell
+        })
+        
+        updateSnapshot()
     }
     
     private func setupConstraints() {
+    }
+    
+    private func updateSnapshot() {
+        fetchAssets()
+        var snapshot = NSDiffableDataSourceSnapshot<Int, PHAsset>()
+        snapshot.appendSections([0])
+        if let assets = assets {
+            snapshot.appendItems(assets.objects(at: IndexSet(0..<assets.count)))
+        }
+        collectionViewDiffableDataSource.apply(snapshot, animatingDifferences: true)
     }
     
     private func fetchAssets() {
@@ -80,44 +114,8 @@ class PickerViewController: UIViewController {
             
             assets = PHAsset.fetchAssets(with: .image, options: fetchOptions)
         default:
-            break
+            assets = nil
         }
-    }
-}
-
-// MARK: - UICollectionViewDataSource
-
-extension PickerViewController: UICollectionViewDataSource {
-    func collectionView(
-        _ collectionView: UICollectionView,
-        numberOfItemsInSection section: Int
-    ) -> Int {
-        guard let assets = assets else { return 0 }
-        
-        switch autorizationStatus {
-        case .authorized:
-            return assets.count
-        default:
-            return 0
-        }
-    }
-    
-    func collectionView(
-        _ collectionView: UICollectionView,
-        cellForItemAt indexPath: IndexPath
-    ) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: PickerCollectionViewPhotoCell.identifier,
-            for: indexPath
-        ) as! PickerCollectionViewPhotoCell
-        
-        guard let asset = assets?[indexPath.row] else {
-            print("🔴 \(#function): Can't get asset for indexPath: \(indexPath)"); return cell
-        }
-        
-        cell.configure(asset: asset, imageContentMode: .aspectFill)
-        
-        return cell
     }
 }
 
