@@ -27,6 +27,7 @@ class CanvasViewController: UIViewController {
         let toolBarView = CanvasToolBarView()
         toolBarView.delegate = self
         toolBarView.translatesAutoresizingMaskIntoConstraints = false
+        
         return toolBarView
     }()
     
@@ -38,7 +39,6 @@ class CanvasViewController: UIViewController {
         scrollView.maximumZoomScale = 3
         scrollView.showsVerticalScrollIndicator = false
         scrollView.showsHorizontalScrollIndicator = false
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
         
         return scrollView
     }()
@@ -62,6 +62,14 @@ class CanvasViewController: UIViewController {
         return imageView
     }()
 
+    private(set) lazy var topBarStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.alignment = .center
+        stackView.distribution = .equalCentering
+        
+        return stackView
+    }()
     private(set) lazy var resetZoomScaleButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setTitle("Zoom Out", for: .normal)
@@ -69,6 +77,7 @@ class CanvasViewController: UIViewController {
         button.setTitleColor(.label, for: .normal)
         button.setTitleColor(.secondaryLabel, for: .highlighted)
         button.addTarget(self, action: #selector(resetZoomScaleButtonPressed), for: .touchDown)
+        
         return button
     }()
     private(set) lazy var clearAllButton: UIButton = {
@@ -85,6 +94,7 @@ class CanvasViewController: UIViewController {
         button.setImage(UIImage(named: "undo")!, for: .normal)
         button.setTitleColor(.label, for: .normal)
         button.addTarget(self, action: #selector(undoButtonPressed), for: .touchDown)
+        
         return button
     }()
     
@@ -167,9 +177,10 @@ class CanvasViewController: UIViewController {
         canvasWrapperView.addSubview(backgroundImageView)
         canvasWrapperView.addSubview(canvasView)
         
-        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: undoButton)
-        navigationItem.titleView = resetZoomScaleButton
-        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: clearAllButton)
+        view.addSubview(topBarStackView)
+        topBarStackView.addArrangedSubview(undoButton)
+        topBarStackView.addArrangedSubview(resetZoomScaleButton)
+        topBarStackView.addArrangedSubview(clearAllButton)
         
         view.addSubview(toolBarView)
     }
@@ -178,8 +189,17 @@ class CanvasViewController: UIViewController {
         canvasWrapperView.frame = scrollView.bounds
         backgroundImageView.frame = canvasWrapperView.bounds
         
+        topBarStackView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            scrollView.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor),
+            topBarStackView.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor),
+            topBarStackView.rightAnchor.constraint(equalTo: view.layoutMarginsGuide.rightAnchor),
+            topBarStackView.leftAnchor.constraint(equalTo: view.layoutMarginsGuide.leftAnchor),
+            topBarStackView.heightAnchor.constraint(equalToConstant: 44),
+        ])
+        
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            scrollView.topAnchor.constraint(equalTo: topBarStackView.bottomAnchor),
             scrollView.rightAnchor.constraint(equalTo: view.rightAnchor),
             scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: Constants.canvasEdgeInsets.bottom),
             scrollView.leftAnchor.constraint(equalTo: view.leftAnchor),
@@ -193,19 +213,17 @@ class CanvasViewController: UIViewController {
         ])
         
         NSLayoutConstraint.activate([
-            toolBarView.rightAnchor.constraint(equalTo: view.layoutMarginsGuide.rightAnchor),
+            toolBarView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -8),
             toolBarView.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor, constant: -8),
-            toolBarView.leftAnchor.constraint(equalTo: view.layoutMarginsGuide.leftAnchor),
+            toolBarView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 8),
             toolBarView.heightAnchor.constraint(equalToConstant: 82),
         ])
     }
     
     private func configureViews() {
         overrideUserInterfaceStyle = .dark
-        navigationController?.setNavigationBarHidden(false, animated: false)
         
-        navigationItem.titleView?.isHidden = true
-        navigationController?.navigationBar.isTranslucent = false
+        resetZoomScaleButton.isHidden = true
         
         backgroundImageView.image = backgroundImage
     }
@@ -232,7 +250,7 @@ extension CanvasViewController: UIScrollViewDelegate {
     }
     
     func scrollViewDidZoom(_ scrollView: UIScrollView) {
-        navigationItem.titleView?.isHidden = (scrollView.zoomScale <= 1)
+        resetZoomScaleButton.isHidden = (scrollView.zoomScale <= 1)
     }
 }
 
@@ -245,13 +263,16 @@ extension CanvasViewController: CanvasToolBarViewDelegate {
     }
     
     func canvasToolBarCancelButtonPressed(_ canvasToolBarView: CanvasToolBarView) {
+        scrollView.setZoomScale(1, animated: true)
+        
         transitionType = .cancel
         navigationController?.popViewController(animated: true)
     }
     
     func canvasToolBarSaveButtonPressed(_ canvasToolBarView: CanvasToolBarView) {
-        let image = generateImage()
+        scrollView.setZoomScale(1, animated: true)
         
+        let image = generateImage()
         PHPhotoLibrary.shared().performChanges({
             _ = PHAssetChangeRequest.creationRequestForAsset(from: image)
         }) { [weak self] success, error in

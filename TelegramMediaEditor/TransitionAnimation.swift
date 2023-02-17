@@ -12,12 +12,12 @@ class TransitionAnimationContorller: NSObject, UIViewControllerAnimatedTransitio
         if let pickerVC = transitionContext.viewController(forKey: .from) as? PickerViewController,
            let canvasVC = transitionContext.viewController(forKey: .to) as? CanvasViewController {
             containerView.addSubview(canvasVC.view)
+            containerView.layoutIfNeeded()
             
             guard let selectedCellIndexPath = pickerVC.collectionView.indexPathsForSelectedItems?.first,
                   let cell = pickerVC.collectionView.cellForItem(at: selectedCellIndexPath) as? PickerCollectionViewPhotoCell else {
                 transitionContext.completeTransition(false); return
             }
-            canvasVC.view.layoutIfNeeded()
             
             let canvasImageViewFrame = canvasVC.scrollView.convert(canvasVC.drawingRect, to: containerView)
             let cellImageViewFrame = pickerVC.collectionView.convert(cell.frame, to: containerView)
@@ -27,26 +27,25 @@ class TransitionAnimationContorller: NSObject, UIViewControllerAnimatedTransitio
             imageView.clipsToBounds = true
             containerView.addSubview(imageView)
             
-            cell.alpha = 0
-            
             canvasVC.view.alpha = 0
             canvasVC.backgroundImageView.alpha = 0
+            cell.imageView.alpha = 0
             
             UIView.animate(withDuration: duration, delay: 0, animations: {
                 imageView.frame = canvasImageViewFrame
                 canvasVC.view.alpha = 1
             }) { _ in
                 imageView.removeFromSuperview()
-                canvasVC.backgroundImageView.alpha = 1
                 
-                cell.alpha = 1
+                canvasVC.backgroundImageView.alpha = 1
+                cell.imageView.alpha = 1
                 
                 transitionContext.completeTransition(true)
             }
         } else if let canvasVC = transitionContext.viewController(forKey: .from) as? CanvasViewController,
                   let pickerVC = transitionContext.viewController(forKey: .to) as? PickerViewController {
-            pickerVC.view.layoutIfNeeded()
             containerView.insertSubview(pickerVC.view, belowSubview: canvasVC.view)
+            containerView.layoutIfNeeded()
             
             if canvasVC.transitionType == .cancel {
                 guard let indexPath = pickerVC.selectedCellIndexPath,
@@ -63,8 +62,7 @@ class TransitionAnimationContorller: NSObject, UIViewControllerAnimatedTransitio
                 containerView.addSubview(imageView)
                 
                 canvasVC.canvasWrapperView.alpha = 0
-                
-                cell.alpha = 0
+                cell.imageView.alpha = 0
                 
                 UIView.animate(withDuration: duration,
                                delay: 0,
@@ -74,7 +72,8 @@ class TransitionAnimationContorller: NSObject, UIViewControllerAnimatedTransitio
                 }) { _ in
                     imageView.removeFromSuperview()
                     
-                    cell.alpha = 1
+                    canvasVC.backgroundImageView.alpha = 1
+                    cell.imageView.alpha = 1
                     
                     transitionContext.completeTransition(true)
                 }
@@ -94,7 +93,7 @@ class TransitionAnimationContorller: NSObject, UIViewControllerAnimatedTransitio
                 
                 canvasVC.canvasWrapperView.alpha = 0
                 
-                cell.alpha = 0
+                cell.imageView.alpha = 0
                 
                 UIView.animate(withDuration: duration,
                                delay: 0,
@@ -104,17 +103,18 @@ class TransitionAnimationContorller: NSObject, UIViewControllerAnimatedTransitio
                 }) { _ in
                     imageView.removeFromSuperview()
                     
-                    cell.alpha = 1
+                    cell.imageView.alpha = 1
                     
                     transitionContext.completeTransition(true)
                 }
             }
-            
         } else {
             guard let destinationView = transitionContext.view(forKey: .to) else {
                 transitionContext.completeTransition(false); return
             }
             containerView.addSubview(destinationView)
+            containerView.layoutIfNeeded()
+            
             transitionContext.completeTransition(true)
         }
     }

@@ -11,6 +11,7 @@ class PickerViewController: UIViewController {
         
         let collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: collectionViewLayout)
         collectionView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
+        collectionView.alwaysBounceVertical = true
         collectionView.backgroundColor = .clear
         collectionView.delegate = self
         collectionView.register(PickerCollectionViewPhotoCell.self, forCellWithReuseIdentifier: PickerCollectionViewPhotoCell.identifier)
@@ -66,7 +67,6 @@ class PickerViewController: UIViewController {
     private func configureViews() {
         overrideUserInterfaceStyle = .dark
         navigationController?.delegate = self
-        navigationController?.setNavigationBarHidden(true, animated: false)
         
         notificationObserver = NotificationCenter.default.addObserver(
             forName: UIApplication.didBecomeActiveNotification,
@@ -194,6 +194,7 @@ extension PickerViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
+// MARK: - UINavigationControllerDelegate
 
 extension PickerViewController: UINavigationControllerDelegate {
     func navigationController(

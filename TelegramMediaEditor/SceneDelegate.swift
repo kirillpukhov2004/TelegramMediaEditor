@@ -10,6 +10,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let navigationController = UINavigationController()
         navigationController.overrideUserInterfaceStyle = .dark
+        navigationController.setNavigationBarHidden(true, animated: false)
         
         switch PHPhotoLibrary.authorizationStatus() {
         case .authorized, .limited:
