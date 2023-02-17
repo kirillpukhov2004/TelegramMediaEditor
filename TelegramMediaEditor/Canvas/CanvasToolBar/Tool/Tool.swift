@@ -17,19 +17,13 @@ enum Tool {
         let baseImageView = baseImageView
     
         view.addSubview(baseImageView)
-        baseImageView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            baseImageView.heightAnchor.constraint(equalTo: view.heightAnchor),
-            baseImageView.widthAnchor.constraint(equalTo: view.widthAnchor),
-        ])
+        baseImageView.frame = view.bounds
+        baseImageView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         
         guard let tipImageView = tipImageView else { return view }
         view.addSubview(tipImageView)
-        tipImageView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            tipImageView.heightAnchor.constraint(equalTo: view.heightAnchor),
-            tipImageView.widthAnchor.constraint(equalTo: view.widthAnchor),
-        ])
+        tipImageView.frame = view.bounds
+        tipImageView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         view.tintColor = UIColor(cgColor: color!)
         
         return view

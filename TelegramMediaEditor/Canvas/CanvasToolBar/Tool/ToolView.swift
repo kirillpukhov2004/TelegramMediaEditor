@@ -9,7 +9,7 @@ class ToolView: UIView {
     
     private lazy var widthIdicatorView: UIView = {
         let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
+
         return view
     }()
     
@@ -42,13 +42,11 @@ class ToolView: UIView {
     }
     
     private func setupConstraints() {
-        toolView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            toolView.heightAnchor.constraint(equalTo: heightAnchor),
-            toolView.widthAnchor.constraint(equalTo: widthAnchor),
-        ])
+        toolView.frame = bounds
+        toolView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         
         if tool.haveWidthIndicator, let toolWidth = tool.width {
+            widthIdicatorView.translatesAutoresizingMaskIntoConstraints = false
             widthIdicatorViewTopAnchor = widthIdicatorView.topAnchor.constraint(equalTo: toolView.centerYAnchor)
             widthIdicatorViewHeightAnchor = widthIdicatorView.heightAnchor.constraint(equalToConstant: toolWidth)
             widthIndicatorViewWidthAnchor = widthIdicatorView.widthAnchor.constraint(equalTo: toolView.widthAnchor)

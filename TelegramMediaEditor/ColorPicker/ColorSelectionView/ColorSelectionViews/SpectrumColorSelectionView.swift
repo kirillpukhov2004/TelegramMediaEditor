@@ -3,7 +3,7 @@ import UIKit
 // MARK: - SpectrumColorSelectionView
 
 class SpectrumColorSelectionView: UIView, ColorSelectionView {
-    var delegate: ColorSelectionViewDelegate?
+    public weak var delegate: ColorSelectionViewDelegate?
     
     var selectedColor: CGColor?
     

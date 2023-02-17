@@ -40,7 +40,7 @@ class SavedColorsView: UIView {
     }()
     private var collectionViewDiffableDataSource: UICollectionViewDiffableDataSource<Int, Date>!
     
-    public var delegate: SavedColorsViewDelegate?
+    public weak var delegate: SavedColorsViewDelegate?
     
     private lazy var colorsDict: [Date: CGColor] = restoreColors() {
         didSet {
@@ -188,7 +188,10 @@ class SavedColorsView: UIView {
 // MARK: UICollectionViewDelegate
 
 extension SavedColorsView: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        didSelectItemAt indexPath: IndexPath
+    ) {
         if indexPath.row != collectionView.numberOfItems(inSection: 0) - 1 {
             guard let cell = collectionView.cellForItem(at: indexPath) as? SavedColorsCollectionViewCell else { return }
             
@@ -197,7 +200,11 @@ extension SavedColorsView: UICollectionViewDelegate {
         }
     }
     
-    func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemsAt indexPaths: [IndexPath], point: CGPoint) -> UIContextMenuConfiguration? {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        contextMenuConfigurationForItemsAt indexPaths: [IndexPath],
+        point: CGPoint
+    ) -> UIContextMenuConfiguration? {
         guard let indexPath = indexPaths.first else { return nil }
         let deleteAction = UIAction(title: "Delete", image: UIImage(systemName: "trash")!, attributes: [.destructive]) { [weak self] _ in
             guard let identifier = self?.collectionViewDiffableDataSource?.itemIdentifier(for: indexPath) else { return }
@@ -209,7 +216,11 @@ extension SavedColorsView: UICollectionViewDelegate {
         })
     }
     
-    func collectionView(_ collectionView: UICollectionView, contextMenuConfiguration configuration: UIContextMenuConfiguration, highlightPreviewForItemAt indexPath: IndexPath) -> UITargetedPreview? {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        contextMenuConfiguration configuration: UIContextMenuConfiguration,
+        highlightPreviewForItemAt indexPath: IndexPath
+    ) -> UITargetedPreview? {
         collectionView.clipsToBounds = false
         
         guard let cell = collectionView.cellForItem(at: indexPath) else { return nil }
@@ -224,7 +235,11 @@ extension SavedColorsView: UICollectionViewDelegate {
         return target
     }
     
-    func collectionView(_ collectionView: UICollectionView, contextMenuConfiguration configuration: UIContextMenuConfiguration, dismissalPreviewForItemAt indexPath: IndexPath) -> UITargetedPreview? {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        contextMenuConfiguration configuration: UIContextMenuConfiguration,
+        dismissalPreviewForItemAt indexPath: IndexPath
+    ) -> UITargetedPreview? {
         guard let cell = collectionView.cellForItem(at: indexPath) else { return nil }
         
         let previewParameters = UIPreviewParameters()
@@ -237,7 +252,11 @@ extension SavedColorsView: UICollectionViewDelegate {
         return target
     }
     
-    func collectionView(_ collectionView: UICollectionView, willEndContextMenuInteraction configuration: UIContextMenuConfiguration, animator: UIContextMenuInteractionAnimating?) {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        willEndContextMenuInteraction configuration: UIContextMenuConfiguration,
+        animator: UIContextMenuInteractionAnimating?
+    ) {
         collectionView.clipsToBounds = true
     }
 }

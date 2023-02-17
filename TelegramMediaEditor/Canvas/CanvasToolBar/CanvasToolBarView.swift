@@ -147,7 +147,7 @@ class CanvasToolBarView: UIView {
     }
     private var isActiveToolCenteralTool: Bool = false
     
-    public var delegate: CanvasToolBarViewDelegate?
+    public weak var delegate: CanvasToolBarViewDelegate?
     
     private var isEditing: Bool = false
     

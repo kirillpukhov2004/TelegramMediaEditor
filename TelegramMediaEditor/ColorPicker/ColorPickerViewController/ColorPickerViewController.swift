@@ -82,7 +82,7 @@ class ColorPickerViewController: UIViewController {
     private lazy var portraitConstraints: [NSLayoutConstraint] = calculatePortraitConstraints()
     private lazy var landscapeConstraints: [NSLayoutConstraint] = calculateLandscapeConstraints()
     
-    public var delegate: ColorPickerViewControllerDelegate?
+    public weak var delegate: ColorPickerViewControllerDelegate?
     
     // MARK: Initializaiton
     

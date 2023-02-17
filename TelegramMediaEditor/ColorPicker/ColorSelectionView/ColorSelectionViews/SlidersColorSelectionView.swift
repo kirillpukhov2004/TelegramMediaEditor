@@ -1,7 +1,7 @@
 import UIKit
 
 class SlidersColorSelectionView: UIView, ColorSelectionView {
-    var delegate: ColorSelectionViewDelegate?
+    public weak var delegate: ColorSelectionViewDelegate?
     
     var selectedColor: CGColor?
     

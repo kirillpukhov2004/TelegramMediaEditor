@@ -64,7 +64,7 @@ class GridColorSelectionView: UIView, ColorSelectionView {
         return shapeLayer
     }()
 
-    public var delegate: ColorSelectionViewDelegate?
+    public weak var delegate: ColorSelectionViewDelegate?
     
     public var selectedColor: CGColor?  {
         didSet {

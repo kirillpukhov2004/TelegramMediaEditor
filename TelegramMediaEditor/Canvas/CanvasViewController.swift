@@ -62,7 +62,7 @@ class CanvasViewController: UIViewController {
         return imageView
     }()
 
-    private lazy var resetZoomScaleButton: UIButton = {
+    private(set) lazy var resetZoomScaleButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setTitle("Zoom Out", for: .normal)
         button.setImage(UIImage(named: "zoomOut")!, for: .normal)
@@ -71,7 +71,7 @@ class CanvasViewController: UIViewController {
         button.addTarget(self, action: #selector(resetZoomScaleButtonPressed), for: .touchDown)
         return button
     }()
-    private lazy var clearAllButton: UIButton = {
+    private(set) lazy var clearAllButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setTitle("Clear All", for: .normal)
         button.setTitleColor(.label, for: .normal)
@@ -80,7 +80,7 @@ class CanvasViewController: UIViewController {
         
         return button
     }()
-    private lazy var undoButton: UIButton = {
+    private(set) lazy var undoButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setImage(UIImage(named: "undo")!, for: .normal)
         button.setTitleColor(.label, for: .normal)
@@ -88,8 +88,8 @@ class CanvasViewController: UIViewController {
         return button
     }()
     
-    public var backgroundImageAsset: PHAsset
-    public var backgroundImage: UIImage {
+    private(set) var backgroundImageAsset: PHAsset
+    private(set) var backgroundImage: UIImage {
         didSet {
             backgroundImageView.image = backgroundImage
             canvasView.frame = drawingRect
@@ -260,8 +260,8 @@ extension CanvasViewController: CanvasToolBarViewDelegate {
             }
             
             if success {
+                self?.transitionType = .saveAs
                 DispatchQueue.main.async {
-                    self?.transitionType = .saveAs
                     self?.navigationController?.popViewController(animated: true)
                 }
             }

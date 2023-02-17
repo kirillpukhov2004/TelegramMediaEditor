@@ -151,7 +151,6 @@
 		D63848FC299D71BC00FFF4AC /* PickerViewController */ = {
 			isa = PBXGroup;
 			children = (
-				D612E46B299E956800A50C99 /* TransitionAnimation.swift */,
 				D6F64B1C29702B2400F47531 /* PickerViewController.swift */,
 				D6F64B1D29702B2400F47531 /* PickerCollectionViewPhotoCell.swift */,
 			);
@@ -214,6 +213,7 @@
 			children = (
 				D6F64B3029702B2400F47531 /* AppDelegate.swift */,
 				D6F64B3429702B2400F47531 /* SceneDelegate.swift */,
+				D612E46B299E956800A50C99 /* TransitionAnimation.swift */,
 				D6F64B1A29702B2400F47531 /* Picker */,
 				D6F64B2029702B2400F47531 /* Canvas */,
 				D6FFDD3D2983EF300091CE14 /* ColorPicker */,
@@ -230,8 +230,8 @@
 		D6F64B1A29702B2400F47531 /* Picker */ = {
 			isa = PBXGroup;
 			children = (
-				D63848FC299D71BC00FFF4AC /* PickerViewController */,
 				D6F64B1B29702B2400F47531 /* PickerAccessRequestViewController.swift */,
+				D63848FC299D71BC00FFF4AC /* PickerViewController */,
 			);
 			path = Picker;
 			sourceTree = "<group>";

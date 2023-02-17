@@ -1,5 +1,5 @@
 import UIKit
 
-protocol ColorPickerViewControllerDelegate {
+protocol ColorPickerViewControllerDelegate: AnyObject {
     func colorPickerViewControllerColorChanged(_ colorPickerViewController: ColorPickerViewController)
 }

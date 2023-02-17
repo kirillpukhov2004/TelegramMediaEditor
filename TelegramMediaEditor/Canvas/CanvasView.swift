@@ -133,7 +133,7 @@ class CanvasView: UIView {
     }
     
     public func getDrawingImage() -> UIImage? {
-        UIGraphicsBeginImageContextWithOptions(bounds.size, false, 0)
+        UIGraphicsBeginImageContextWithOptions(bounds.size, false, 1)
         
         guard let context = UIGraphicsGetCurrentContext() else { return nil }
         
@@ -147,9 +147,12 @@ class CanvasView: UIView {
             drawBeziérStroke(stroke, in: context)
         }
         
-        let resultImage = UIGraphicsGetImageFromCurrentImageContext()
+        guard let image = UIGraphicsGetImageFromCurrentImageContext() else {
+            print("🔴 \(#function): Can't get image with UIGraphicsGetImageFromCurrentImageContext"); return nil
+        }
         UIGraphicsEndImageContext()
-        return resultImage
+        
+        return image
     }
 }
 

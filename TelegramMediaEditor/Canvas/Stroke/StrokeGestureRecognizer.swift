@@ -3,7 +3,7 @@ import UIKit
 private let Timeout: Double = 0.25 // Timeout for two-finger gesture
 
 // I use this delegate because addTarget(_:action:) doesn't provide state parameter update for possible value
-protocol StrokeGestureRecognizerDelegate {
+protocol StrokeGestureRecognizerDelegate: AnyObject {
     func touchPossible()
     func touchBegun()
     func touchMoved()
@@ -23,7 +23,7 @@ extension StrokeGestureRecognizerDelegate {
 
 class StrokeGestureRecognizer: UIGestureRecognizer {
     private(set) var stroke: Stroke?
-    public var strokeDelegate: StrokeGestureRecognizerDelegate?
+    public weak var strokeDelegate: StrokeGestureRecognizerDelegate?
     
     private(set) var trackingTouch: UITouch?
     private(set) var touchStartTimestamp: Double?
