@@ -117,7 +117,7 @@ enum Tool {
             case .neon(width: _, color: let color):
                 self = .neon(width: width, color: color)
             case .pencil(width: _, color: let color):
-                self = .pen(width: width, color: color)
+                self = .pencil(width: width, color: color)
             case .eraser(width: _):
                 self = .eraser(width: width)
             case .objectEraser(width: _):
@@ -157,7 +157,7 @@ enum Tool {
             case .neon(width: let width, color: _):
                 self = .neon(width: width, color: color)
             case .pencil(width:let  width, color: _):
-                self = .pen(width: width, color: color)
+                self = .pencil(width: width, color: color)
             default:
                 break
             }

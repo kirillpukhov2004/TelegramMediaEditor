@@ -7,10 +7,16 @@ class ToolView: UIView {
     
     private var toolView: UIView!
     
-    private lazy var widthIdicatorView: UIView = {
+    private lazy var widthIndicatorView: UIView = {
         let view = UIView()
 
         return view
+    }()
+    private lazy var widthIndicatorGradientLayer: CAGradientLayer = {
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.startPoint = CGPoint(x: 0, y: 0.5)
+        gradientLayer.endPoint = CGPoint(x: 1, y: 0.5)
+        return gradientLayer
     }()
     
     private var widthIdicatorViewHeightAnchor: NSLayoutConstraint!
@@ -38,7 +44,8 @@ class ToolView: UIView {
     
     private func buildViewHierarchy() {
         addSubview(toolView)
-        addSubview(widthIdicatorView)
+        addSubview(widthIndicatorView)
+        widthIndicatorView.layer.addSublayer(widthIndicatorGradientLayer)
     }
     
     private func setupConstraints() {
@@ -46,13 +53,13 @@ class ToolView: UIView {
         toolView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         
         if tool.haveWidthIndicator, let toolWidth = tool.width {
-            widthIdicatorView.translatesAutoresizingMaskIntoConstraints = false
-            widthIdicatorViewTopAnchor = widthIdicatorView.topAnchor.constraint(equalTo: toolView.centerYAnchor)
-            widthIdicatorViewHeightAnchor = widthIdicatorView.heightAnchor.constraint(equalToConstant: toolWidth)
-            widthIndicatorViewWidthAnchor = widthIdicatorView.widthAnchor.constraint(equalTo: toolView.widthAnchor)
+            widthIndicatorView.translatesAutoresizingMaskIntoConstraints = false
+            widthIdicatorViewTopAnchor = widthIndicatorView.topAnchor.constraint(equalTo: toolView.centerYAnchor)
+            widthIdicatorViewHeightAnchor = widthIndicatorView.heightAnchor.constraint(equalToConstant: toolWidth)
+            widthIndicatorViewWidthAnchor = widthIndicatorView.widthAnchor.constraint(equalTo: toolView.widthAnchor)
             NSLayoutConstraint.activate([
                 widthIdicatorViewTopAnchor,
-                widthIdicatorView.centerXAnchor.constraint(equalTo: toolView.centerXAnchor),
+                widthIndicatorView.centerXAnchor.constraint(equalTo: toolView.centerXAnchor),
                 widthIdicatorViewHeightAnchor,
                 widthIndicatorViewWidthAnchor,
             ])
@@ -61,8 +68,13 @@ class ToolView: UIView {
     }
     
     private func configureViews() {
-        widthIdicatorView.isHidden = !tool.haveWidthIndicator
-        widthIdicatorView.backgroundColor = UIColor(cgColor: tool.color ?? UIColor.white.cgColor)
+        widthIndicatorView.isHidden = !tool.haveWidthIndicator
+        switch tool {
+        case .pen(_, _), .brush(_, _), .neon(_, _), .pencil(_, _):
+            setColor(to: tool.color!)
+        default:
+            break
+        }
     }
     
     // MARK: Lifecycle
@@ -78,6 +90,7 @@ class ToolView: UIView {
         
         widthIdicatorViewTopAnchor.constant = -24 / tool.baseImageView.contentScaleFactor * scaleFactor
         widthIndicatorViewWidthAnchor.constant = -18 / tool.baseImageView.contentScaleFactor * widthScaleFactor * (toolView.frame.width == 40 ? 3 : 1)
+        widthIndicatorGradientLayer.frame = widthIndicatorView.bounds
     }
     
     // MARK: Public Functions
@@ -90,6 +103,30 @@ class ToolView: UIView {
     public func setColor(to color: CGColor) {
         tool.color = color
         toolView.tintColor = UIColor(cgColor: color)
-        widthIdicatorView.backgroundColor = UIColor(cgColor: color)
+        
+        let locations: [NSNumber]
+        let colors: [CGColor]
+    
+        switch tool {
+        case .pencil(_, _):
+            locations = [0, 0.3, 0.7, 1]
+            colors = [
+                UIColor(cgColor: color).withMultipliedBrightnessBy(0.6).cgColor,
+                color,
+                color,
+                UIColor(cgColor: color).withMultipliedBrightnessBy(0.6).cgColor,
+            ]
+        default:
+            locations = [0, 0.15, 0.85, 1]
+            colors = [
+                UIColor(cgColor: color).withMultipliedBrightnessBy(0.7).cgColor,
+                color,
+                color,
+                UIColor(cgColor: color).withMultipliedBrightnessBy(0.7).cgColor,
+            ]
+        }
+        
+        widthIndicatorGradientLayer.locations = locations
+        widthIndicatorGradientLayer.colors = colors
     }
 }
