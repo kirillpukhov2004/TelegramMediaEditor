@@ -47,7 +47,7 @@ class PickerAccessRequestViewController: UIViewController {
         view.backgroundColor = .systemBackground
         
         buildViewHierarchy()
-        setupConstraints()
+        setupLayout()
     }
     
     override func viewDidLoad() {
@@ -88,7 +88,7 @@ class PickerAccessRequestViewController: UIViewController {
         verticalStackView.addArrangedSubview(button)
     }
     
-    private func setupConstraints() {
+    private func setupLayout() {
         lottieAnimationView.translatesAutoresizingMaskIntoConstraints = false
         let lottieAnimationViewSize = CGSize(width: 144, height: 144)
         NSLayoutConstraint.activate([

@@ -33,7 +33,7 @@ class ColorIndicatorView: UIView {
         self.color = color
         
         buildViewHierarchy()
-        setupConstraints()
+        setupLayout()
         configureViews()
     }
     
@@ -82,7 +82,7 @@ class ColorIndicatorView: UIView {
         layer.addSublayer(colorLayer)
     }
     
-    private func setupConstraints() {
+    private func setupLayout() {
         
     }
     

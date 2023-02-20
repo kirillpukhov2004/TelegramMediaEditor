@@ -49,6 +49,7 @@
 		D6F64B4829702B2400F47531 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F64B3029702B2400F47531 /* AppDelegate.swift */; };
 		D6F64B4B29702B2400F47531 /* Stroke.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F64B3329702B2400F47531 /* Stroke.swift */; };
 		D6F64B4C29702B2400F47531 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6F64B3429702B2400F47531 /* SceneDelegate.swift */; };
+		D6FCB1D429A2623C002FB6A6 /* CircleProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6FCB1D329A2623C002FB6A6 /* CircleProgressBar.swift */; };
 		D6FFDD3F2983F0060091CE14 /* ColorPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6FFDD3E2983F0060091CE14 /* ColorPickerViewController.swift */; };
 		D6FFDD7C298424790091CE14 /* CGFloatExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6FFDD7B298424790091CE14 /* CGFloatExtensions.swift */; };
 		D6FFDD7E298434D80091CE14 /* ColorPickerViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6FFDD7D298434D80091CE14 /* ColorPickerViewControllerDelegate.swift */; };
@@ -99,6 +100,7 @@
 		D6F64B3229702B2400F47531 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D6F64B3329702B2400F47531 /* Stroke.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stroke.swift; sourceTree = "<group>"; };
 		D6F64B3429702B2400F47531 /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		D6FCB1D329A2623C002FB6A6 /* CircleProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleProgressBar.swift; sourceTree = "<group>"; };
 		D6FFDD3E2983F0060091CE14 /* ColorPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPickerViewController.swift; sourceTree = "<group>"; };
 		D6FFDD7B298424790091CE14 /* CGFloatExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGFloatExtensions.swift; sourceTree = "<group>"; };
 		D6FFDD7D298434D80091CE14 /* ColorPickerViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPickerViewControllerDelegate.swift; sourceTree = "<group>"; };
@@ -259,6 +261,7 @@
 		D6F64B2A29702B2400F47531 /* Controls */ = {
 			isa = PBXGroup;
 			children = (
+				D6FCB1D329A2623C002FB6A6 /* CircleProgressBar.swift */,
 				D6F64B2C29702B2400F47531 /* Slider.swift */,
 				D6F64B2D29702B2400F47531 /* SegmentedControl */,
 			);
@@ -420,6 +423,7 @@
 				D6F64B3729702B2400F47531 /* StrokeGestureRecognizer.swift in Sources */,
 				D6FFDD8229844E6A0091CE14 /* CanvasToolBarViewDelegate.swift in Sources */,
 				D6F64B4729702B2400F47531 /* SegmentedControl.swift in Sources */,
+				D6FCB1D429A2623C002FB6A6 /* CircleProgressBar.swift in Sources */,
 				D60308502990DBF000679AFA /* ArrayExtensions.swift in Sources */,
 				D6073E4C298AA11000C2BFF2 /* SpectrumColorSelectionView.swift in Sources */,
 				D6F64B4829702B2400F47531 /* AppDelegate.swift in Sources */,

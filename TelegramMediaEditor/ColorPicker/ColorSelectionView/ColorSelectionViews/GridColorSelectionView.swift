@@ -79,7 +79,7 @@ class GridColorSelectionView: UIView, ColorSelectionView {
         super.init(frame: .zero)
         
         buildViewHierarchy()
-        setupConstraints()
+        setupLayout()
         configureViews()
     }
     
@@ -139,7 +139,7 @@ class GridColorSelectionView: UIView, ColorSelectionView {
         collectionView.addGestureRecognizer(panGestureRecognizer)
     }
     
-    private func setupConstraints() {
+    private func setupLayout() {
         NSLayoutConstraint.activate([
             collectionView.heightAnchor.constraint(equalTo: heightAnchor),
             collectionView.widthAnchor.constraint(equalTo: widthAnchor),

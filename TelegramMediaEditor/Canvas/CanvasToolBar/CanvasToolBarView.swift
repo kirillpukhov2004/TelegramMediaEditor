@@ -159,7 +159,7 @@ class CanvasToolBarView: UIView {
         activeToolViewIndex = 0
         
         buildViewHierarchy()
-        setupConstraints()
+        setupLayout()
         configureViews()
     }
     
@@ -253,7 +253,7 @@ class CanvasToolBarView: UIView {
         bottomHorizontalStackView.addArrangedSubview(saveButton)
     }
     
-    private func setupConstraints() {
+    private func setupLayout() {
         let toolHorizontalPadding: CGFloat = (Constants.toolViewsWidth / CGFloat(toolViews.count) - Constants.regularToolViewWidth) / 2
         toolViews.enumerated().forEach { index, toolView in
             let totalPadding =  CGFloat(2 * index + 1) * toolHorizontalPadding

@@ -51,17 +51,17 @@ class TransitionAnimationContorller: NSObject, UIViewControllerAnimatedTransitio
         let cellImageViewFrame = pickerVC.collectionView.convert(cell.frame, to: containerView)
         
         let imageView = UIImageView(frame: cellImageViewFrame)
-        imageView.image = canvasVC.backgroundImage
+        imageView.image = canvasVC.image
         imageView.contentMode = cell.imageView.contentMode
         imageView.clipsToBounds = true
         containerView.addSubview(imageView)
         
         canvasVC.view.alpha = 0
         
-        canvasVC.backgroundImageView.alpha = 0
+        canvasVC.imageView.alpha = 0
         cell.imageView.alpha = 0
         
-        let duration = self.transitionDuration(using: transitionContext)
+        let duration = self.transitionDuration(using: transitionContext) * 1.5
         UIView.animate(
             withDuration: duration,
             delay: 0,
@@ -74,7 +74,7 @@ class TransitionAnimationContorller: NSObject, UIViewControllerAnimatedTransitio
         ) { _ in
             imageView.removeFromSuperview()
             
-            canvasVC.backgroundImageView.alpha = 1
+            canvasVC.imageView.alpha = 1
             cell.imageView.alpha = 1
             
             transitionContext.completeTransition(true)
@@ -102,7 +102,7 @@ class TransitionAnimationContorller: NSObject, UIViewControllerAnimatedTransitio
             }
             pickerCellIndexPath = indexPath
             
-            canvasImage = canvasVC.backgroundImage
+            canvasImage = canvasVC.image
         } else {
             pickerCellIndexPath = IndexPath(item: 0, section: 0)
             
@@ -124,7 +124,7 @@ class TransitionAnimationContorller: NSObject, UIViewControllerAnimatedTransitio
         canvasVC.canvasWrapperView.alpha = 0
         pickerCell.imageView.alpha = 0
         
-        let duration = self.transitionDuration(using: transitionContext)
+        let duration = self.transitionDuration(using: transitionContext) * 1.0
         UIView.animate(
             withDuration: duration,
             delay: 0,
@@ -137,7 +137,7 @@ class TransitionAnimationContorller: NSObject, UIViewControllerAnimatedTransitio
         ) { _ in
             imageView.removeFromSuperview()
             
-            canvasVC.backgroundImageView.alpha = 1
+            canvasVC.imageView.alpha = 1
             pickerCell.imageView.alpha = 1
             
             transitionContext.completeTransition(true)

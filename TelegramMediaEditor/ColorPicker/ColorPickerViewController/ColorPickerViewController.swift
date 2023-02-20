@@ -103,7 +103,7 @@ class ColorPickerViewController: UIViewController {
         overrideUserInterfaceStyle = .dark
         
         buildViewHierarchy()
-        setupConstraints()
+        setupLayout()
     }
     
     override func viewDidLoad() {
@@ -175,7 +175,7 @@ class ColorPickerViewController: UIViewController {
         view.addSubview(savedColorsView)
     }
     
-    private func setupConstraints() {
+    private func setupLayout() {
         NSLayoutConstraint.activate([
             topBarStackView.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor),
             topBarStackView.rightAnchor.constraint(equalTo: view.layoutMarginsGuide.rightAnchor),

@@ -31,7 +31,7 @@ class SegmentedControl: UIControl {
         super.init(frame: .zero)
         
         buildViewHierarchy()
-        setupConstraints()
+        setupLayout()
         configureViews()
     }
     
@@ -80,7 +80,7 @@ class SegmentedControl: UIControl {
         layer.addSublayer(selectedSegmentBackgroundLayer)
     }
     
-    private func setupConstraints() {
+    private func setupLayout() {
         
     }
     

@@ -39,7 +39,7 @@ class CanvasViewController: UIViewController {
         scrollView.maximumZoomScale = 3
         scrollView.showsVerticalScrollIndicator = false
         scrollView.showsHorizontalScrollIndicator = false
-        
+        scrollView.clipsToBounds = false
         return scrollView
     }()
     private(set) lazy var canvasWrapperView: UIView = {
@@ -54,7 +54,7 @@ class CanvasViewController: UIViewController {
         
         return canvasView
     }()
-    private(set) lazy var backgroundImageView: UIImageView = {
+    private(set) lazy var imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         imageView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
@@ -98,40 +98,26 @@ class CanvasViewController: UIViewController {
         return button
     }()
     
-    private(set) var backgroundImageAsset: PHAsset
-    private(set) var backgroundImage: UIImage {
+    public var imageAsset: PHAsset!
+    public var image: UIImage! {
         didSet {
-            backgroundImageView.image = backgroundImage
-            canvasView.frame = drawingRect
+            imageView.image = image
         }
     }
     
     public var drawingRect: CGRect {
         // Calculating actual image frame inside imageView accroding to content mode .scaleAspectFit
-        let widthRatio = backgroundImageView.bounds.size.width / backgroundImage.size.width
-        let heightRatio = backgroundImageView.bounds.size.height / backgroundImage.size.height
+        let widthRatio = imageView.bounds.size.width / image.size.width
+        let heightRatio = imageView.bounds.size.height / image.size.height
         let scale = min(widthRatio, heightRatio)
         
-        let size = CGSize(width: backgroundImage.size.width * scale, height: backgroundImage.size.height * scale)
-        let origin = CGPoint(x: backgroundImageView.bounds.width / 2 - size.width / 2, y: backgroundImageView.bounds.height / 2 - size.height / 2)
+        let size = CGSize(width: image.size.width * scale, height: image.size.height * scale)
+        let origin = CGPoint(x: imageView.bounds.width / 2 - size.width / 2, y: imageView.bounds.height / 2 - size.height / 2)
         
         return CGRect(origin: origin, size: size)
     }
     
     public var transitionType: CanvasViewControllerTransitionType?
-    
-    // MARK: Initialization
-    
-    public init(backgroundImageAsset: PHAsset, backgroundImage: UIImage) {
-        self.backgroundImageAsset = backgroundImageAsset
-        self.backgroundImage = backgroundImage
-        
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
     
     // MARK: Lifecycle
     
@@ -140,7 +126,7 @@ class CanvasViewController: UIViewController {
         view.backgroundColor = .systemBackground
         
         buildViewHierarchy()
-        setupConstraints()
+        setupLayout()
     }
     
     override func viewDidLoad() {
@@ -174,7 +160,7 @@ class CanvasViewController: UIViewController {
     private func buildViewHierarchy() {
         view.addSubview(scrollView)
         scrollView.addSubview(canvasWrapperView)
-        canvasWrapperView.addSubview(backgroundImageView)
+        canvasWrapperView.addSubview(imageView)
         canvasWrapperView.addSubview(canvasView)
         
         view.addSubview(topBarStackView)
@@ -185,9 +171,9 @@ class CanvasViewController: UIViewController {
         view.addSubview(toolBarView)
     }
     
-    private func setupConstraints() {
+    private func setupLayout() {
         canvasWrapperView.frame = scrollView.bounds
-        backgroundImageView.frame = canvasWrapperView.bounds
+        imageView.frame = canvasWrapperView.bounds
         
         topBarStackView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -206,10 +192,10 @@ class CanvasViewController: UIViewController {
         ])
         
         NSLayoutConstraint.activate([
-            backgroundImageView.topAnchor.constraint(equalTo: canvasWrapperView.topAnchor),
-            backgroundImageView.rightAnchor.constraint(equalTo: canvasWrapperView.rightAnchor),
-            backgroundImageView.bottomAnchor.constraint(equalTo: canvasWrapperView.bottomAnchor),
-            backgroundImageView.leftAnchor.constraint(equalTo: canvasWrapperView.leftAnchor)
+            imageView.topAnchor.constraint(equalTo: canvasWrapperView.topAnchor),
+            imageView.rightAnchor.constraint(equalTo: canvasWrapperView.rightAnchor),
+            imageView.bottomAnchor.constraint(equalTo: canvasWrapperView.bottomAnchor),
+            imageView.leftAnchor.constraint(equalTo: canvasWrapperView.leftAnchor)
         ])
         
         NSLayoutConstraint.activate([
@@ -225,15 +211,15 @@ class CanvasViewController: UIViewController {
         
         resetZoomScaleButton.isHidden = true
         
-        backgroundImageView.image = backgroundImage
+        imageView.image = image
     }
     
     public func generateImage() -> UIImage {
         let drawing = canvasView.getDrawingImage()
         
-        let rect = CGRect(origin: .zero, size: backgroundImage.size)
+        let rect = CGRect(origin: .zero, size: image.size)
         UIGraphicsBeginImageContextWithOptions(rect.size, true, 1)
-        backgroundImage.draw(in: rect)
+        image.draw(in: rect)
         drawing?.draw(in: rect, blendMode: .normal, alpha: 1.0)
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()

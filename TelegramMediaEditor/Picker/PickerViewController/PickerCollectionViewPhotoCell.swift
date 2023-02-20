@@ -38,7 +38,7 @@ class PickerCollectionViewPhotoCell: UICollectionViewCell {
     
     private var imageRequestID: PHImageRequestID?
     
-    // MARK: Initialization
+    // MARK: Lifecycle
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -49,8 +49,6 @@ class PickerCollectionViewPhotoCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    // MARK: Lifecycle
     
     override func prepareForReuse() {
         super.prepareForReuse()
@@ -69,12 +67,14 @@ class PickerCollectionViewPhotoCell: UICollectionViewCell {
     private func fetchImage(_ resultHandler: @escaping ImageRequestResultHandler) {
         guard let asset = asset,
               let imageCnotentMode = imageCnotentMode else { return }
+        let imageRequestOptions = PHImageRequestOptions()
+        imageRequestOptions.deliveryMode = .opportunistic
         
         imageRequestID = PHImageManager.default().requestImage(
             for: asset,
             targetSize: imageView.bounds.size,
             contentMode: imageCnotentMode,
-            options: nil,
+            options: imageRequestOptions,
             resultHandler: resultHandler
         )
     }

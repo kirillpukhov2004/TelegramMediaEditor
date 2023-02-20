@@ -12,7 +12,7 @@ class CanvasView: UIView {
     public var tool: Tool
     private(set) var strokes: [Stroke] = []
 
-    // MARK: Initialization
+    // MARK: Lifecycle
     
     public init(_ tool: Tool) {
         self.tool = tool
@@ -20,7 +20,7 @@ class CanvasView: UIView {
         super.init(frame: .zero)
         
         buildViewHieararchy()
-        setupConstraints()
+        setupLayout()
         configureViews()
     }
     
@@ -50,7 +50,7 @@ class CanvasView: UIView {
         
     }
     
-    private func setupConstraints() {
+    private func setupLayout() {
         
     }
     

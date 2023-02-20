@@ -9,8 +9,7 @@ class PickerViewController: UIViewController {
     private(set) lazy var collectionView: UICollectionView = {
         let collectionViewLayout = UICollectionViewFlowLayout()
         
-        let collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: collectionViewLayout)
-        collectionView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout)
         collectionView.alwaysBounceVertical = true
         collectionView.backgroundColor = .clear
         collectionView.delegate = self
@@ -20,12 +19,19 @@ class PickerViewController: UIViewController {
     }()
     private var collectionViewDiffableDataSource: CollectionViewDataSource!
     
+    private lazy var circleProgressBar: CircleProgressBar = {
+        let circleProgressBar = CircleProgressBar()
+        
+        return circleProgressBar
+    }()
+    
     private var autorizationStatus: PHAuthorizationStatus {
         PHPhotoLibrary.authorizationStatus()
     }
     private(set) var assets: PHFetchResult<PHAsset>?
     
-    private var notificationObserver: NSObjectProtocol!
+    private var imageRequestID: PHImageRequestID?
+    
     var imagesPerRow: Int = 5
     var maximumImagesPerRow: Int {
         return Int(view.bounds.width / 10)
@@ -43,11 +49,19 @@ class PickerViewController: UIViewController {
         view.backgroundColor = .systemBackground
         
         buildViewHierarchy()
-        setupConstraints()
+        setupLayout()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        NotificationCenter.default.addObserver(
+            forName: UIApplication.didBecomeActiveNotification,
+            object: nil,
+            queue: nil
+        ) { [weak self] _ in
+            self?.updateSnapshot()
+        }
         
         configureViews()
     }
@@ -62,19 +76,28 @@ class PickerViewController: UIViewController {
     
     private func buildViewHierarchy() {
         view.addSubview(collectionView)
+        view.addSubview(circleProgressBar)
+    }
+    
+    private func setupLayout() {
+        collectionView.frame = view.bounds
+        collectionView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
+        
+        circleProgressBar.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            circleProgressBar.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor, constant: 20),
+            circleProgressBar.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            circleProgressBar.heightAnchor.constraint(equalToConstant: 100),
+            circleProgressBar.widthAnchor.constraint(equalToConstant: 100)
+        ])
     }
     
     private func configureViews() {
         overrideUserInterfaceStyle = .dark
         navigationController?.delegate = self
         
-        notificationObserver = NotificationCenter.default.addObserver(
-            forName: UIApplication.didBecomeActiveNotification,
-            object: nil,
-            queue: nil
-        ) { [weak self] _ in
-            self?.updateSnapshot()
-        }
+        circleProgressBar.isHidden = true
+        circleProgressBar.alpha = 0
 
         
         collectionViewDiffableDataSource = CollectionViewDataSource(collectionView: collectionView, cellProvider: { collectionView, indexPath, asset in
@@ -89,9 +112,6 @@ class PickerViewController: UIViewController {
         })
         
         updateSnapshot()
-    }
-    
-    private func setupConstraints() {
     }
     
     private func updateSnapshot() {
@@ -164,31 +184,29 @@ extension PickerViewController: UICollectionViewDelegateFlowLayout {
             print("🔴 \(#function): Can't get cell for item at \(indexPath)"); return
         }
         
-        guard let photoAsset = cell.asset else {
+        guard let asset = cell.asset else {
             print("🔴 \(#function): Can't get asset for cell at indexPath: \(indexPath)"); return
         }
         
-        let imageReqeustOptions = PHImageRequestOptions()
-        imageReqeustOptions.version = .current
-        imageReqeustOptions.isSynchronous = true
-        imageReqeustOptions.isNetworkAccessAllowed = true
+        let canvasViewController = CanvasViewController()
+        canvasViewController.imageAsset = asset
         
-        _ = PHImageManager.default().requestImageDataAndOrientation(
-            for: photoAsset,
-            options: imageReqeustOptions
-        ) { [weak self] data, _, _, _ in
-            guard let data = data else {
-                print("🔴 \(#function): Image data is nil"); return
-            }
-            
-            guard let image = UIImage(data: data) else {
-                print("🔴 \(#function): Can't create image from imageData"); return
-            }
-            
-            let canvasViewController = CanvasViewController(backgroundImageAsset: photoAsset, backgroundImage: image)
-            
-            self?.navigationController?.pushViewController(canvasViewController, animated: true)
-        }
+        let imageRequestOptions = PHImageRequestOptions()
+        imageRequestOptions.deliveryMode = .opportunistic
+        imageRequestOptions.isNetworkAccessAllowed = true
+        
+        imageRequestID = PHImageManager.default().requestImage(
+            for: asset,
+            targetSize: CGSize(width: asset.pixelWidth, height: asset.pixelHeight),
+            contentMode: .aspectFit,
+            options: imageRequestOptions,
+            resultHandler: { [weak self] image, info in
+                canvasViewController.image = image
+                
+                if canvasViewController.parent == nil {
+                    self?.navigationController?.pushViewController(canvasViewController, animated: true)
+                }
+            })
         
         selectedCellIndexPath = indexPath
     }

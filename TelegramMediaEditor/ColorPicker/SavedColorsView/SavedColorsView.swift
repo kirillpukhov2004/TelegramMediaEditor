@@ -61,7 +61,7 @@ class SavedColorsView: UIView {
         super.init(frame: .zero)
         
         buildViewHierarchy()
-        setupConstraints()
+        setupLayout()
         configureViews()
     }
     
@@ -97,7 +97,7 @@ class SavedColorsView: UIView {
         addSubview(collectionView)
     }
     
-    private func setupConstraints() {
+    private func setupLayout() {
         NSLayoutConstraint.activate([
             collectionView.heightAnchor.constraint(equalTo: heightAnchor),
             collectionView.widthAnchor.constraint(equalTo: widthAnchor),

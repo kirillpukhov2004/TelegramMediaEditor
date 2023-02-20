@@ -32,7 +32,7 @@ class ToolView: UIView {
         super.init(frame: .zero)
     
         buildViewHierarchy()
-        setupConstraints()
+        setupLayout()
         configureViews()
     }
     
@@ -48,7 +48,7 @@ class ToolView: UIView {
         widthIndicatorView.layer.addSublayer(widthIndicatorGradientLayer)
     }
     
-    private func setupConstraints() {
+    private func setupLayout() {
         toolView.frame = bounds
         toolView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         
