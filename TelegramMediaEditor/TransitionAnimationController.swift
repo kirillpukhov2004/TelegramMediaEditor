@@ -38,7 +38,6 @@ class TransitionAnimationContorller: NSObject, UIViewControllerAnimatedTransitio
         }
         
         let containerView = transitionContext.containerView
-        
         containerView.addSubview(canvasVC.view)
         containerView.layoutIfNeeded()
         
@@ -88,7 +87,6 @@ class TransitionAnimationContorller: NSObject, UIViewControllerAnimatedTransitio
         }
         
         let containerView = transitionContext.containerView
-        
         containerView.insertSubview(pickerVC.view, belowSubview: canvasVC.view)
         containerView.layoutIfNeeded()
         
@@ -105,11 +103,14 @@ class TransitionAnimationContorller: NSObject, UIViewControllerAnimatedTransitio
             canvasImage = canvasVC.image
         } else {
             pickerCellIndexPath = IndexPath(item: 0, section: 0)
+            pickerVC.collectionView.scrollToItem(at: pickerCellIndexPath, at: .top, animated: false)
+            pickerVC.collectionView.reloadData()
             
             canvasImage = canvasVC.generateImage()
         }
         
         guard let pickerCell = pickerVC.collectionView.cellForItem(at: pickerCellIndexPath) as? PickerCollectionViewPhotoCell else {
+            print("🔴 \(#function): Can't get cell for for indexPath: \(pickerCellIndexPath)")
             transitionContext.completeTransition(false); return
         }
         
